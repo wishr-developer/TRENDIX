@@ -48,19 +48,26 @@ export default function Home() {
   return (
     <div className="pb-20">
       {/* ヒーローセクション（アイキャッチ） */}
-      <section className="bg-surface border-b border-border py-16 px-4 mb-10">
-        <div className="container mx-auto max-w-5xl text-center">
-          <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight">
-            買い時の商品が、<br className="md:hidden" /><span className="text-blue-600">一瞬でわかる。</span>
+      <section className="relative bg-surface border-b border-border py-20 px-4 mb-10 overflow-hidden">
+        {/* 背景グラデーション（ぼかし円） */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl opacity-60 animate-pulse"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl opacity-60 animate-pulse" style={{ animationDelay: '1s' }}></div>
+        </div>
+        
+        <div className="container mx-auto max-w-5xl text-center relative z-10">
+          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 tracking-tight leading-tight">
+            買い時の商品が、<br className="md:hidden" />
+            <span className="text-blue-600">一瞬でわかる。</span>
           </h1>
-          <p className="text-gray-500 mb-8 max-w-2xl mx-auto text-sm md:text-base">
+          <p className="text-gray-600 mb-10 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
             Amazonの価格変動を24時間365日監視。
             <br />
-            今、本当に安くなっている商品だけを厳選して表示します。
+            <span className="font-medium">今、本当に安くなっている商品だけを厳選して表示します。</span>
           </p>
           <div className="flex justify-center gap-2 text-sm font-medium overflow-x-auto pb-2">
             {['Apple', 'Anker', 'Sony', 'Nintendo', '食品', '日用品'].map(tag => (
-              <button key={tag} className="px-4 py-2 bg-white border border-gray-200 rounded-full hover:border-blue-500 hover:text-blue-600 transition-colors whitespace-nowrap shadow-sm">
+              <button key={tag} className="px-4 py-2 bg-white border border-gray-200 rounded-full hover:border-blue-500 hover:text-blue-600 transition-colors whitespace-nowrap shadow-sm hover:shadow-md">
                 {tag}
               </button>
             ))}

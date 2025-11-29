@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, ArrowDownRight, Minus, Crown } from 'lucide-react';
+import { ExternalLink, ArrowDownRight, Minus, Crown, Sparkles } from 'lucide-react';
 import { Product } from '@/types/product';
 
 interface ProductCardProps {
@@ -109,12 +109,45 @@ function CircularGauge({ score, size = 60 }: { score: number; size?: number }) {
   );
 }
 
+/**
+ * Newバッジコンポーネント（スコア0の場合）
+ */
+function NewBadge({ size = 56 }: { size?: number }) {
+  return (
+    <div className="relative" style={{ width: size, height: size }}>
+      <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-md">
+        <div className="text-center">
+          <Sparkles size={20} className="text-white mx-auto mb-0.5" />
+          <span className="text-[9px] font-bold text-white leading-none block">New</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * 監視中バッジコンポーネント（データ不足の場合）
+ */
+function MonitoringBadge({ size = 56 }: { size?: number }) {
+  return (
+    <div className="relative" style={{ width: size, height: size }}>
+      <div className="w-full h-full rounded-full bg-gray-100 border-2 border-gray-300 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-3 h-3 rounded-full bg-gray-400 animate-pulse mx-auto mb-1"></div>
+          <span className="text-[8px] font-medium text-gray-600 leading-none block">監視中</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ProductCard({ product, rank }: ProductCardProps) {
   const history = product.priceHistory || [];
   const latest = product.currentPrice;
   const prev = history.length > 1 ? history[history.length - 2].price : latest;
   const diff = latest - prev;
   const isCheaper = diff < 0;
+  const hasEnoughData = history.length >= 2;
   
   // 割引率の計算
   const percent = prev > 0 ? Math.round((Math.abs(diff) / prev) * 100) : 0;
@@ -122,10 +155,13 @@ export default function ProductCard({ product, rank }: ProductCardProps) {
   // Deal Scoreを計算
   const dealScore = calculateDealScore(product);
   const scoreRank = getScoreRank(dealScore);
+  
+  // スコア表示の条件判定
+  const showScore = dealScore > 0 && isCheaper;
+  const showNewBadge = !hasEnoughData || (!isCheaper && dealScore === 0);
 
   return (
-    <a href={product.affiliateUrl} target="_blank" rel="noopener noreferrer" 
-       className="group bg-white rounded-2xl p-4 transition-all duration-300 hover:shadow-soft border border-transparent hover:border-gray-100 flex flex-col h-full relative overflow-hidden">
+    <div className="group bg-white rounded-2xl p-4 transition-all duration-300 hover:shadow-soft border border-transparent hover:border-gray-100 flex flex-col h-full relative overflow-hidden">
       
       {/* ランキングバッジ */}
       {rank && rank <= 3 && (
@@ -135,22 +171,32 @@ export default function ProductCard({ product, rank }: ProductCardProps) {
         </div>
       )}
 
-      {/* Deal Score円形ゲージ（右上） */}
+      {/* Deal Score円形ゲージまたはNew/監視中バッジ（右上） */}
       <div className="absolute top-3 right-3 z-20 group-hover:scale-110 transition-transform duration-300">
-        <CircularGauge score={dealScore} size={56} />
+        {showScore ? (
+          <CircularGauge score={dealScore} size={56} />
+        ) : showNewBadge ? (
+          hasEnoughData ? (
+            <NewBadge size={56} />
+          ) : (
+            <MonitoringBadge size={56} />
+          )
+        ) : null}
       </div>
 
-      {/* スコア詳細（ホバー時に表示） */}
-      <div className="absolute top-3 right-3 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-        <div className="bg-white rounded-lg shadow-lg p-3 min-w-[140px] border border-gray-100">
-          <div className="text-xs font-bold text-gray-900 mb-1">AI Deal Score</div>
-          <div className={`text-lg font-bold bg-gradient-to-r ${scoreRank.color} bg-clip-text text-transparent mb-1`}>
-            {scoreRank.rank}ランク
+      {/* スコア詳細（ホバー時に表示、スコアがある場合のみ） */}
+      {showScore && (
+        <div className="absolute top-3 right-3 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+          <div className="bg-white rounded-lg shadow-lg p-3 min-w-[140px] border border-gray-100">
+            <div className="text-xs font-bold text-gray-900 mb-1">AI Deal Score</div>
+            <div className={`text-lg font-bold bg-gradient-to-r ${scoreRank.color} bg-clip-text text-transparent mb-1`}>
+              {scoreRank.rank}ランク
+            </div>
+            <div className="text-xs text-gray-600">{scoreRank.label}</div>
+            <div className="text-xs text-gray-400 mt-1">スコア: {dealScore}/100</div>
           </div>
-          <div className="text-xs text-gray-600">{scoreRank.label}</div>
-          <div className="text-xs text-gray-400 mt-1">スコア: {dealScore}/100</div>
         </div>
-      </div>
+      )}
       
       {/* 割引バッジ（安くなっている時だけ表示、ランキングバッジと重複しないように） */}
       {isCheaper && !rank && (
@@ -160,8 +206,8 @@ export default function ProductCard({ product, rank }: ProductCardProps) {
       )}
 
       {/* 画像エリア */}
-      <div className="aspect-square w-full mb-4 flex items-center justify-center bg-gray-50 rounded-xl overflow-hidden group-hover:scale-[1.02] transition-transform duration-500">
-        <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain mix-blend-multiply p-4" loading="lazy" />
+      <div className="aspect-square w-full mb-4 flex items-center justify-center bg-gray-50 rounded-xl overflow-hidden group-hover:scale-[1.05] transition-transform duration-500 ease-out">
+        <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain mix-blend-multiply p-4 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
       </div>
 
       {/* 情報エリア */}
@@ -170,15 +216,15 @@ export default function ProductCard({ product, rank }: ProductCardProps) {
           {product.name}
         </h3>
         
-        {/* スコアラベル（カード内） */}
-        {dealScore > 0 && (
+        {/* スコアラベル（カード内、値下がり時のみ） */}
+        {showScore && (
           <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold mb-2 w-fit bg-gradient-to-r ${scoreRank.color} text-white`}>
             <span>{scoreRank.rank}: {scoreRank.label}</span>
           </div>
         )}
         
         <div className="mt-auto pt-2">
-          <div className="flex items-baseline gap-2">
+          <div className="flex items-baseline gap-2 mb-3">
             <span className="text-lg font-bold text-gray-900">¥{latest.toLocaleString()}</span>
             {isCheaper && (
               <span className="text-xs text-gray-400 line-through">¥{prev.toLocaleString()}</span>
@@ -186,7 +232,7 @@ export default function ProductCard({ product, rank }: ProductCardProps) {
           </div>
           
           {/* 価格変動ステータス */}
-          <div className="flex items-center gap-1 mt-1">
+          <div className="flex items-center gap-1 mb-3">
             {isCheaper ? (
               <span className="flex items-center text-xs font-bold text-red-500 bg-red-50 px-1.5 py-0.5 rounded">
                 <ArrowDownRight size={12} className="mr-0.5" /> 
@@ -198,8 +244,20 @@ export default function ProductCard({ product, rank }: ProductCardProps) {
               </span>
             )}
           </div>
+
+          {/* CTAボタン */}
+          <a
+            href={product.affiliateUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-blue-600 font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 text-center text-sm flex items-center justify-center gap-2 group/button"
+          >
+            <span>Amazonで見る</span>
+            <ExternalLink size={14} className="group-hover/button:translate-x-0.5 transition-transform" />
+          </a>
         </div>
       </div>
-    </a>
+    </div>
   );
 }
