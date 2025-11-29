@@ -1,110 +1,48 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 
 /**
- * ヘッダーコンポーネント（Amazon風デザイン）
+ * ヘッダーコンポーネント（Xiora - Cyberpunk UI）
  */
-export function Header() {
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const categories = [
-    { name: "パソコン", slug: "computers" },
-    { name: "家電", slug: "electronics" },
-    { name: "キッチン", slug: "kitchen" },
-    { name: "ゲーム", slug: "videogames" },
-    { name: "ヘルスケア", slug: "hpc" },
-    { name: "ビューティー", slug: "beauty" },
-    { name: "食品", slug: "food" },
-    { name: "文房具", slug: "office" },
-  ];
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    // 検索機能はモック（今後実装可能）
-    console.log("検索:", searchQuery);
-  };
-
+export default function Header() {
   return (
-    <header className="bg-[#232f3e] text-white sticky top-0 z-50 shadow-md">
-      {/* メインヘッダー */}
-      <div className="bg-[#232f3e]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* ロゴ */}
-            <Link href="/" className="flex items-center">
-              <span className="text-2xl font-bold text-white">Price Watcher</span>
-            </Link>
-
-            {/* 検索バー */}
-            <form onSubmit={handleSearch} className="flex-1 max-w-2xl mx-4 hidden md:flex">
-              <div className="flex w-full">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="商品を検索..."
-                  className="flex-1 px-4 py-2 rounded-l-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#ff9900]"
-                />
-                <button
-                  type="submit"
-                  className="bg-[#ff9900] hover:bg-[#ff8800] px-6 py-2 rounded-r-md transition-colors"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </form>
-
-            {/* モバイル検索アイコン */}
-            <button className="md:hidden p-2">
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </button>
+    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#020617]/80 backdrop-blur-md">
+      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="flex items-center justify-center w-8 h-8 bg-black rounded-lg border border-white/10 shadow-neon-cyan">
+            <span className="text-xl font-bold text-primary">X</span>
           </div>
-        </div>
-      </div>
-
-      {/* カテゴリナビゲーション */}
-      <div className="bg-[#1a2332] border-t border-[#3a4553]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center overflow-x-auto scrollbar-hide">
-            {categories.map((category) => (
-              <Link
-                key={category.slug}
-                href={`/?category=${category.slug}`}
-                className="px-4 py-3 text-sm font-medium hover:bg-[#232f3e] transition-colors whitespace-nowrap"
-              >
-                {category.name}
-              </Link>
-            ))}
-          </nav>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tighter text-white">XIORA</h1>
+            <p className="text-[10px] text-primary tracking-widest uppercase leading-none">
+              Price Intelligence
+            </p>
+          </div>
+        </Link>
+        <div className="hidden md:flex flex-1 max-w-md mx-8 relative">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="w-full bg-black/50 border border-white/10 text-white text-sm rounded-full pl-4 pr-10 py-2 focus:border-primary/50 outline-none transition-all"
+          />
+          <svg
+            className="absolute right-3 top-2 text-gray-400"
+            width={18}
+            height={18}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
         </div>
       </div>
     </header>
   );
 }
-

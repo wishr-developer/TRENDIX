@@ -1,169 +1,121 @@
 "use client";
 
 import { Product } from "@/types/product";
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
-import { useState } from "react";
+import { LineChart, Line, ResponsiveContainer } from "recharts";
 
 interface ProductCardProps {
   product: Product;
-  priceChange: number;
-  priceChangePercentage: number;
 }
 
 /**
- * 商品カードコンポーネント（ECサイト風）
+ * 商品カードコンポーネント（分析ウィジェット風 - Cyberpunk UI）
  */
-export function ProductCard({ product, priceChange, priceChangePercentage }: ProductCardProps) {
-  const [showChart, setShowChart] = useState(false);
+export default function ProductCard({ product }: ProductCardProps) {
+  const history = product.priceHistory || [];
+  const latest = product.currentPrice;
+  const prev = history.length > 1 ? history[history.length - 2].price : latest;
+  let status: "drop" | "rise" | "stable" = latest < prev ? "drop" : latest > prev ? "rise" : "stable";
 
-  // グラフ用データを準備（最新10件）
-  const chartData = product.priceHistory
-    .slice(-10)
-    .map((entry) => ({
-      date: new Date(entry.date).toLocaleDateString("ja-JP", {
-        month: "short",
-        day: "numeric",
-      }),
-      price: entry.price,
-    }));
-
-  // 価格をフォーマット
-  const formatPrice = (price: number): string => {
-    return `¥${price.toLocaleString()}`;
+  const badges = {
+    drop: {
+      text: "BUY NOW",
+      color: "text-primary",
+      border: "border-primary/30",
+      bg: "bg-primary/10",
+    },
+    rise: {
+      text: "WAIT",
+      color: "text-red-400",
+      border: "border-red-500/30",
+      bg: "bg-red-500/10",
+    },
+    stable: {
+      text: "STABLE",
+      color: "text-gray-400",
+      border: "border-gray-500/30",
+      bg: "bg-gray-500/10",
+    },
   };
-
-  // 価格変動の表示用
-  const isPositive = priceChange > 0;
-  const isNegative = priceChange < 0;
-  const changeText = isPositive
-    ? `+${formatPrice(priceChange)}`
-    : isNegative
-    ? formatPrice(priceChange)
-    : "変動なし";
+  const badge = badges[status];
+  const chartData =
+    history.length > 0
+      ? history.map((h) => ({ p: h.price }))
+      : Array(10)
+          .fill(0)
+          .map(() => ({ p: latest }));
 
   return (
-    <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-200">
-      {/* 商品画像 */}
-      <div className="w-full h-64 bg-gray-50 overflow-hidden relative group">
-        <img
-          src={product.imageUrl}
-          alt={product.name}
-          className="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-105"
-        />
-      </div>
-
-      {/* 商品情報 */}
-      <div className="p-4">
-        {/* 商品名（2行で省略） */}
-        <h2 className="text-sm font-medium text-[#111111] mb-3 line-clamp-2 leading-snug h-10">
-          {product.name}
-        </h2>
-
-        {/* 価格表示（大きく、赤文字で強調） */}
-        <div className="mb-3">
-          <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-red-600">
-              {formatPrice(product.currentPrice)}
-            </span>
-            {product.currentPrice === 0 && (
-              <span className="text-xs text-gray-500">価格要確認</span>
-            )}
-          </div>
-          {/* 前日比（小さく表示） */}
-          {priceChange !== 0 && (
-            <div className="mt-1">
-              <span className="text-xs text-gray-500">前回比: </span>
-              <span
-                className={`text-xs font-medium ${
-                  isPositive
-                    ? "text-red-600"
-                    : isNegative
-                    ? "text-blue-600"
-                    : "text-gray-600"
-                }`}
-              >
-                {changeText}
-                {priceChangePercentage !== 0 && (
-                  <span className="ml-1">
-                    ({isPositive ? "+" : ""}
-                    {priceChangePercentage.toFixed(2)}%)
-                  </span>
-                )}
-              </span>
-            </div>
-          )}
+    <div className="group relative bg-[#0f172a]/40 backdrop-blur-sm border border-white/5 rounded-2xl overflow-hidden hover:border-primary/50 transition-all hover:shadow-neon-cyan hover:-translate-y-1">
+      <div className="p-4 flex gap-4">
+        <div className="w-20 h-20 bg-white/5 rounded-xl p-2 flex items-center justify-center">
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            className="max-w-full max-h-full opacity-80 group-hover:opacity-100 transition-opacity"
+          />
         </div>
-
-        {/* 価格推移グラフ（折りたたみ可能） */}
-        {product.priceHistory.length > 1 && (
-          <div className="mb-3">
-            <button
-              onClick={() => setShowChart(!showChart)}
-              className="text-xs text-[#ff9900] hover:text-[#ff8800] font-medium mb-2"
-            >
-              {showChart ? "価格推移を隠す" : "価格推移を見る"}
-            </button>
-            {showChart && (
-              <div className="h-32 bg-gray-50 rounded p-2">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={chartData}>
-                    <XAxis
-                      dataKey="date"
-                      tick={{ fontSize: 9 }}
-                      interval="preserveStartEnd"
-                    />
-                    <YAxis
-                      tick={{ fontSize: 9 }}
-                      width={50}
-                      tickFormatter={(value) => `¥${(value / 1000).toFixed(0)}k`}
-                    />
-                    <Tooltip
-                      formatter={(value: number) => formatPrice(value)}
-                      labelStyle={{ color: "#374151", fontSize: "10px" }}
-                      contentStyle={{
-                        backgroundColor: "#fff",
-                        border: "1px solid #e5e7eb",
-                        borderRadius: "4px",
-                        fontSize: "10px",
-                      }}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="price"
-                      stroke="#ff9900"
-                      strokeWidth={2}
-                      dot={{ r: 2 }}
-                      activeDot={{ r: 4 }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Amazonで見るボタン（オレンジ色、アイコン付き） */}
-        <a
-          href={product.affiliateUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full bg-[#ff9900] hover:bg-[#ff8800] text-white text-center font-semibold py-2.5 px-4 rounded-md transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2"
-        >
-          <span>Amazonで見る</span>
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        <div className="flex-1">
+          <div
+            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold border mb-2 ${badge.bg} ${badge.color} ${badge.border}`}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
+            {status === "drop" ? (
+              <svg width={10} height={10} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
+                />
+              </svg>
+            ) : status === "rise" ? (
+              <svg width={10} height={10} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                />
+              </svg>
+            ) : (
+              <svg width={10} height={10} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+              </svg>
+            )}
+            {badge.text}
+          </div>
+          <h3 className="text-sm text-gray-200 line-clamp-2 mb-1">{product.name}</h3>
+          <div className="flex justify-between items-end">
+            <span className="text-xl font-bold text-white">¥{product.currentPrice.toLocaleString()}</span>
+            <a
+              href={product.affiliateUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-lg bg-white/5 hover:bg-primary hover:text-black transition-colors"
+            >
+              <svg width={16} height={16} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div className="h-12 w-full border-t border-white/5 bg-black/20">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={chartData}>
+            <Line
+              type="monotone"
+              dataKey="p"
+              stroke={status === "drop" ? "#00f3ff" : "#94a3b8"}
               strokeWidth={2}
-              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+              dot={false}
             />
-          </svg>
-        </a>
+          </LineChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );
