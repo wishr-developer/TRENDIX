@@ -1,11 +1,5 @@
 # AmazonランキングページのURLを1行に1つずつ記入してください
 # コメント行（#で始まる行）は無視されます
-# 
-# 例:
-# https://www.amazon.co.jp/gp/bestsellers/computers/
-# https://www.amazon.co.jp/gp/bestsellers/electronics/
-# https://www.amazon.co.jp/gp/bestsellers/kitchen/
-# https://www.amazon.co.jp/s?k=ノートパソコン&ref=sr_pg_1
 
 # パソコン・周辺機器の売れ筋ランキング
 https://www.amazon.co.jp/gp/bestsellers/computers/
@@ -13,3 +7,20 @@ https://www.amazon.co.jp/gp/bestsellers/computers/
 # 家電＆カメラの売れ筋ランキング
 https://www.amazon.co.jp/gp/bestsellers/electronics/
 
+# キッチン・ダイニングの売れ筋ランキング
+https://www.amazon.co.jp/gp/bestsellers/kitchen/
+
+# ビデオゲームの売れ筋ランキング
+https://www.amazon.co.jp/gp/bestsellers/videogames/
+
+# ヘルス&パーソナルケアの売れ筋ランキング
+https://www.amazon.co.jp/gp/bestsellers/hpc/
+
+# ビューティーの売れ筋ランキング
+https://www.amazon.co.jp/gp/bestsellers/beauty/
+
+# 食品・飲料の売れ筋ランキング
+https://www.amazon.co.jp/gp/bestsellers/food_beverage/
+
+# 文房具・オフィス用品の売れ筋ランキング
+https://www.amazon.co.jp/gp/bestsellers/office-products/

@@ -334,10 +334,16 @@ def import_ranking():
     total_added = 0
     total_skipped = 0
     total_failed = 0
+    MAX_PRODUCTS = 150  # 最大登録件数の制限
 
     # 各URLを処理
     for i, url in enumerate(urls, 1):
         print(f"[{i}/{len(urls)}] 処理中: {url}")
+
+        # 最大件数に達した場合は処理を停止
+        if total_added >= MAX_PRODUCTS:
+            print(f"  最大登録件数（{MAX_PRODUCTS}件）に達したため、処理を停止します")
+            break
 
         # ランキングページから商品を抽出
         scraped_products = scrape_ranking_page(url)
@@ -351,6 +357,10 @@ def import_ranking():
 
         # 各商品を登録
         for product_info in scraped_products:
+            # 最大件数に達した場合は処理を停止
+            if total_added >= MAX_PRODUCTS:
+                print(f"  最大登録件数（{MAX_PRODUCTS}件）に達したため、処理を停止します")
+                break
             asin = product_info["asin"]
 
             # 重複チェック（ASINベース）
