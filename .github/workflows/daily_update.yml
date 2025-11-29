@@ -1,0 +1,48 @@
+name: Daily Price Update
+
+on:
+  schedule:
+    # 毎日日本時間 朝9時 (UTC 0:00) に実行
+    - cron: '0 0 * * *'
+  workflow_dispatch: # 手動実行も可能
+
+permissions:
+  contents: write # リポジトリへの書き込み権限
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 完全な履歴を取得（プッシュに必要）
+
+      - name: Python環境をセットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 依存ライブラリをインストール
+        run: |
+          pip install -r requirements.txt
+
+      - name: 価格更新スクリプトを実行
+        run: |
+          python3 scripts/update_prices.py
+
+      - name: 変更をコミット＆プッシュ
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/products.json
+          if git diff --staged --quiet; then
+            echo "変更がありませんでした"
+          else
+            git commit -m "Update prices [skip ci]"
+            git push origin HEAD:${GITHUB_REF#refs/heads/}
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
