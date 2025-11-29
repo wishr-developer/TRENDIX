@@ -2,7 +2,7 @@
   {
     "id": "1",
     "name": "MacBook Pro 14インチ",
-    "currentPrice": 248000,
+    "currentPrice": 247962,
     "priceHistory": [
       {
         "date": "2024-01-01T00:00:00Z",
@@ -23,6 +23,10 @@
       {
         "date": "2024-01-05T00:00:00Z",
         "price": 248000
+      },
+      {
+        "date": "2025-11-29T15:19:36.980636+00:00",
+        "price": 247962
       }
     ],
     "affiliateUrl": "https://www.amazon.co.jp/dp/B09JQ6K8M1",
@@ -52,6 +56,10 @@
       {
         "date": "2024-01-05T00:00:00Z",
         "price": 42800
+      },
+      {
+        "date": "2025-11-29T15:19:39.085189+00:00",
+        "price": 42800
       }
     ],
     "affiliateUrl": "https://www.amazon.co.jp/dp/B09Y2MYL5T",
@@ -60,7 +68,7 @@
   {
     "id": "3",
     "name": "Nintendo Switch（有機ELモデル）",
-    "currentPrice": 39800,
+    "currentPrice": 39859,
     "priceHistory": [
       {
         "date": "2024-01-01T00:00:00Z",
@@ -81,6 +89,10 @@
       {
         "date": "2024-01-05T00:00:00Z",
         "price": 39800
+      },
+      {
+        "date": "2025-11-29T15:19:41.191162+00:00",
+        "price": 39859
       }
     ],
     "affiliateUrl": "https://www.amazon.co.jp/dp/B098RL6SBJ",
@@ -92,7 +104,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224795+00:00",
+        "date": "2025-11-29T15:29:56.877058+00:00",
         "price": 0
       }
     ],
@@ -105,7 +117,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224812+00:00",
+        "date": "2025-11-29T15:29:56.877075+00:00",
         "price": 0
       }
     ],
@@ -118,7 +130,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224817+00:00",
+        "date": "2025-11-29T15:29:56.877081+00:00",
         "price": 0
       }
     ],
@@ -131,7 +143,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224820+00:00",
+        "date": "2025-11-29T15:29:56.877084+00:00",
         "price": 0
       }
     ],
@@ -144,7 +156,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224823+00:00",
+        "date": "2025-11-29T15:29:56.877087+00:00",
         "price": 0
       }
     ],
@@ -157,7 +169,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224825+00:00",
+        "date": "2025-11-29T15:29:56.877090+00:00",
         "price": 0
       }
     ],
@@ -170,7 +182,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224828+00:00",
+        "date": "2025-11-29T15:29:56.877093+00:00",
         "price": 0
       }
     ],
@@ -183,7 +195,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224831+00:00",
+        "date": "2025-11-29T15:29:56.877096+00:00",
         "price": 0
       }
     ],
@@ -196,7 +208,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224834+00:00",
+        "date": "2025-11-29T15:29:56.877099+00:00",
         "price": 0
       }
     ],
@@ -209,7 +221,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224836+00:00",
+        "date": "2025-11-29T15:29:56.877102+00:00",
         "price": 0
       }
     ],
@@ -222,7 +234,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224839+00:00",
+        "date": "2025-11-29T15:29:56.877105+00:00",
         "price": 0
       }
     ],
@@ -235,7 +247,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224842+00:00",
+        "date": "2025-11-29T15:29:56.877108+00:00",
         "price": 0
       }
     ],
@@ -248,7 +260,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224845+00:00",
+        "date": "2025-11-29T15:29:56.877112+00:00",
         "price": 0
       }
     ],
@@ -261,7 +273,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224848+00:00",
+        "date": "2025-11-29T15:29:56.877115+00:00",
         "price": 0
       }
     ],
@@ -274,7 +286,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224851+00:00",
+        "date": "2025-11-29T15:29:56.877118+00:00",
         "price": 0
       }
     ],
@@ -287,7 +299,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224854+00:00",
+        "date": "2025-11-29T15:29:56.877121+00:00",
         "price": 0
       }
     ],
@@ -300,7 +312,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224858+00:00",
+        "date": "2025-11-29T15:29:56.877125+00:00",
         "price": 0
       }
     ],
@@ -313,7 +325,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224861+00:00",
+        "date": "2025-11-29T15:29:56.877129+00:00",
         "price": 0
       }
     ],
@@ -326,7 +338,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224864+00:00",
+        "date": "2025-11-29T15:29:56.877132+00:00",
         "price": 0
       }
     ],
@@ -339,7 +351,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224867+00:00",
+        "date": "2025-11-29T15:29:56.877136+00:00",
         "price": 0
       }
     ],
@@ -352,7 +364,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224871+00:00",
+        "date": "2025-11-29T15:29:56.877139+00:00",
         "price": 0
       }
     ],
@@ -365,7 +377,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224874+00:00",
+        "date": "2025-11-29T15:29:56.877143+00:00",
         "price": 0
       }
     ],
@@ -378,7 +390,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224877+00:00",
+        "date": "2025-11-29T15:29:56.877147+00:00",
         "price": 0
       }
     ],
@@ -391,7 +403,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224880+00:00",
+        "date": "2025-11-29T15:29:56.877150+00:00",
         "price": 0
       }
     ],
@@ -404,7 +416,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224884+00:00",
+        "date": "2025-11-29T15:29:56.877154+00:00",
         "price": 0
       }
     ],
@@ -417,7 +429,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224887+00:00",
+        "date": "2025-11-29T15:29:56.877158+00:00",
         "price": 0
       }
     ],
@@ -430,7 +442,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224891+00:00",
+        "date": "2025-11-29T15:29:56.877162+00:00",
         "price": 0
       }
     ],
@@ -443,7 +455,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224894+00:00",
+        "date": "2025-11-29T15:29:56.877166+00:00",
         "price": 0
       }
     ],
@@ -456,7 +468,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224898+00:00",
+        "date": "2025-11-29T15:29:56.877170+00:00",
         "price": 0
       }
     ],
@@ -469,7 +481,7 @@
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:16.224902+00:00",
+        "date": "2025-11-29T15:29:56.877174+00:00",
         "price": 0
       }
     ],
@@ -478,388 +490,11 @@
   },
   {
     "id": "34",
-    "name": "【New】Amazon Fire TV Stick 4K Select | 4Kの高画質ストリーミング | ストリーミングメディアプレイヤー",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858649+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0CN415PTV?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61jhW7Vi2SL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "35",
-    "name": "Amazonベーシック 乾電池 単3形 単三電池 アルカリ 保存期限10年 20個セット 1.5V 液漏れ防止",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858664+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B00NTCH52W?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81FDQs7WAAL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "36",
-    "name": "Amazonベーシック 乾電池 単4形 アルカリ 保存期限10年 20個セット 1.5V 液漏れ防止",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858669+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B00NTCHCU2?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71XhDEyoGTL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "37",
-    "name": "Anker Soundcore Liberty 5（Bluetooth 5.4）【完全ワイヤレスイヤホン/ウルトラノイズキャンセリング 3.5 / 3Dオーディオ / Dolby Audio対応/ワイヤレス充電/マルチポイント接続/外音取り込み /",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858674+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0DRVB48LJ?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61+AmwttHaL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "38",
-    "name": "NIMASO ガラスフィルム iPhone 17 用 強化ガラス 液晶 保護フィルム 耐衝撃 高透過率 指紋防止 貼りやすい ガイド枠付き 2枚セット いPhone17（6.3インチ）対応 DSP25F1698",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858678+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0FDB6RLRK?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61SHlZQ425L._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "39",
-    "name": "instax 富士フイルム(FUJIFILM) インスタントカメラ チェキ用フィルム 10枚入 INSTAX MINI JP 1",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858683+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B07D2DVX6D?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61r0WTpGq2L._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "40",
-    "name": "Anker Nano II 65W (PD 充電器 USB-C)【独自技術Anker GaN II採用/PD対応/PSE技術基準適合/折りたたみ式プラグ】MacBook PD対応Windows PC iPad iPhone Galaxy Androi",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858687+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B08X11GD52?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/51p3xiAi7KL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "41",
-    "name": "seninhi 対応 iPhone 16 ガラスフィルム apple 指紋防止 【2* フィルム + 2* レンズ保護フィルム+ 1*ガイド枠付き+ 1*取り除き発泡板】国産旭硝子材質 薄型 強化ガラス 高光沢 液晶 ケース 9H硬度 厚さ0.26m",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858691+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0D9H1M2KM?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71rixr-IhaL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "42",
-    "name": "Anker Soundcore P31i (Bluetooth 6.1) 【完全ワイヤレスイヤホン/アクティブノイズキャンセリング/マルチポイント接続 / 最大50時間再生 / PSE技術基準適合】ブラック",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858696+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0FNRS5WB2?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/51nHT2kQ1bL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "43",
-    "name": "Apple AirPods 4 アクティブノイズ キャンセリング搭載、ワイヤレスイヤホン、Bluetooth 5.3、適応型オーディオ、外部音取り込みモード、パーソナライズされた空間オーディオ、USB-C充電ケース、ワイヤレス充電、H2チップ、防塵性",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858701+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0DGJBNYVY?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61-LXWhiBDL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "44",
-    "name": "Anker Power Bank (10000mAh, 22.5W)【アップグレード版】(モバイルバッテリー 10000mAh 最大22.5W出力 USB-C & USB-C ケーブル付属 ディスプレイ搭載) 【PD/PowerIQ搭載/PSE技術基",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858705+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0CQX67KTW?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61SeOo7fuvL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "45",
-    "name": "Amazon Fire TV Stick 4K Plus | 映画館のような4K体験 | ストリーミングメディアプレイヤー",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858710+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0F7ZF7W9P?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71g+RSuRFVL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "46",
-    "name": "Anker Soundcore P40i (Bluetooth 5.3) 【完全ワイヤレスイヤホン/ウルトラノイズキャンセリング 2.0 / マルチポイント接続 / 最大60時間再生 / PSE技術基準適合】オフホワイト",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858714+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0CP4RHK7X?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61pM3SGOAHL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "47",
-    "name": "Amazon Echo Pop (エコーポップ) - コンパクトスマートスピーカー with Alexa｜グレーシャーホワイト",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858725+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B09ZX764ZL?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61c66Am7zGL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "48",
-    "name": "Anker MagGo Power Bank (10000mAh, Slim) Qi2認証 ワイヤレス充電 最大出力15W MagSafe対応 マグネット式ワイヤレス充電対応 コンパクト 薄型 小型 iPhone 17 / 16 / 15 / 14",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858730+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0DB17C63X?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/513OxLYzC1L._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "49",
-    "name": "Anker Nano Power Bank (22.5W, Built-In USB-C Connector) (モバイルバッテリー 5000mAh 小型コンパクト)【PowerIQ搭載/USB-C一体型】 iPhone 17 / 16 / 15 シ",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858735+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0CCJFY2V4?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/41mOOR0wlUL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "50",
-    "name": "Amazon Echo Show 5 (エコーショー5) 第3世代 - スマートディスプレイ with Alexa、2メガピクセルカメラ付き、グレーシャーホワイト",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858741+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B09B2RLPLV?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/51WoZnp2ssL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "51",
-    "name": "【アップグレード版】Anker Eufy (ユーフィ) SmartTrack Card E30 (iPhone用) (充電式紛失防止タグ) 【充電対応/Appleの「探す」に対応 (iOS端末のみ) / 紛失防止タグ/スマートタグ/スマートトラッカー",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858745+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0DWMPNCLC?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61Qk0aaGW8L._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "52",
-    "name": "Anker Prime Wall Charger (67W, 3 ports, GaN) (ブラック)【 PD対応/PSE技術基準適合/折りたたみ式プラグ】iPhone 17 / 17 Pro / 17 Pro Max 他 iPhone シリーズ M",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858751+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0C5CBV6L3?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/511Xc9MrA+L._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "53",
-    "name": "Amazon Echo Dot (エコードット) 第5世代 - Alexa、センサー搭載、鮮やかなサウンド｜チャコール",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858755+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B09B8SZLLG?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/710GmYYsbTL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "54",
-    "name": "【3倍米軍MIL規格・MagSafe対応】ESR iPhone 17 ケース ワイヤレス充電 iphone17用 カメラボタン付き SGS認証 エアガードコーナー 黄変防止 耐衝撃 PC背面TPUバンパー 指紋防止 高耐久性 マグネットスマホケース",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858760+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0FCY74DSN?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71njos2Q2ML._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "55",
-    "name": "Anker Soundcore 2 (USB Type-C充電 12W Bluetooth 5 スピーカー 24時間連続再生)【完全ワイヤレスステレオ対応/強化された低音 / IPX7防水規格 / デュアルドライバー/マイク内蔵】(ブラック)",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858766+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B01NAVANRX?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/613rWgB--cL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "56",
-    "name": "Amazon Fire TV Stick HD | 大画面でフルHDの楽しさを簡単に | ストリーミングメディアプレイヤー",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858771+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0CQN6FYLN?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61n+RzhlZVL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "57",
-    "name": "Amazonベーシック HDMI ケーブル ハイスピード 4K ARC対応 1.8m(タイプAオス - タイプAオス)ブラック",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858776+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B014I8SSD0?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71cd+PYIrqL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "58",
-    "name": "【Amazon.co.jp限定品】ゼンハイザー Sennheiser イヤホン 有線 IE 200 シルバー ダイナミック カナル型 オーディオファイル ゲーミング TrueResponseトランスデューサー ブレードケーブル イヤーフック イヤフォ",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858781+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0FDVXY5HJ?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61B2bG4wJzL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "59",
-    "name": "Apple AirPods 4 ワイヤレスイヤホン、Bluetooth5.3、パーソナライズされた空間オーディオ、耐汗耐水性能、USB-C 充電ケース、H2 チップ、最大 30 時間の バッテリー駆動時間、iPhoneで簡単に設定",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858787+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0DGJ63QY8?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61-LXWhiBDL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "60",
-    "name": "Anker Nano Power Bank (10000mAh, 45W, 巻取り式 USB-Cケーブル) 10000mAh 45W出力 / LEDディスプレイ搭載/USB-Cケーブル一体型/巻取り式ケーブル/iPhone 17 / 16 / 15シ",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858792+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0DNLVY85L?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/51kYJUxoeFL._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "61",
-    "name": "【Amazon Alexa 認定取得】 TP-Link ネットワークWi-Fiカメラ ペットカメラ フルHD 屋内カメラ 夜間撮影 相互音声会話 動作検知 スマホ通知 ドーム型防犯カメラ Tapo C200 3年保証",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858798+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B07YG7RNF2?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/41fMRMNbVsS._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "62",
-    "name": "Amazon Fire TV Stick 4K Max(マックス) | Fire TV Stick史上最もパワフル | ストリーミングメディアプレイヤー",
-    "currentPrice": 0,
-    "priceHistory": [
-      {
-        "date": "2025-11-29T15:27:22.858803+00:00",
-        "price": 0
-      }
-    ],
-    "affiliateUrl": "https://www.amazon.co.jp/dp/B0BW37QY2V?tag=xiora-22",
-    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61hGnyuT87L._AC_UL300_SR300,200_.jpg"
-  },
-  {
-    "id": "63",
     "name": "【Amazon.co.jp限定】タオル研究所 [ボリュームリッチ] #003 フェイスタオル チャコールグレー 5枚セット ホテル仕様 厚手 ふかふか ボリューム 高速吸水 耐久性 綿100% 480GSM JapanTechnology",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287673+00:00",
+        "date": "2025-11-29T15:30:07.090335+00:00",
         "price": 0
       }
     ],
@@ -867,12 +502,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81+VzDSocIL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "64",
+    "id": "35",
     "name": "ブリタ カートリッジ 浄水器 ポット型 交換用 6個入 PFOS/PFOA除去試験済 マクストラプロ カートリッジ ピュアパフォーマンス ポリプロピレン ポリエチレンテレフタレート 【日本正規品】ホワイト",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287689+00:00",
+        "date": "2025-11-29T15:30:07.090350+00:00",
         "price": 0
       }
     ],
@@ -880,12 +515,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71LWJDmPZ6L._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "65",
+    "id": "36",
     "name": "【Amazon.co.jp限定】タオル研究所 [軽さの理由] #006 フェイスタオル ウォームグレー ほうじ茶色 5枚セット 速乾 薄手 絞りやすい 高速吸水 耐久性 綿100% 305GSM JapanTechnology",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287710+00:00",
+        "date": "2025-11-29T15:30:07.090356+00:00",
         "price": 0
       }
     ],
@@ -893,12 +528,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/712VDY0ySiL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "66",
+    "id": "37",
     "name": "ヒツジのいらない枕 テンセル枕カバー付 まくら 低反発 高反発 丸洗いOK 安眠枕 寝返り 至極",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287718+00:00",
+        "date": "2025-11-29T15:30:07.090362+00:00",
         "price": 0
       }
     ],
@@ -906,12 +541,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71CIegzlebL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "67",
+    "id": "38",
     "name": "ブラウン 電気シェーバー シリーズ9 SPORT 電動 髭剃り メンズ 9360cc 【Amazon.co.jp 限定】6in1アルコール洗浄システム付 シェーバーケース付 ブラック",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287725+00:00",
+        "date": "2025-11-29T15:30:07.090367+00:00",
         "price": 0
       }
     ],
@@ -919,12 +554,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61c-XLj-ShL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "68",
+    "id": "39",
     "name": "【Amazon.co.jp限定】 シャープ 加湿 空気清浄機 KC-S50W-W プラズマクラスター 7000 浮遊ウィルス 花粉 空気浄化 おすすめ畳数 13畳 加湿量 500mL/h",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287732+00:00",
+        "date": "2025-11-29T15:30:07.090372+00:00",
         "price": 0
       }
     ],
@@ -932,12 +567,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/41Fas1cl9aL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "69",
+    "id": "40",
     "name": "【Amazon.co.jp限定】タオル研究所 [毎日シンプル] #001 フェイスタオル ソフトグレー 5枚セット スタンダードタイプ 中厚手 毛羽落ち少ない 高速吸水 耐久性 綿100% 420GSM JapanTechnology",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287739+00:00",
+        "date": "2025-11-29T15:30:07.090377+00:00",
         "price": 0
       }
     ],
@@ -945,12 +580,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/712zOTG-ulL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "70",
+    "id": "41",
     "name": "シモジマ(Shimojima) HEIKO PP食パン袋半斤用 300枚（100枚x3束） ヘイコー パン袋 におい袋",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287745+00:00",
+        "date": "2025-11-29T15:30:07.090381+00:00",
         "price": 0
       }
     ],
@@ -958,12 +593,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61k+FQflDvL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "71",
+    "id": "42",
     "name": "Dyson(ダイソン) 掃除機 コードレス Dyson V8 Origin (SV25 RD2 AM) スティック ハンディクリーナー サイクロン【Amazon.co.jp限定】【変わらないパワフルな吸引力。ダイソン エントリーモデル。】",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287752+00:00",
+        "date": "2025-11-29T15:30:07.090386+00:00",
         "price": 0
       }
     ],
@@ -971,12 +606,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61CCZaDoYiL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "72",
+    "id": "43",
     "name": "貝印 KAI 軽い フライパン 26cm 軽量 高熱効率 ガス火 IH対応 PFOA PFOS フリー Kai House SELECT DW5629",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287759+00:00",
+        "date": "2025-11-29T15:30:07.090392+00:00",
         "price": 0
       }
     ],
@@ -984,12 +619,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71enGWYqfeL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "73",
+    "id": "44",
     "name": "【肌にやさしい】フィリップス 電動シェーバー 5000シリーズ 電動 髭剃り メンズ (27枚刃・回転式・お風呂剃り&丸洗い可) S5445/03 ブラック 【Amazon.co.jp限定】",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287766+00:00",
+        "date": "2025-11-29T15:30:07.090401+00:00",
         "price": 0
       }
     ],
@@ -997,12 +632,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/7106+xeoWqL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "74",
+    "id": "45",
     "name": "レック(LEC) 激落ちくん 時短ケース付き ホコリ取り モップがキレイ (くり返し使えて、いつでもキレイな高密度ブラシモップ)",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287773+00:00",
+        "date": "2025-11-29T15:30:07.090407+00:00",
         "price": 0
       }
     ],
@@ -1010,12 +645,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61kihO6kLSL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "75",
+    "id": "46",
     "name": "【2025改良モデル】 加湿器 卓上 小型 Type-C充電式 卓上加湿器 除菌 大容量350ML 超音波式 次亜塩素酸水対応 静音 持ち運び便利 軽量 コンパクト コードレス 2段階ミスト 7色LEDライト 乾燥対策 花粉対策 水漏れ防止 長時間運",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287780+00:00",
+        "date": "2025-11-29T15:30:07.090412+00:00",
         "price": 0
       }
     ],
@@ -1023,12 +658,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/41hsGJiWNfL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "76",
+    "id": "47",
     "name": "【E26】アイリスオーヤマ LED電球 60W形相当 電球色 口金直径26mm 広配光 2個パック 密閉器具対応 LDA7L-G-6T62P",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287787+00:00",
+        "date": "2025-11-29T15:30:07.090417+00:00",
         "price": 0
       }
     ],
@@ -1036,12 +671,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/6185HjvhzRL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "77",
+    "id": "48",
     "name": "【サンサンスポンジ】スポンジ 4個セット キッチンスポンジ 食器洗い お風呂 レンジ周り 用途いろいろ 驚きの水切れ＆泡立ち 丈夫で長持ち 台所用品 キッチン用品 ブラック",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287794+00:00",
+        "date": "2025-11-29T15:30:07.090422+00:00",
         "price": 0
       }
     ],
@@ -1049,12 +684,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71RXfv7EUGL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "78",
+    "id": "49",
     "name": "脱毛器 擦るだけ『業界注目！痛くない次世代モデル』 無痛脱毛器 角質除去 ナノガラス 物理脱毛 手のひらサイズ 軽量 男女兼用 操作簡単 痛みゼロ 初心者向け 家庭用 自宅 出張 旅行 ギフトにも最適 日本語取説書付き オシャレ",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287803+00:00",
+        "date": "2025-11-29T15:30:07.090427+00:00",
         "price": 0
       }
     ],
@@ -1062,12 +697,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71Et+XccLBL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "79",
+    "id": "50",
     "name": "山崎実業(Yamazaki) マグネット バスルーム ラック ワイド ホワイト 約W28XD9.5XH8cm ミスト 浴室ラック 浴室収納 フック付き 4237",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287810+00:00",
+        "date": "2025-11-29T15:30:07.090432+00:00",
         "price": 0
       }
     ],
@@ -1075,12 +710,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/510yyLZ3xbL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "80",
+    "id": "51",
     "name": "iwaki(イワキ) 耐熱ガラス 保存容器 アーバンクリア 7個セット パック&レンジ F-PRN7-UCL",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287817+00:00",
+        "date": "2025-11-29T15:30:07.090438+00:00",
         "price": 0
       }
     ],
@@ -1088,12 +723,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/711DbE9VO2L._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "81",
+    "id": "52",
     "name": "【オンライン限定】 ティファール 取っ手のとれる 鍋 フライパンセット 9点セット ガス火専用 PFOAなどの有害物質不使用 「インジニオ･ネオ フレーズグレー」 こびりつきにくさ長持ち グレー L16199",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287825+00:00",
+        "date": "2025-11-29T15:30:07.090443+00:00",
         "price": 0
       }
     ],
@@ -1101,12 +736,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71g1H23ngZL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "82",
+    "id": "53",
     "name": "Hansleep 毛布 シングル 冬用 ブランケット マイクロファイバー 柔らかく肌触り フランネル 洗える 静電防止 四季適用 (140x200,グレー)",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287832+00:00",
+        "date": "2025-11-29T15:30:07.090449+00:00",
         "price": 0
       }
     ],
@@ -1114,12 +749,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81J-ldC4jYL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "83",
+    "id": "54",
     "name": "アイリスオーヤマ(IRIS OHYAMA) ヒーター セラミックファンヒーター 人感センサー付 1200W ~8畳 幅24×高さ34×奥行11cm PCH-125D-W ホワイト",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287840+00:00",
+        "date": "2025-11-29T15:30:07.090455+00:00",
         "price": 0
       }
     ],
@@ -1127,12 +762,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/41QNdnxBrNL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "84",
+    "id": "55",
     "name": "SwitchBot スマートリモコン ハブ3 赤外線家電を管理 Alexa - 2.4インチモニター付き スイッチボット 学習リモコン 温湿度計機能付き 光センサー付き リモートボタン スケジュール シーンで家電一括操作 遠隔操作 節電·省エネ Go",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287847+00:00",
+        "date": "2025-11-29T15:30:07.090461+00:00",
         "price": 0
       }
     ],
@@ -1140,12 +775,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61J9tu63OUL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "85",
+    "id": "56",
     "name": "【Amazon.co.jp限定】タオル研究所 [自然なやわらかさ] #024 フェイスタオル ダークブルー 5枚セット やわらか 厚手 なめらか 長持ち 高速吸水 耐久性 綿100% 480GSM JapanTechnology",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287855+00:00",
+        "date": "2025-11-29T15:30:07.090467+00:00",
         "price": 0
       }
     ],
@@ -1153,12 +788,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81tjgJjLQvL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "86",
+    "id": "57",
     "name": "タニタ 体重計 体組成計 ヘルスメーター BC-705N【体脂肪率/内臓脂肪レベル/筋肉量/基礎代謝量/体内年齢/BMI/日本製/乗るピタ】",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287862+00:00",
+        "date": "2025-11-29T15:30:07.090473+00:00",
         "price": 0
       }
     ],
@@ -1166,12 +801,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/41jjqX-OXBL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "87",
+    "id": "58",
     "name": "Hansleep カーテン 遮光カーテン 1級遮光 厚手 断熱 防寒 防音 無地 洗濯可能 寝室 リビング 2枚組 (グレー, 幅100cm×丈178cm)",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287870+00:00",
+        "date": "2025-11-29T15:30:07.090481+00:00",
         "price": 0
       }
     ],
@@ -1179,12 +814,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71RlNccD2YL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "88",
+    "id": "59",
     "name": "タニタ クッキングスケール 1g単位で1kgまで計れる 収納に便利なフック穴付き ホワイト KD-187 WH キッチン はかり 料理 デジタル",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287878+00:00",
+        "date": "2025-11-29T15:30:07.090488+00:00",
         "price": 0
       }
     ],
@@ -1192,12 +827,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/41YO2ESxI4L._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "89",
+    "id": "60",
     "name": "オムロン 電子体温計 MC-687シリーズ スピード検温15秒予測 ケース付 洗える先端 けんおんくん MC-688 ホワイト",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287886+00:00",
+        "date": "2025-11-29T15:30:07.090507+00:00",
         "price": 0
       }
     ],
@@ -1205,12 +840,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/51EXyO7G3NL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "90",
+    "id": "61",
     "name": "東洋アルミ 整流板付専用パッと貼るだけスーパーフィルター 3074",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287893+00:00",
+        "date": "2025-11-29T15:30:07.090514+00:00",
         "price": 0
       }
     ],
@@ -1218,12 +853,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81vytZ7k1ML._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "91",
+    "id": "62",
     "name": "オムロン 上腕式血圧計 スタンダード19シリーズ HCR-7104",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287902+00:00",
+        "date": "2025-11-29T15:30:07.090520+00:00",
         "price": 0
       }
     ],
@@ -1231,12 +866,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81UUrmMlEeL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "92",
+    "id": "63",
     "name": "Amazon Echo Spot（2024年発売） - スマートアラームクロック with Alexa、鮮やかなサウンド | グレーシャーホワイト",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:26.287910+00:00",
+        "date": "2025-11-29T15:30:07.090526+00:00",
         "price": 0
       }
     ],
@@ -1244,12 +879,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61DOW4NvIjL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "93",
+    "id": "64",
     "name": "Pokémon LEGENDS Z-A（ポケモン レジェンズ ゼットエー） -Switch",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.719980+00:00",
+        "date": "2025-11-29T15:30:13.249495+00:00",
         "price": 0
       }
     ],
@@ -1257,12 +892,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81qH1xHJcTL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "94",
+    "id": "65",
     "name": "PlayStation 5 Pro(CFI-7000B01)",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720004+00:00",
+        "date": "2025-11-29T15:30:13.249510+00:00",
         "price": 0
       }
     ],
@@ -1270,12 +905,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/51G1EIuELaL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "95",
+    "id": "66",
     "name": "ベルモンド Switch2 / スイッチ2 用 保護フィルム 【2枚セット+簡単ガイド枠付き】ガラスフィルム | 全面保護 ピッタリサイズ 硬度 10H 貼りやすい ガイド付き クリスマス ギフト プレゼント | モンスターフィルム B1510",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720012+00:00",
+        "date": "2025-11-29T15:30:13.249516+00:00",
         "price": 0
       }
     ],
@@ -1283,12 +918,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61BNVBvFxFL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "96",
+    "id": "67",
     "name": "カービィのエアライダー -Switch2",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720018+00:00",
+        "date": "2025-11-29T15:30:13.249522+00:00",
         "price": 0
       }
     ],
@@ -1296,12 +931,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61HKs0rfALL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "97",
+    "id": "68",
     "name": "ニンテンドープリペイド番号 1000円|オンラインコード版",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720025+00:00",
+        "date": "2025-11-29T15:30:13.249528+00:00",
         "price": 0
       }
     ],
@@ -1309,12 +944,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/51UqxIRgPsL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "98",
+    "id": "69",
     "name": "PlayStation VR2 \"Horizon Call of the Mountain\" 同梱版（CFIJ-17001） 【Amazon.co.jp限定】オリジナルトートバッグ 付",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720031+00:00",
+        "date": "2025-11-29T15:30:13.249534+00:00",
         "price": 0
       }
     ],
@@ -1322,12 +957,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71Db-bDQfkL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "99",
+    "id": "70",
     "name": "桃太郎電鉄2 ~あなたの町も きっとある~ 東日本編+西日本編",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720038+00:00",
+        "date": "2025-11-29T15:30:13.249540+00:00",
         "price": 0
       }
     ],
@@ -1335,12 +970,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/91GQ+U2YByL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "100",
+    "id": "71",
     "name": "【純正品】DualSense ワイヤレスコントローラー コズミック レッド (CFI-ZCT1J02)",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720044+00:00",
+        "date": "2025-11-29T15:30:13.249546+00:00",
         "price": 0
       }
     ],
@@ -1348,12 +983,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/614R02IOAIS._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "101",
+    "id": "72",
     "name": "【任天堂純正品】Nintendo Switch 2 Proコントローラー 【Amazon.co.jp限定特典】Nintendo Switch 2 ロゴデザインステッカー 同梱",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720050+00:00",
+        "date": "2025-11-29T15:30:13.249552+00:00",
         "price": 0
       }
     ],
@@ -1361,12 +996,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/51ePr6jqyzL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "102",
+    "id": "73",
     "name": "Switch コントローラー Switch2 TURBO連射機能 スイッチ コントローラー 20時間連続使用 1000mAh大容量 マクロ機能 背面ボタン付き 9色RGBライトBluetooth 無線接続 ジャイロセンサー搭載 4階段HD振動 スリー",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720056+00:00",
+        "date": "2025-11-29T15:30:13.249557+00:00",
         "price": 0
       }
     ],
@@ -1374,12 +1009,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71Ibn+pHPjL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "103",
+    "id": "74",
     "name": "Robloxギフトカード - 800 Robux 【限定バーチャルアイテムを含む】 【オンラインゲームコード】 ロブロックス | オンラインコード版",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720063+00:00",
+        "date": "2025-11-29T15:30:13.249563+00:00",
         "price": 0
       }
     ],
@@ -1387,12 +1022,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71wMHjmIpFL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "104",
+    "id": "75",
     "name": "プレイステーション ストアチケット 1,100円|オンラインコード版",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720069+00:00",
+        "date": "2025-11-29T15:30:13.249569+00:00",
         "price": 0
       }
     ],
@@ -1400,12 +1035,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/41Ei2MfbbjL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "105",
+    "id": "76",
     "name": "Nintendo Switch 2(日本語・国内専用) マリオカート ワールド セット",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720076+00:00",
+        "date": "2025-11-29T15:30:13.249575+00:00",
         "price": 0
       }
     ],
@@ -1413,12 +1048,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71YNtrqsSoL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "106",
+    "id": "77",
     "name": "【任天堂純正品】Nintendo Switch 2 キャリングケース(画面保護シート付き)",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720082+00:00",
+        "date": "2025-11-29T15:30:13.249581+00:00",
         "price": 0
       }
     ],
@@ -1426,12 +1061,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/716S14AwVML._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "107",
+    "id": "78",
     "name": "Minecraft (マインクラフト) - Switch",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720096+00:00",
+        "date": "2025-11-29T15:30:13.249591+00:00",
         "price": 0
       }
     ],
@@ -1439,12 +1074,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81c+Z4iQAAL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "108",
+    "id": "79",
     "name": "あつまれ どうぶつの森 -Switch",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720103+00:00",
+        "date": "2025-11-29T15:30:13.249597+00:00",
         "price": 0
       }
     ],
@@ -1452,12 +1087,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71lpG-B9oDL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "109",
+    "id": "80",
     "name": "【任天堂純正品】Joy-Con(L) パステルパープル/(R) パステルグリーン",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720109+00:00",
+        "date": "2025-11-29T15:30:13.249603+00:00",
         "price": 0
       }
     ],
@@ -1465,12 +1100,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/41ekfo8nXQL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "110",
+    "id": "81",
     "name": "【2025革新モデル】 Switch 2 コントローラー Switch1/2代対応 ダブルホール機能 TURBO連射機能 マクロ機能 背面ボタン付き 9色RGBライト 1000mAh大容量 Bluetooth 無線接続 スイッチ コントローラー ジャ",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720116+00:00",
+        "date": "2025-11-29T15:30:13.249610+00:00",
         "price": 0
       }
     ],
@@ -1478,12 +1113,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71IHyDssmuL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "111",
+    "id": "82",
     "name": "Nintendo Switch Online利用券(個人プラン12か月)|オンラインコード版",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720123+00:00",
+        "date": "2025-11-29T15:30:13.249616+00:00",
         "price": 0
       }
     ],
@@ -1491,12 +1126,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61THWR7riPL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "112",
+    "id": "83",
     "name": "【任天堂ライセンス商品】Samsung microSD Express Card 256GB for Nintendo Switch 2（サムスン マイクロSDエクスプレスカード 256GB）",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720130+00:00",
+        "date": "2025-11-29T15:30:13.249622+00:00",
         "price": 0
       }
     ],
@@ -1504,12 +1139,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71ifEu2vW7L._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "113",
+    "id": "84",
     "name": "Nintendo Switch(有機ELモデル) Joy-Con(L)/(R) ホワイト",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720136+00:00",
+        "date": "2025-11-29T15:30:13.249628+00:00",
         "price": 0
       }
     ],
@@ -1517,12 +1152,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/51wLzQoET8L._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "114",
+    "id": "85",
     "name": "メタファー：リファンタジオ - PS5",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720143+00:00",
+        "date": "2025-11-29T15:30:13.249635+00:00",
         "price": 0
       }
     ],
@@ -1530,12 +1165,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81zLprfBG9L._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "115",
+    "id": "86",
     "name": "大乱闘スマッシュブラザーズ SPECIAL - Switch",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720150+00:00",
+        "date": "2025-11-29T15:30:13.249641+00:00",
         "price": 0
       }
     ],
@@ -1543,12 +1178,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71utlQnFxOL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "116",
+    "id": "87",
     "name": "【純正品】ディスクドライブ(CFI-ZDD1J) PlayStation 5",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720157+00:00",
+        "date": "2025-11-29T15:30:13.249647+00:00",
         "price": 0
       }
     ],
@@ -1556,12 +1191,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/51L5QLCMzQL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "117",
+    "id": "88",
     "name": "オクトパストラベラー0 -PS5",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720164+00:00",
+        "date": "2025-11-29T15:30:13.249654+00:00",
         "price": 0
       }
     ],
@@ -1569,12 +1204,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81VEundR6LL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "118",
+    "id": "89",
     "name": "スーパー マリオパーティ ジャンボリー Nintendo Switch 2 Edition ＋ ジャンボリーTV -Switch2",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720170+00:00",
+        "date": "2025-11-29T15:30:13.249660+00:00",
         "price": 0
       }
     ],
@@ -1582,12 +1217,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/716lft1a-6L._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "119",
+    "id": "90",
     "name": "【1,100円チケットセット買い対象】プレイステーション ストアチケット 15,000円|オンラインコード版",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720178+00:00",
+        "date": "2025-11-29T15:30:13.249667+00:00",
         "price": 0
       }
     ],
@@ -1595,12 +1230,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61ZZAbdyZjL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "120",
+    "id": "91",
     "name": "【任天堂純正品】Nintendo Switch Proコントローラー",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720185+00:00",
+        "date": "2025-11-29T15:30:13.249674+00:00",
         "price": 0
       }
     ],
@@ -1608,12 +1243,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71bKJbGQHJL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "121",
+    "id": "92",
     "name": "スーパー マリオパーティ ジャンボリー - Switch",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720192+00:00",
+        "date": "2025-11-29T15:30:13.249680+00:00",
         "price": 0
       }
     ],
@@ -1621,12 +1256,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71tfoLbaBeL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "122",
+    "id": "93",
     "name": "【任天堂ライセンス商品】ホリパッド TURBO for Nintendo Switch™ 2, 【Switch2・Switch両対応】【連射/連射ホールド機能搭載】",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:30.720199+00:00",
+        "date": "2025-11-29T15:30:13.249687+00:00",
         "price": 0
       }
     ],
@@ -1634,12 +1269,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/612d4u1z1iL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "123",
+    "id": "94",
     "name": "REYS レイズ ホエイ プロテイン 山澤 礼明 監修 1kg 国内製造 ビタミン7種配合 WPCプロテイン ぷろていん ホエイプロテイン (カフェオレ風味)",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510554+00:00",
+        "date": "2025-11-29T15:30:17.714598+00:00",
         "price": 0
       }
     ],
@@ -1647,12 +1282,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71L89PGVtpL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "124",
+    "id": "95",
     "name": "アタック 【大容量】抗菌EX 洗濯洗剤 液体 100日間蓄積した黄ばみもつけ置き級に強力洗浄 つめかえ用 2500ｇ",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510573+00:00",
+        "date": "2025-11-29T15:30:17.714621+00:00",
         "price": 0
       }
     ],
@@ -1660,12 +1295,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81MdGiaOVkL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "125",
+    "id": "96",
     "name": "アタックZERO アタック液体史上 最高の清潔力。無菌レベルの消臭力 ドラム式専用 詰め替え 2100ｇ",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510583+00:00",
+        "date": "2025-11-29T15:30:17.714631+00:00",
         "price": 0
       }
     ],
@@ -1673,12 +1308,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/813vdfDgE2L._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "126",
+    "id": "97",
     "name": "めぐりズム 蒸気めぐるアイマスク 完熟ゆずの香り 16枚入【大容量】【Amazon.co.jp限定】",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510602+00:00",
+        "date": "2025-11-29T15:30:17.714640+00:00",
         "price": 0
       }
     ],
@@ -1686,12 +1321,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81-74FzfZ6L._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "127",
+    "id": "98",
     "name": "ザバス(SAVAS) ホエイプロテイン100 リッチショコラ味 1㎏ 明治【Amazon.co.jp限定】",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510612+00:00",
+        "date": "2025-11-29T15:30:17.714649+00:00",
         "price": 0
       }
     ],
@@ -1699,12 +1334,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81ez83BNLcL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "128",
+    "id": "99",
     "name": "クレオワンデーUVモイスト 30枚 1箱 （1日使い捨て コンタクトレンズ ）【高含水】【BC】8.7 【PWR】-3.00 高含水 うるおい UVカット フィット感",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510621+00:00",
+        "date": "2025-11-29T15:30:17.714658+00:00",
         "price": 0
       }
     ],
@@ -1712,12 +1347,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/51o2UEF2KmL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "129",
+    "id": "100",
     "name": "アタックZERO アタック液体史上 最高の清潔力。無菌レベルの消臭力 詰め替え 2100ｇ",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510630+00:00",
+        "date": "2025-11-29T15:30:17.714667+00:00",
         "price": 0
       }
     ],
@@ -1725,12 +1360,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81yZNNjJ2vL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "130",
+    "id": "101",
     "name": "by Amazon ソフトパックティッシュ FSC認証紙 320枚160組(2枚重ね) x 24パック入 ホワイト",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510640+00:00",
+        "date": "2025-11-29T15:30:17.714676+00:00",
         "price": 0
       }
     ],
@@ -1738,12 +1373,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61A+IYIgIXL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "131",
+    "id": "102",
     "name": "アリエール 洗濯洗剤 ジェルボール プロ 部屋干し＆スポーツ 部屋干しでもさわやかな香り 詰め替え 100個 [大容量]",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510649+00:00",
+        "date": "2025-11-29T15:30:17.714685+00:00",
         "price": 0
       }
     ],
@@ -1751,12 +1386,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81WInduDHkL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "132",
+    "id": "103",
     "name": "VITAS（バイタス） VITA POWER ビタパワー マカ 亜鉛 マルチビタミン 120粒 30日分",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510658+00:00",
+        "date": "2025-11-29T15:30:17.714694+00:00",
         "price": 0
       }
     ],
@@ -1764,12 +1399,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81Qs+2P3fZL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "133",
+    "id": "104",
     "name": "クリニカ アドバンテージ デンタルフロス Y字タイプ 30本入×3個",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510668+00:00",
+        "date": "2025-11-29T15:30:17.714708+00:00",
         "price": 0
       }
     ],
@@ -1777,12 +1412,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81W8kYd4q3L._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "134",
+    "id": "105",
     "name": "レノア Lenor ハピネス 夢ふわタッチ 柔軟剤 ホワイトティー 詰め替え 1,900mL [大容量]",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510677+00:00",
+        "date": "2025-11-29T15:30:17.714717+00:00",
         "price": 0
       }
     ],
@@ -1790,12 +1425,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81nbqImz+IL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "135",
+    "id": "106",
     "name": "【Amazon.co.jp限定】NONIO(ノニオ) プラス ホワイトニング [医薬部外品] ハミガキ 130g×2個+フロス付き 歯磨き粉 高濃度フッ素 (1450ppm配合) 口臭",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510686+00:00",
+        "date": "2025-11-29T15:30:17.714727+00:00",
         "price": 0
       }
     ],
@@ -1803,12 +1438,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71TR0c6BU6L._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "136",
+    "id": "107",
     "name": "【Amazon.co.jp限定】 LISTERINE(リステリン) リステリン トータルケアプラス 1000ml+100mlセット マウスウォッシュ 液体歯磨 原因菌殺菌(アルコール含む) 医薬部外品 薬用 クリーンミント味",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510695+00:00",
+        "date": "2025-11-29T15:30:17.714736+00:00",
         "price": 0
       }
     ],
@@ -1816,12 +1451,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61JrphFRC7L._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "137",
+    "id": "108",
     "name": "[jphanamori] マスク 立体 不織布 55枚 53枚 44枚 バイカラー 3D 4層 おしゃれ 冷感 3層 不織布マスク 立体マスク 3Dマスク 不織布カラーマスク バイカラーマスク おしゃれ カラーマスク 小顔 丸顔 面長 大きめ 小さめ",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510704+00:00",
+        "date": "2025-11-29T15:30:17.714746+00:00",
         "price": 0
       }
     ],
@@ -1829,12 +1464,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/516TjTHsDJL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "138",
+    "id": "109",
     "name": "Bold ボールド 洗濯洗剤 ジェルボール 4in1 華やかおひさまとプレミアムブロッサムの香り 詰め替え 100個 [大容量]",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510714+00:00",
+        "date": "2025-11-29T15:30:17.714755+00:00",
         "price": 0
       }
     ],
@@ -1842,12 +1477,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81bZ4+3CvRL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "139",
+    "id": "110",
     "name": "【指定第2類医薬品】イブクイック頭痛薬DX 60錠",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510723+00:00",
+        "date": "2025-11-29T15:30:17.714765+00:00",
         "price": 0
       }
     ],
@@ -1855,12 +1490,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/51+j0EAVYDL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "140",
+    "id": "111",
     "name": "IROKA(イロカ) フレアフレグランス 液体 柔軟剤 香水のように上質で透明感あふれる香り ネイキッドリリーの香り 1200ml 大容量",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510732+00:00",
+        "date": "2025-11-29T15:30:17.714775+00:00",
         "price": 0
       }
     ],
@@ -1868,12 +1503,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71GvgDXbTWL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "141",
+    "id": "112",
     "name": "カビキラー 洗濯槽クリーナー 液体 550g×3本 お掃除手袋つき カビ取り 除菌 ドラム式対応 つけおき不要 すくい取り不要 まとめ買い 【Amazon.co.jp 限定】",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510744+00:00",
+        "date": "2025-11-29T15:30:17.714784+00:00",
         "price": 0
       }
     ],
@@ -1881,12 +1516,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71su+lstfkL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "142",
+    "id": "113",
     "name": "さらさ 洗濯洗剤 液体 1900g 無添加 植物由来の厳選成分配合 ほのかでやさしい柑橘系の香り 詰め替え",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510753+00:00",
+        "date": "2025-11-29T15:30:17.714793+00:00",
         "price": 0
       }
     ],
@@ -1894,12 +1529,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/718TaQ9hnML._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "143",
+    "id": "114",
     "name": "ワイドハイター 【大容量】EXパワー 衣料用漂白剤 見過ごせなくなった汚れやニオイ 、洗剤にちょい足しで超絶スッキリ! ! 詰替用2400ml",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510763+00:00",
+        "date": "2025-11-29T15:30:17.714803+00:00",
         "price": 0
       }
     ],
@@ -1907,12 +1542,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81KPCkY+tmL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "144",
+    "id": "115",
     "name": "アタック 【大容量】抗菌EX 部屋干し用 高湿度90%密集干しでも天日干し級に強力消臭 洗濯洗剤 液体 つめかえ用2380ｇ",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510772+00:00",
+        "date": "2025-11-29T15:30:17.714812+00:00",
         "price": 0
       }
     ],
@@ -1920,12 +1555,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81cm7HX3sHL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "145",
+    "id": "116",
     "name": "ジョイ 【まとめ買い】 [大容量] W除菌 食器用洗剤 詰め替え 超特大ジャンボ 1,620mL×2個",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510782+00:00",
+        "date": "2025-11-29T15:30:17.714822+00:00",
         "price": 0
       }
     ],
@@ -1933,12 +1568,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81q4ZyLGIsL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "146",
+    "id": "117",
     "name": "アンビーク メンズマルチビタミン 亜鉛 マカ 錠剤 ビタミン14種 クエン酸 アルギニン シトルリン 即効チャージ 持続型 栄養機能食品 ビオチン (1袋)",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510792+00:00",
+        "date": "2025-11-29T15:30:17.714832+00:00",
         "price": 0
       }
     ],
@@ -1946,12 +1581,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61jHg0RB2aL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "147",
+    "id": "118",
     "name": "ソフランアロマリッチ 【大容量】 ジュリエット(スイートフローラルアロマの香り) 液体 柔軟剤 詰め替え メガジャンボ 2000ml",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510802+00:00",
+        "date": "2025-11-29T15:30:17.714842+00:00",
         "price": 0
       }
     ],
@@ -1959,12 +1594,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61OrBrRMAJL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "148",
+    "id": "119",
     "name": "NANOXone(ナノックスワン) プロ 詰替メガジャンボ1730g パウダリーソープ 菌の根幹まで遺伝子レベル洗浄で最高峰の洗浄・消臭力 洗濯洗剤 色変化防止 抗菌 ウイルス除去 洗濯槽のニオイ抑制 ダメージケア ジェル",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510812+00:00",
+        "date": "2025-11-29T15:30:17.714851+00:00",
         "price": 0
       }
     ],
@@ -1972,12 +1607,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81Od6SLhMqL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "149",
+    "id": "120",
     "name": "アタックZERO アタック液体史上 最高の清潔力。無菌レベルの消臭力 部屋干し 詰め替え 2000ｇ",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510821+00:00",
+        "date": "2025-11-29T15:30:17.714861+00:00",
         "price": 0
       }
     ],
@@ -1985,12 +1620,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81oDXh5sL5L._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "150",
+    "id": "121",
     "name": "ビオスリーHi錠 270錠【指定医薬部外品】整腸剤 [酪酸菌/糖化菌/乳酸菌 配合] 錠剤タイプ [腸内フローラ改善/腸活] 便秘や軟便に",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510832+00:00",
+        "date": "2025-11-29T15:30:17.714882+00:00",
         "price": 0
       }
     ],
@@ -1998,12 +1633,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81+mJcBOnkL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "151",
+    "id": "122",
     "name": "DHC ビタミンC(ハードカプセル)90日分 (180粒)",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510842+00:00",
+        "date": "2025-11-29T15:30:17.714893+00:00",
         "price": 0
       }
     ],
@@ -2011,12 +1646,12 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61sV1T1uTqS._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "152",
+    "id": "123",
     "name": "NANOXone(ナノックスワン) ニオイ専用 詰替メガジャンボ1790g パウダリーソープ 菌の根幹まで遺伝子レベル洗浄でニオイゼロへ 洗濯洗剤 色変化防止 抗菌 ウイルス除去 洗濯槽のニオイ抑制 ジェル",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:34.510852+00:00",
+        "date": "2025-11-29T15:30:17.714904+00:00",
         "price": 0
       }
     ],
@@ -2024,16 +1659,393 @@
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81tMkaiDNAL._AC_UL300_SR300,200_.jpg"
   },
   {
-    "id": "153",
+    "id": "124",
     "name": "VTCOSMETICS(ブイティコスメテックス) フェイスマスク スキンケア (1.CICA デイリースージングマスク)",
     "currentPrice": 0,
     "priceHistory": [
       {
-        "date": "2025-11-29T15:27:40.720173+00:00",
+        "date": "2025-11-29T15:30:21.926756+00:00",
         "price": 0
       }
     ],
     "affiliateUrl": "https://www.amazon.co.jp/dp/B083X5R6VR?tag=xiora-22",
     "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61lASfeZ1BL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "125",
+    "name": "アテニア (Attenir) スキンクリア クレンズ オイル アロマタイプ 175mL (毛穴/乾燥/角質) クレンジング メイク落とし (クレンジングオイル/ダブル洗顔不要) リフレシングシトラスの香り / 約2か月分 レギュラーボトル",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926777+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0CJXS8CB2?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/41QwW36fXWL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "126",
+    "name": "[TIRTIR] Mask fit Cushion [ティルティル] マスクフィットクッション 本体 18g RED CUSHION 21N",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926788+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B09LCMQM44?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81qx1jdaGhL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "127",
+    "name": "Dove(ダヴ) ボディーソープ プレミアムモイスチャーケア 大容量 詰替 8.5個分 2.8kg 瞬間浸透うるおいミルク トリプルセラミド配合 乾燥肌 保湿 濃密泡 【Amazon.co.jp限定】",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926799+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0CD7BHBYG?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61A15mA+mxL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "128",
+    "name": "SALONIA サロニア スムースシャイン ドライヤー 大風量 速乾 軽量 ヘアドライヤー グレー【Amazon.co.jp限定】",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926810+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0D44ZXPYM?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71ecJi8Q2BL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "129",
+    "name": "rom&nd HAN ALL BROW CARAロムアンドハンオールブロウカラ (03 モダンベージュ)",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926821+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0BVZ694CN?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61QrjN3Mk6L._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "130",
+    "name": "ファンケル (FANCL) (新) マイルド クレンジング オイル (120mL) クレンジングオイル 無添加 ( メイク落とし / 毛穴ケア ) まつエクOK",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926833+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B09J53Y5BT?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/41OalqDdH6L._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "131",
+    "name": "キレイキレイ [医薬部外品] 薬用 泡ハンドソープ シトラスフルーティの香り 詰め替え 大容量サイズ 1760ml 殺菌",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926843+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0C1G32J1F?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71eQ5NNZeVL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "132",
+    "name": "Neutrogena(ニュートロジーナ) ノルウェーフォーミュラ インテンスリペア ボディクリーム ボディローション ボディミルク 保湿クリーム ボディエマルジョン 超乾燥肌用 無香料 単品 450ミリリットル (x 1)",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926854+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B07XZ9ZRVZ?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61IrswIviXL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "133",
+    "name": "[d'Alba公式] ダルバ ホワイトトリュフ ファースト スプレーセラム (100ml) ミスト化粧水 保湿ミスト 保湿セラム 潤いミスト エッセンスミスト 二層式 化粧水 敏感肌 乾燥肌 弾力 毛穴 キメ整える ノンコメド 無香料 化粧直し ヴィ",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926865+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0BFQ9RD5B?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61hRZTsaL0L._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "134",
+    "name": "ビオレｕ 泡 ハンドソープ つめかえ用 1.52Ｌ 【Amazon.co.jp限定】 [医薬部外品]",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926876+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0DWKHLZF6?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/819UgWZjfXL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "135",
+    "name": "【業務用 大容量】キレイキレイ 薬用 泡ハンドソープ 4L シトラスフルーティの香り (医薬部外品) 詰め替え",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926886+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B00ABV7NA8?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/615-2wY1wqL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "136",
+    "name": "パーフェクトワンフォーカス PERFECT ONE FOCUS スムースクレンジングバーム 75g (スムースクレンジングバームディープブラック(単品))",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926897+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0CHRQ5VB1?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61EDP0gcwXL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "137",
+    "name": "LUX (ラックス) スーパーリッチシャイン ダメージリペア シャンプー 詰め替え 大容量 1690g",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926908+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0FKS6PXSM?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61xbzLybf7L._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "138",
+    "name": "Schick(シック) 極 KIWAMI コンボパック(ホルダー(刃付き)+替刃4コ) 髭剃り カミソリ",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926926+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0BS3JDY58?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71WTIfKCzOL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "139",
+    "name": "【d'Alba公式】ピンク(Pink) トーンアップサンクリーム (50ml) ダルバ 化粧下地 崩れにくい テカリにくい 日焼け止め ベースメイク カバーアップ",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926938+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0BXSX7WH8?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61T-+3oXLKL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "140",
+    "name": "VTCOSMETICS(ブイティコスメテックス) PDRN+ カプセルクリーム 100 水分クリーム 集中保湿 ハリ ツヤ肌 透明感",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926949+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0FKGR24MC?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/511ECurRpYL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "141",
+    "name": "ロレッタ ハードゼリー 300g [スタイリング剤 ヘアスタイリング ジェルワックス ワックス ヘアアレンジ セット力 ヘアケア]",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926960+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B004WBF8EG?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61bpiIZHFhL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "142",
+    "name": "【新モデル】 YOLU ヨル シャンプー トリートメント セット 詰め替え 大容量 カームナイトリペア",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926971+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0DT9S8Y8M?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/91B5MeuVXmL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "143",
+    "name": "バイオヒールボ(BOH) プロバイオダーム™︎ 3Dリフティングクリーム 50ml 高保湿 乾燥肌 ハリ 弾力 タンタン 韓国コスメ ナイトクリーム リフトアップ",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926982+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0D82F2CXR?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/811+Q7CGt6L._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "144",
+    "name": "パンテーン シャンプー&コンディショナーセット 2L+2KG [6.7 個分 x 2] 詰め替え大容量 エクストラダメージリペア",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.926993+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0C1MCHFTF?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/81xrPaYHazL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "145",
+    "name": "VTCOSMETICS(ブイティコスメテックス) リードルショット 毛穴 ハリ スキンケア 美容液 導入液 (3.リードルS 300 本品)",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.927004+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0C2TT4XP6?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61WwDTgbNbL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "146",
+    "name": "Wella ウエラトーン 2+1 白髪染め クリームタイプ 7CB 明るいナチュラルブラウン 鮮やかな髪色6週間続く 医薬部外品",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.927016+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B014KNY5SU?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/710fU0Rwt6L._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "147",
+    "name": "NILE ヘアミルク 洗い流さないトリートメント ミドルダメージ シルキースムース (APPLE BLOOM（フローラル）の香り)",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.927027+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0DLK2V78H?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61cxeQQE99L._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "148",
+    "name": "NILE 濃密泡スカルプシャンプー メンズ アミノ酸シャンプー ノンシリコン (LAFRANCE（ラフランス）の香り)",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.927039+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0DLJP1FMD?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61l6J64GFML._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "149",
+    "name": "バブ 5種類の香りお楽しみBOX 王道セレクト 入浴剤 60錠 [医薬部外品]",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.927051+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0FNC7MH97?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71bsY9qWavL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "150",
+    "name": "LUX(ラックス) ルミニーク シャンプー ボタニカルピュア 大容量詰替 1kg ノンシリコン バオバブエキス配合 ラベンダー&リリーの香り",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.927063+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B07XB52FD7?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61+bnrW6PfL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "151",
+    "name": "Diane(ダイアン) 【大容量】シャンプー [ダメージ補修] フローラル&ベリーの香り ダイアンDX エクストラダメージリペア 詰め替え 1000ml 【Amazon.co.jp限定】",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.927075+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B07XFWYCH3?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/71X3DGamc6L._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "152",
+    "name": "ANUA(アヌア)レチノール0.3ナイアシンセラム30ml レチノール美容液 毛穴 水分保湿 スキンケア 韓国美容液 韓国コスメ 【公式・正規品】",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.927087+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B0CLXNBVBL?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/51RY6bbHyVL._AC_UL300_SR300,200_.jpg"
+  },
+  {
+    "id": "153",
+    "name": "Dove (ダヴ) シャンプー 大容量 詰め替え 2kg モイスチャーケア 【Amazon.co.jp限定】",
+    "currentPrice": 0,
+    "priceHistory": [
+      {
+        "date": "2025-11-29T15:30:21.927099+00:00",
+        "price": 0
+      }
+    ],
+    "affiliateUrl": "https://www.amazon.co.jp/dp/B089WSBTYD?tag=xiora-22",
+    "imageUrl": "https://images-fe.ssl-images-amazon.com/images/I/61aTzzRhT8L._AC_UL300_SR300,200_.jpg"
   }
 ]
