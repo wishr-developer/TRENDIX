@@ -1,23 +1,17 @@
-import type { Metadata } from "next";
+import "./globals.css";
+import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { CategoryProvider } from "@/contexts/CategoryContext";
-import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "Price Watcher - 商品価格比較・検索サイト",
-  description: "Amazon商品の価格変動を監視・比較するサイト",
-};
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
-      <body className="min-h-screen bg-background text-text-main font-sans selection:bg-primary/20">
+      <body className="flex flex-col min-h-screen bg-white text-slate-900">
         <CategoryProvider>
-          {children}
+          <Header />
+          <main className="flex-1">
+            {children}
+          </main>
           <Footer />
         </CategoryProvider>
       </body>

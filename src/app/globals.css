@@ -2,23 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    @apply bg-background text-text-main antialiased;
-  }
+body {
+  @apply bg-background text-text-main antialiased;
 }
 
-/* スクロールバー */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  @apply bg-surface;
-}
-::-webkit-scrollbar-thumb {
-  @apply bg-border rounded-full;
-}
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-text-dim;
+/* なめらかなスクロール */
+html {
+  scroll-behavior: smooth;
 }

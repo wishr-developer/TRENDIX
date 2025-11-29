@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,24 +9,24 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+      },
       colors: {
-        background: "#FFFFFF",
-        surface: "#F8F9FA",
-        border: "#E5E7EB",
-        primary: "#FF9900", // Amazonオレンジ
-        accent: "#FF6B35", // アクセントオレンジ
+        background: "#ffffff",
+        surface: "#f8f9fa", // 非常に薄いグレー
+        border: "#e9ecef",
+        primary: "#2563eb", // 鮮やかな青
+        danger: "#ef4444",  // セール価格用の赤
         text: {
-          main: "#1F2937", // 濃いグレー
-          muted: "#6B7280", // ミディアムグレー
-          dim: "#9CA3AF", // 薄いグレー
-        },
-        success: "#10B981", // 緑（価格下落）
-        danger: "#EF4444", // 赤（価格上昇）
+          main: "#111827", // ほぼ黒
+          muted: "#6b7280", // グレー
+        }
       },
       boxShadow: {
-        card: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-        "card-hover": "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-      },
+        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
+        'card': '0 0 0 1px rgba(0,0,0,0.03), 0 2px 8px rgba(0,0,0,0.04)',
+      }
     },
   },
   plugins: [],

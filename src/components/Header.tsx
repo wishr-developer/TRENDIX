@@ -1,102 +1,40 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useCategory } from "@/contexts/CategoryContext";
+import { Search, ShoppingBag, Menu } from 'lucide-react';
+import Link from 'next/link';
 
-/**
- * ヘッダーコンポーネント（スティッキーヘッダー - ECメディア風）
- */
 export default function Header() {
-  const { selectedCategory, setSelectedCategory } = useCategory();
-
-  const categories = [
-    { id: "all", name: "すべて" },
-    { id: "computers", name: "パソコン" },
-    { id: "electronics", name: "家電" },
-    { id: "videogames", name: "ゲーム" },
-    { id: "kitchen", name: "キッチン" },
-    { id: "hpc", name: "ヘルスケア" },
-    { id: "beauty", name: "ビューティー" },
-    { id: "food", name: "食品" },
-    { id: "office", name: "文房具" },
-  ];
-
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-border shadow-sm">
-      {/* メインヘッダー */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 gap-4">
-          {/* ロゴ */}
-          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">P</span>
-            </div>
-            <span className="text-xl font-bold text-text-main">Price Watcher</span>
-          </Link>
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
+        {/* ロゴ */}
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">X</div>
+          <span className="text-xl font-bold tracking-tight text-slate-900">XIORA</span>
+        </Link>
 
-          {/* 検索バー（中央） */}
-          <div className="flex-1 max-w-2xl mx-4 hidden md:flex">
-            <div className="relative w-full">
-              <input
-                type="text"
-                placeholder="商品を検索..."
-                className="w-full h-10 px-4 pr-10 bg-surface border border-border rounded-full text-text-main placeholder:text-text-dim focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-              />
-              <button className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary hover:bg-accent rounded-full flex items-center justify-center transition-colors">
-                <svg
-                  className="w-4 h-4 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          {/* モバイル検索アイコン */}
-          <button className="md:hidden p-2 rounded-full hover:bg-surface transition-colors">
-            <svg
-              className="w-6 h-6 text-text-main"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
+        {/* 検索バー（PCでは中央、スマホでは非表示等の制御も可だが今回はシンプルに） */}
+        <div className="hidden md:flex flex-1 max-w-xl relative">
+          <input 
+            type="text" 
+            placeholder="何をお探しですか？（例: MacBook, スニーカー...）" 
+            className="w-full h-10 pl-4 pr-10 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+          />
+          <button className="absolute right-3 top-2.5 text-gray-400 hover:text-blue-600">
+            <Search size={18} />
           </button>
         </div>
-      </div>
 
-      {/* カテゴリナビゲーション */}
-      <div className="border-t border-border bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center gap-1 overflow-x-auto scrollbar-hide py-2">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`px-4 py-2 text-sm font-medium whitespace-nowrap rounded-md transition-colors ${
-                  selectedCategory === category.id
-                    ? "bg-primary text-white"
-                    : "text-text-muted hover:bg-surface hover:text-text-main"
-                }`}
-              >
-                {category.name}
-              </button>
-            ))}
-          </nav>
+        {/* 右側メニュー */}
+        <div className="flex items-center gap-4">
+          <button className="text-sm font-medium text-gray-600 hover:text-black hidden sm:block">カテゴリ</button>
+          <button className="text-sm font-medium text-gray-600 hover:text-black hidden sm:block">ランキング</button>
+          <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-full">
+            <ShoppingBag size={20} />
+          </button>
+          <button className="md:hidden p-2 text-gray-600">
+            <Menu size={20} />
+          </button>
         </div>
       </div>
     </header>
