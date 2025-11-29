@@ -1,0 +1,6 @@
+# Amazon商品URLを1行に1つずつ記入してください
+# コメント行（#で始まる行）は無視されます
+# 例:
+# https://www.amazon.co.jp/dp/B09JQ6K8M1
+# https://www.amazon.co.jp/dp/B09Y2MYL5T
+

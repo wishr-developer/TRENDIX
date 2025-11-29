@@ -39,38 +39,38 @@ export function ProductCard({ product, priceChange, priceChangePercentage }: Pro
     : "変動なし";
 
   return (
-    <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden border border-gray-200">
+    <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 card-hover">
       {/* 商品画像 */}
-      <div className="w-full h-48 bg-gray-100 overflow-hidden">
+      <div className="w-full h-52 bg-gray-50 overflow-hidden">
         <img
           src={product.imageUrl}
           alt={product.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />
       </div>
 
       {/* 商品情報 */}
-      <div className="p-6">
+      <div className="p-7">
         {/* 商品名 */}
-        <h2 className="text-xl font-semibold text-gray-900 mb-3 line-clamp-2">
+        <h2 className="text-lg font-semibold text-gray-900 mb-4 line-clamp-2 leading-snug">
           {product.name}
         </h2>
 
         {/* 現在価格と前日比 */}
-        <div className="mb-4">
-          <div className="flex items-baseline gap-2 mb-2">
-            <span className="text-3xl font-bold text-primary-600">
+        <div className="mb-5">
+          <div className="flex items-baseline gap-2 mb-3">
+            <span className="text-3xl font-bold text-gray-900">
               {formatPrice(product.currentPrice)}
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-600">前回比:</span>
+            <span className="text-xs text-gray-500 font-medium">前回比:</span>
             <span
-              className={`text-sm font-medium ${
+              className={`text-sm font-semibold ${
                 isPositive
                   ? "text-red-600"
                   : isNegative
-                  ? "text-blue-600"
+                  ? "text-primary-600"
                   : "text-gray-600"
               }`}
             >
@@ -86,7 +86,7 @@ export function ProductCard({ product, priceChange, priceChangePercentage }: Pro
         </div>
 
         {/* 価格推移グラフ */}
-        <div className="mb-4 h-32">
+        <div className="mb-5 h-36 bg-gray-50 rounded-lg p-2">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData}>
               <XAxis
@@ -125,7 +125,7 @@ export function ProductCard({ product, priceChange, priceChangePercentage }: Pro
           href={product.affiliateUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full bg-primary-600 hover:bg-primary-700 text-white text-center font-medium py-3 px-4 rounded-lg transition-colors duration-200"
+          className="block w-full bg-primary-600 hover:bg-primary-700 text-white text-center font-semibold py-3.5 px-4 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
         >
           Amazonで見る
         </a>
