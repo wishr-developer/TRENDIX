@@ -55,44 +55,60 @@ export default function Home() {
       .then(setProducts); 
   }, []);
 
-  // 検索フィルタリング
+  // 検索・ソート・フィルタリングロジック
   const filteredProducts = useMemo(() => {
-    if (!searchQuery.trim()) return products;
-    
-    const query = searchQuery.toLowerCase();
-    return products.filter(product => 
-      product.name.toLowerCase().includes(query)
-    );
-  }, [products, searchQuery]);
+    let result = [...products];
 
-  // ソート処理
-  const sortedProducts = useMemo(() => {
-    const sorted = [...filteredProducts];
-    
+    // 1. 検索フィルター（賢いバージョン）
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter((p: Product) => {
+        const name = p.name.toLowerCase();
+        
+        // 基本的な一致チェック
+        const isMatch = name.includes(query);
+        if (!isMatch) return false;
+
+        // 🚫 除外ロジック（ここを追加！）
+        // 「Apple」検索時に、「香り」「トリートメント」「シャンプー」などが含まれていたら除外
+        if (query === 'apple' || query === 'アップル') {
+          if (name.includes('香り') || name.includes('トリートメント') || name.includes('ヘア') || name.includes('ボディ') || name.includes('シャンプー')) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+    }
+
+    // 2. ソート
     switch (sortOption) {
       case 'recommended':
         // おすすめ順（スコア順）
-        return sorted.sort((a, b) => {
+        result.sort((a, b) => {
           const scoreA = calculateDealScore(a);
           const scoreB = calculateDealScore(b);
           return scoreB - scoreA;
         });
+        break;
       
       case 'discount':
         // 割引率が高い順
-        return sorted.sort((a, b) => {
+        result.sort((a, b) => {
           const discountA = calculateDiscountPercent(a);
           const discountB = calculateDiscountPercent(b);
           return discountB - discountA;
         });
+        break;
       
       case 'price':
         // 価格が安い順
-        return sorted.sort((a, b) => a.currentPrice - b.currentPrice);
+        result.sort((a, b) => a.currentPrice - b.currentPrice);
+        break;
       
       case 'newest':
         // 新着順（最新の価格履歴の日付順）
-        return sorted.sort((a, b) => {
+        result.sort((a, b) => {
           const dateA = a.priceHistory && a.priceHistory.length > 0 
             ? new Date(a.priceHistory[a.priceHistory.length - 1].date).getTime() 
             : 0;
@@ -101,11 +117,14 @@ export default function Home() {
             : 0;
           return dateB - dateA;
         });
-      
-      default:
-        return sorted;
+        break;
     }
-  }, [filteredProducts, sortOption]);
+
+    return result;
+  }, [products, searchQuery, sortOption]);
+
+  // ソート済みの商品リスト（後方互換性のため）
+  const sortedProducts = filteredProducts;
 
   // ベストバイ商品（スコアが最も高い商品）
   const bestDeal = sortedProducts.length > 0 && calculateDealScore(sortedProducts[0]) > 0 
