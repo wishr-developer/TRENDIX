@@ -2,19 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  color: #f0f0f0;
-  background: #020617;
-  min-height: 100vh;
+@layer base {
+  body {
+    @apply bg-background text-text-main antialiased;
+  }
 }
 
-.bg-grid {
-  background-size: 40px 40px;
-  background-image: linear-gradient(to right, rgba(30, 41, 59, 0.5) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(30, 41, 59, 0.5) 1px, transparent 1px);
-  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+/* 繊細なスクロールバー */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
-
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #020617; }
-::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-surfaceHighlight rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-text-dim;
+}
