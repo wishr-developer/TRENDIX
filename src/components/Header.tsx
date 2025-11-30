@@ -232,7 +232,7 @@ export default function Header({ onSearch, onRankingClick }: HeaderProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-trust-light">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
           {/* ロゴ */}
           <Link href={`/${locale}`} className="flex items-baseline gap-1" aria-label="TRENDIX ホームページに移動">
@@ -246,10 +246,10 @@ export default function Header({ onSearch, onRankingClick }: HeaderProps) {
               placeholder="何をお探しですか？（例: MacBook, スニーカー...）" 
               value={searchQuery}
               onChange={handleSearchChange}
-              className="w-full h-10 pl-4 pr-10 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+              className="w-full h-10 pl-4 pr-10 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust transition-all"
               aria-label="商品を検索"
             />
-            <button className="absolute right-3 top-2.5 text-gray-400 hover:text-blue-600" aria-label="検索">
+            <button className="absolute right-3 top-2.5 text-gray-400 hover:text-trust transition-colors" aria-label="検索">
               <Search size={18} />
             </button>
           </div>
@@ -279,7 +279,7 @@ export default function Header({ onSearch, onRankingClick }: HeaderProps) {
                         onClick={() => handleCategorySelect(category.id)}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${
                           selectedCategory === category.id
-                            ? 'bg-blue-50 text-blue-600 font-medium'
+                            ? 'bg-trust-light text-trust font-medium'
                             : 'text-gray-700'
                         }`}
                         aria-label={`${category.label}カテゴリを選択${selectedCategory === category.id ? '（選択中）' : ''}`}
@@ -372,10 +372,10 @@ export default function Header({ onSearch, onRankingClick }: HeaderProps) {
                   placeholder="何をお探しですか？（例: MacBook, スニーカー...）" 
                   value={searchQuery}
                   onChange={handleSearchChange}
-                  className="w-full h-12 pl-4 pr-12 bg-gray-50 border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                  className="w-full h-12 pl-4 pr-12 bg-gray-50 border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust transition-all"
                   aria-label="商品を検索"
                 />
-                <button className="absolute right-3 top-3 text-gray-400 hover:text-blue-600" aria-label="検索">
+                <button className="absolute right-3 top-3 text-gray-400 hover:text-trust transition-colors" aria-label="検索">
                   <Search size={20} />
                 </button>
               </div>

@@ -576,15 +576,20 @@ export default function Home() {
 
             {/* 統計カード */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-              {/* 監視商品数 */}
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200">
-                <div className="text-sm text-blue-700 font-medium mb-2">監視商品数</div>
-                <div className="text-4xl font-bold text-blue-900">{stats.totalProducts}</div>
-                <div className="text-xs text-blue-600 mt-1">商品をリアルタイム監視中</div>
+              {/* 監視商品数（信頼性カラー） */}
+              <div className="bg-gradient-to-br from-trust-light to-blue-50 rounded-xl p-6 border border-trust-light">
+                <div className="text-sm text-trust-dark font-medium mb-2">監視商品数</div>
+                <div className="text-4xl font-bold text-trust-dark">{stats.totalProducts}</div>
+                <div className="text-xs text-trust mt-1">商品をリアルタイム監視中</div>
               </div>
 
-              {/* 本日値下がり件数 */}
-              <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-6 border border-red-200">
+              {/* 本日値下がり件数（価格アンカリング強調） */}
+              <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-6 border-2 border-cta relative overflow-hidden">
+                <div className="absolute top-2 right-2">
+                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-bold text-white bg-cta shadow-md">
+                    🔥 お得
+                  </span>
+                </div>
                 <div className="text-sm text-red-700 font-medium mb-2">本日値下がり件数</div>
                 <div className="text-4xl font-bold text-red-900">{stats.dropsToday}</div>
                 <div className="text-xs text-red-600 mt-1">件の商品が値下がり</div>
