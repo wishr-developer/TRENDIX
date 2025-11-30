@@ -96,6 +96,48 @@ export async function POST(request: NextRequest) {
       console.warn('メール送信に失敗しましたが、アラート設定は続行します:', emailResult.error);
     }
 
+    // アラートデータを保存
+    const alertsFilePath = path.join(process.cwd(), 'data', 'alerts.json');
+    let alerts: Array<{
+      id: string;
+      asin: string;
+      email: string;
+      targetPrice: number;
+      createdAt: string;
+      notifiedAt?: string;
+      isActive: boolean;
+    }> = [];
+
+    // 既存のアラートデータを読み込む
+    try {
+      if (fs.existsSync(alertsFilePath)) {
+        const alertsContent = fs.readFileSync(alertsFilePath, 'utf8');
+        alerts = JSON.parse(alertsContent);
+      }
+    } catch (error) {
+      console.warn('既存のアラートデータの読み込みに失敗しました（新規作成します）:', error);
+    }
+
+    // 新しいアラートを追加
+    const newAlert = {
+      id: `${asin}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      asin,
+      email,
+      targetPrice,
+      createdAt: new Date().toISOString(),
+      isActive: true,
+    };
+
+    alerts.push(newAlert);
+
+    // アラートデータを保存
+    try {
+      fs.writeFileSync(alertsFilePath, JSON.stringify(alerts, null, 2), 'utf8');
+    } catch (error) {
+      console.error('アラートデータの保存に失敗しました:', error);
+      // 保存に失敗しても、メール送信は成功しているので続行
+    }
+
     // 成功レスポンス
     return NextResponse.json({
       success: true,
@@ -110,6 +152,7 @@ export async function POST(request: NextRequest) {
         emailSent: emailResult.success,
         emailMessageId: emailResult.messageId,
         createdAt: new Date().toISOString(),
+        alertId: newAlert.id,
       },
     });
   } catch (error) {

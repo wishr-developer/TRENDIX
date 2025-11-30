@@ -1,0 +1,51 @@
+name: Price Alert Scheduler
+
+on:
+  schedule:
+    # 毎週月曜日の朝8時（JST）に実行
+    # UTC時間で設定: JST = UTC + 9時間 → 月曜日 8:00 JST = 日曜日 23:00 UTC
+    # ただし、GitHub ActionsはUTC時間で動作するため、月曜日 8:00 JST = 日曜日 23:00 UTC
+    # cron形式: 分 時 日 月 曜日
+    - cron: '0 23 * * 0'  # 毎週日曜日 23:00 UTC = 月曜日 8:00 JST
+  workflow_dispatch:  # 手動実行も可能にする
+
+jobs:
+  check-alerts:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check Price Alerts
+        env:
+          VERCEL_URL: ${{ secrets.VERCEL_URL }}
+          ALERT_SECRET: ${{ secrets.ALERT_SECRET }}
+        run: |
+          if [ -z "$VERCEL_URL" ] || [ -z "$ALERT_SECRET" ]; then
+            echo "Error: VERCEL_URL or ALERT_SECRET is not set in GitHub Secrets"
+            exit 1
+          fi
+          
+          echo "Checking price alerts at $VERCEL_URL/api/alert-check"
+          
+          response=$(curl -s -w "\n%{http_code}" \
+            -H "Authorization: Bearer $ALERT_SECRET" \
+            "$VERCEL_URL/api/alert-check")
+          
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+          
+          echo "HTTP Status: $http_code"
+          echo "Response: $body"
+          
+          if [ "$http_code" -ne 200 ]; then
+            echo "Error: Alert check failed with status $http_code"
+            exit 1
+          fi
+          
+          # レスポンスから成功/失敗を判定
+          if echo "$body" | grep -q '"success":true'; then
+            echo "✅ Alert check completed successfully"
+          else
+            echo "❌ Alert check failed"
+            exit 1
+          fi
+

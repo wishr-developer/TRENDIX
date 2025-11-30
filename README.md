@@ -44,9 +44,12 @@ pnpm dev
 
 ### 3. 環境変数の設定（価格アラート機能を使用する場合）
 
-価格アラート機能（メール通知）を使用するには、Resend APIキーの設定が必要です。
+価格アラート機能（メール通知）を使用するには、以下の環境変数の設定が必要です。
 
-1. **Resendアカウントの作成**
+#### 必須環境変数
+
+1. **Resend APIキー** (`RESEND_API_KEY`)
+   - **Resendアカウントの作成**
    - [Resend](https://resend.com) にアクセスしてアカウントを作成します
    - API Keys セクションからAPIキーを取得します
 
@@ -61,16 +64,46 @@ RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 # 送信元メールアドレス（Resendで認証済みのドメインのメールアドレス）
 # 例: noreply@yourdomain.com
 RESEND_FROM_EMAIL=noreply@yourdomain.com
+
+# アラート監視ジョブの秘密トークン
+# ランダムな文字列を生成して設定してください（例: openssl rand -hex 32）
+ALERT_SECRET=your-random-secret-token-here
 ```
 
 3. **ドメインの認証（本番環境）**
    - Resendでドメインを認証する必要があります
    - 開発環境では、Resendが提供するテスト用メールアドレスを使用できます
 
+4. **Vercel環境変数の設定（本番環境）**
+   - Vercelダッシュボードの「Settings」→「Environment Variables」で以下を設定：
+     - `RESEND_API_KEY`: Resend APIキー
+     - `RESEND_FROM_EMAIL`: 送信元メールアドレス
+     - `ALERT_SECRET`: アラート監視ジョブの秘密トークン
+
+5. **GitHub Secretsの設定（バックグラウンドジョブ用）**
+   - GitHubリポジトリの「Settings」→「Secrets and variables」→「Actions」で以下を設定：
+     - `VERCEL_URL`: VercelにデプロイされたサイトのURL（例: `https://your-app.vercel.app`）
+     - `ALERT_SECRET`: アラート監視ジョブの秘密トークン（Vercelの環境変数と同じ値）
+   - **注意**: `ALERT_SECRET`は、Vercelの環境変数とGitHub Secretsで同じ値を使用してください。
+
+4. **Vercel環境変数の設定（本番環境）**
+   - Vercelダッシュボードの「Settings」→「Environment Variables」で以下を設定：
+     - `RESEND_API_KEY`: Resend APIキー
+     - `RESEND_FROM_EMAIL`: 送信元メールアドレス
+     - `ALERT_SECRET`: アラート監視ジョブの秘密トークン
+
+5. **GitHub Secretsの設定（バックグラウンドジョブ用）**
+   - GitHubリポジトリの「Settings」→「Secrets and variables」→「Actions」で以下を設定：
+     - `VERCEL_URL`: VercelにデプロイされたサイトのURL（例: `https://your-app.vercel.app`）
+     - `ALERT_SECRET`: アラート監視ジョブの秘密トークン（Vercelの環境変数と同じ値）
+   - **注意**: `ALERT_SECRET`は、Vercelの環境変数とGitHub Secretsで同じ値を使用してください。
+
 **注意事項:**
 - `.env.local` ファイルは `.gitignore` に含まれているため、Gitにコミットされません
 - APIキーは機密情報のため、絶対に公開リポジトリにコミットしないでください
 - メール送信機能を使用しない場合でも、アラート設定自体は動作します（メール送信のみスキップされます）
+- バックグラウンドジョブは、GitHub Actionsで毎週月曜日の朝8時（JST）に自動実行されます
+- バックグラウンドジョブは、GitHub Actionsで毎週月曜日の朝8時（JST）に自動実行されます
 
 ### 4. Google Analytics 4 (GA4) の設定（オプション）
 
@@ -324,6 +357,37 @@ python3 scripts/validate_data.py
 
 このスクリプトにより、データの整合性を定期的に確認し、問題を早期に発見できます。
 
+## 価格アラートのバックグラウンドジョブ
+
+価格アラート機能では、ユーザーが設定したアラートを定期的にチェックし、目標価格に達した際に自動でメール通知を送信します。
+
+### 仕組み
+
+1. **アラート設定**: ユーザーが商品ページでアラートを設定すると、`data/alerts.json`に保存されます
+2. **定期チェック**: GitHub Actionsが毎週月曜日の朝8時（JST）に`/api/alert-check`を呼び出します
+3. **価格チェック**: 各アラートの商品価格を確認し、目標価格以下になった場合に通知メールを送信します
+4. **通知後処理**: 通知済みのアラートは非アクティブになり、重複通知を防ぎます
+
+### 手動実行
+
+GitHub Actionsのワークフローを手動で実行することもできます：
+
+1. GitHubリポジトリの「Actions」タブに移動
+2. 「Price Alert Scheduler」ワークフローを選択
+3. 「Run workflow」ボタンをクリック
+
+### トラブルシューティング
+
+- **アラートが動作しない場合**:
+  - `ALERT_SECRET`がVercelとGitHub Secretsの両方で正しく設定されているか確認
+  - `VERCEL_URL`が正しいURLに設定されているか確認
+  - GitHub Actionsの実行ログを確認
+
+- **メールが送信されない場合**:
+  - `RESEND_API_KEY`が正しく設定されているか確認
+  - Resendのダッシュボードでメール送信履歴を確認
+  - アラートデータ（`data/alerts.json`）が正しく保存されているか確認
+
 ## 商品詳細ページ
 
 各商品には専用の詳細ページ（`/products/[asin]`）が用意されています。
@@ -385,7 +449,8 @@ python3 scripts/validate_data.py
 
 - **アラート設定**: 商品カードから「値下がり通知を受け取る」ボタンをクリックして設定
 - **確認メール**: アラート設定時に確認メールを送信
-- **通知メール**: 価格が目標価格に達した際に通知メールを送信（将来実装予定）
+- **通知メール**: 価格が目標価格に達した際に通知メールを自動送信（GitHub Actionsで定期チェック）
+- **バックグラウンドジョブ**: 毎週月曜日の朝8時（JST）に自動で価格をチェック
 
 ### セットアップ要件
 

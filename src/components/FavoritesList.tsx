@@ -128,6 +128,7 @@ export default function FavoritesList({ allProducts, onAlertClick }: FavoritesLi
             product={product}
             onAlertClick={onAlertClick}
             onFavoriteToggle={handleFavoriteToggle}
+            isPriority={false}
           />
         ))}
       </div>

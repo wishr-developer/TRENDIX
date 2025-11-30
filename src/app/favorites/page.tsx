@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import FavoritesList from '@/components/FavoritesList';
+import FavoritesPageClient from '@/components/FavoritesPageClient';
 import { Product } from '@/types/product';
 import fs from 'fs';
 import path from 'path';
@@ -51,9 +51,8 @@ export default async function FavoritesPage() {
   return (
     <div className="min-h-screen bg-[#f8f9fa]">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <FavoritesList allProducts={allProducts} />
+        <FavoritesPageClient allProducts={allProducts} />
       </div>
     </div>
   );
 }
-

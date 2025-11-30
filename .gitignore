@@ -65,3 +65,6 @@ venv/
 env/
 ENV/
 
+# Alert data (機密情報を含む可能性があるため)
+data/alerts.json
+
