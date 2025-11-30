@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { ExternalLink } from 'lucide-react';
 import { Product } from '@/types/product';
-import { AreaChart, Area, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, ResponsiveContainer, LineChart, Line } from 'recharts';
 
 interface ProductCardProps {
   product: Product;
@@ -11,6 +11,14 @@ interface ProductCardProps {
 }
 
 type PeriodType = '7D' | '30D' | 'ALL';
+
+/**
+ * URLからASINを抽出
+ */
+function extractASIN(url: string): string | null {
+  const match = url.match(/\/dp\/([A-Z0-9]{10})|\/gp\/product\/([A-Z0-9]{10})/);
+  return match ? (match[1] || match[2]) : null;
+}
 
 /**
  * カテゴリを推測する関数
@@ -45,6 +53,36 @@ function guessCategory(product: Product): string {
 }
 
 /**
+ * Deal Scoreを計算
+ */
+function calculateDealScore(product: Product): number {
+  const history = product.priceHistory || [];
+  if (history.length < 2) return 0;
+
+  const latest = product.currentPrice;
+  const prev = history[history.length - 2].price;
+  const diff = latest - prev;
+  
+  if (diff >= 0) return 0;
+  
+  const discountPercent = prev > 0 ? (Math.abs(diff) / prev) * 100 : 0;
+  const score = Math.min(discountPercent * 2, 100);
+  
+  return Math.round(score);
+}
+
+/**
+ * 過去最安値を取得
+ */
+function getLowestPrice(product: Product): number | null {
+  const history = product.priceHistory || [];
+  if (history.length === 0) return null;
+  
+  const prices = history.map(h => h.price);
+  return Math.min(...prices, product.currentPrice);
+}
+
+/**
  * 期間に基づいて価格推移データをフィルタリング
  */
 function prepareChartData(product: Product, period: PeriodType): Array<{ price: number }> {
@@ -57,19 +95,16 @@ function prepareChartData(product: Product, period: PeriodType): Array<{ price: 
   let filteredHistory = [...history];
 
   if (period === '7D') {
-    // 過去7日分（末尾から7件）
     filteredHistory = history.slice(-7);
   } else if (period === '30D') {
-    // 過去30日分（末尾から30件）
     filteredHistory = history.slice(-30);
   }
-  // 'ALL'の場合は全て
 
   return filteredHistory.map(h => ({ price: h.price }));
 }
 
 /**
- * グラフの色を決定
+ * グラフの色を決定（値下がり=赤、値上がり=青、変動なし=グレー）
  */
 function getChartColor(product: Product): string {
   const history = product.priceHistory || [];
@@ -79,8 +114,8 @@ function getChartColor(product: Product): string {
   const prev = history[history.length - 2].price;
   const diff = latest - prev;
   
-  if (diff < 0) return '#10b981'; // 緑（値下がり）
-  if (diff > 0) return '#ef4444'; // 赤（値上がり）
+  if (diff < 0) return '#EF4444'; // 赤（値下がり）
+  if (diff > 0) return '#3B82F6'; // 青（値上がり）
   return '#9ca3af'; // グレー（変動なし）
 }
 
@@ -93,6 +128,17 @@ export default function ProductCard({ product }: ProductCardProps) {
   const diff = latest - prev;
   const isCheaper = diff < 0;
   const isExpensive = diff > 0;
+  
+  // 価格変動のパーセンテージ
+  const percentChange = prev > 0 ? Math.round((Math.abs(diff) / prev) * 100 * 10) / 10 : 0;
+  
+  // 過去最安値
+  const lowestPrice = getLowestPrice(product);
+  const diffFromLowest = lowestPrice !== null ? latest - lowestPrice : null;
+  const isLowestPrice = lowestPrice !== null && latest === lowestPrice;
+  
+  // Deal Score
+  const dealScore = calculateDealScore(product);
   
   const category = guessCategory(product);
   const chartData = prepareChartData(product, selectedPeriod);
@@ -129,7 +175,35 @@ export default function ProductCard({ product }: ProductCardProps) {
             {product.name}
           </h3>
 
-          {/* 期間選択ボタンと価格推移グラフ */}
+          {/* AI Deal Score */}
+          {dealScore > 0 && (
+            <div className="text-xs font-bold text-purple-600">
+              AI Deal Score: {dealScore}/100
+            </div>
+          )}
+
+          {/* 価格変動情報 */}
+          {diff !== 0 && (
+            <div className={`text-xs font-semibold ${
+              isCheaper ? 'text-price-drop' : 'text-price-up'
+            }`}>
+              {isCheaper ? '↓' : '↑'} ¥{Math.abs(diff).toLocaleString()} ({percentChange}%)
+            </div>
+          )}
+
+          {/* 最安値との差 */}
+          {diffFromLowest !== null && !isLowestPrice && (
+            <div className="text-xs text-gray-600">
+              最安値との差: {diffFromLowest > 0 ? '+' : ''}¥{diffFromLowest.toLocaleString()}
+            </div>
+          )}
+          {isLowestPrice && (
+            <div className="text-xs font-bold text-yellow-600">
+              🏆 過去最安値
+            </div>
+          )}
+
+          {/* 期間選択ボタンと価格推移グラフ（スパークライン） */}
           <div className="space-y-1">
             {/* 期間選択ボタン */}
             <div className="flex gap-1">
@@ -152,25 +226,18 @@ export default function ProductCard({ product }: ProductCardProps) {
               ))}
             </div>
 
-            {/* 価格推移グラフ */}
+            {/* 価格推移グラフ（スパークライン） */}
             <div className="h-10 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData}>
-                  <defs>
-                    <linearGradient id={`gradient-${product.id}`} x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor={chartColor} stopOpacity={0.3} />
-                      <stop offset="95%" stopColor={chartColor} stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <Area
+                <LineChart data={chartData}>
+                  <Line
                     type="monotone"
                     dataKey="price"
                     stroke={chartColor}
                     strokeWidth={2}
-                    fill={`url(#gradient-${product.id})`}
                     dot={false}
                   />
-                </AreaChart>
+                </LineChart>
               </ResponsiveContainer>
             </div>
           </div>
@@ -186,14 +253,6 @@ export default function ProductCard({ product }: ProductCardProps) {
               <span className="text-lg font-bold text-gray-900">
                 ¥{latest.toLocaleString()}
               </span>
-              {/* 価格変動額の表示 */}
-              {diff !== 0 && (
-                <span className={`text-xs font-semibold ${
-                  isCheaper ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {isCheaper ? '-' : '+'}¥{Math.abs(diff).toLocaleString()}
-                </span>
-              )}
             </div>
             <button 
               onClick={(e) => e.preventDefault()}
@@ -227,7 +286,35 @@ export default function ProductCard({ product }: ProductCardProps) {
             {product.name}
           </h3>
 
-          {/* 期間選択ボタンと価格推移グラフ */}
+          {/* AI Deal Score */}
+          {dealScore > 0 && (
+            <div className="text-xs font-bold text-purple-600">
+              AI Deal Score: {dealScore}/100
+            </div>
+          )}
+
+          {/* 価格変動情報 */}
+          {diff !== 0 && (
+            <div className={`text-sm font-semibold ${
+              isCheaper ? 'text-price-drop' : 'text-price-up'
+            }`}>
+              {isCheaper ? '↓' : '↑'} ¥{Math.abs(diff).toLocaleString()} ({percentChange}%)
+            </div>
+          )}
+
+          {/* 最安値との差 */}
+          {diffFromLowest !== null && !isLowestPrice && (
+            <div className="text-xs text-gray-600">
+              最安値との差: {diffFromLowest > 0 ? '+' : ''}¥{diffFromLowest.toLocaleString()}
+            </div>
+          )}
+          {isLowestPrice && (
+            <div className="text-xs font-bold text-yellow-600">
+              🏆 過去最安値
+            </div>
+          )}
+
+          {/* 期間選択ボタンと価格推移グラフ（スパークライン） */}
           <div className="space-y-1">
             {/* 期間選択ボタン */}
             <div className="flex gap-1">
@@ -250,25 +337,18 @@ export default function ProductCard({ product }: ProductCardProps) {
               ))}
             </div>
 
-            {/* 価格推移グラフ */}
+            {/* 価格推移グラフ（スパークライン） */}
             <div className="h-10 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData}>
-                  <defs>
-                    <linearGradient id={`gradient-pc-${product.id}`} x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor={chartColor} stopOpacity={0.3} />
-                      <stop offset="95%" stopColor={chartColor} stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <Area
+                <LineChart data={chartData}>
+                  <Line
                     type="monotone"
                     dataKey="price"
                     stroke={chartColor}
                     strokeWidth={2}
-                    fill={`url(#gradient-pc-${product.id})`}
                     dot={false}
                   />
-                </AreaChart>
+                </LineChart>
               </ResponsiveContainer>
             </div>
           </div>
@@ -284,14 +364,6 @@ export default function ProductCard({ product }: ProductCardProps) {
               <span className="text-xl font-bold text-gray-900">
                 ¥{latest.toLocaleString()}
               </span>
-              {/* 価格変動額の表示 */}
-              {diff !== 0 && (
-                <span className={`text-sm font-semibold ${
-                  isCheaper ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {isCheaper ? '-' : '+'}¥{Math.abs(diff).toLocaleString()}
-                </span>
-              )}
             </div>
             <button 
               onClick={(e) => e.preventDefault()}

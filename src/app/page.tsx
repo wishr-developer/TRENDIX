@@ -25,6 +25,14 @@ function calculateDealScore(product: Product): number {
   return Math.round(score);
 }
 
+/**
+ * URLからASINを抽出（重複防止用）
+ */
+function extractASIN(url: string): string | null {
+  const match = url.match(/\/dp\/([A-Z0-9]{10})|\/gp\/product\/([A-Z0-9]{10})/);
+  return match ? (match[1] || match[2]) : null;
+}
+
 type TabType = 'drops' | 'new' | 'ranking' | 'all';
 
 export default function Home() {
@@ -38,9 +46,59 @@ export default function Home() {
       .then(setProducts); 
   }, []);
 
+  // 重複防止（ASINベースでフィルタリング）
+  const uniqueProducts = useMemo(() => {
+    const seenASINs = new Set<string>();
+    const unique: Product[] = [];
+    
+    for (const product of products) {
+      const asin = extractASIN(product.affiliateUrl);
+      if (asin && !seenASINs.has(asin)) {
+        seenASINs.add(asin);
+        unique.push(product);
+      } else if (!asin) {
+        // ASINが抽出できない場合はidベースで重複チェック
+        if (!unique.find(p => p.id === product.id)) {
+          unique.push(product);
+        }
+      }
+    }
+    
+    return unique;
+  }, [products]);
+
+  // 統計情報を計算
+  const stats = useMemo(() => {
+    const totalProducts = uniqueProducts.length;
+    
+    // 本日値下がり件数
+    const dropsToday = uniqueProducts.filter((p) => {
+      const history = p.priceHistory || [];
+      if (history.length < 2) return false;
+      const latest = p.currentPrice;
+      const prev = history[history.length - 2].price;
+      return latest < prev;
+    }).length;
+    
+    // 最安値更新件数（現在価格が過去最安値と同じ）
+    const lowestPriceUpdates = uniqueProducts.filter((p) => {
+      const history = p.priceHistory || [];
+      if (history.length === 0) return false;
+      const prices = history.map(h => h.price);
+      const lowest = Math.min(...prices, p.currentPrice);
+      return p.currentPrice === lowest && history.length >= 2;
+    }).length;
+    
+    return {
+      totalProducts,
+      dropsToday,
+      lowestPriceUpdates,
+    };
+  }, [uniqueProducts]);
+
   // タブに応じたフィルタリング
   const filteredProducts = useMemo(() => {
-    let result = [...products];
+    let result = [...uniqueProducts];
 
     // 検索フィルター
     if (searchQuery.trim()) {
@@ -120,17 +178,17 @@ export default function Home() {
     }
 
     return result;
-  }, [products, searchQuery, activeTab]);
+  }, [uniqueProducts, searchQuery, activeTab]);
 
   // トレンドTOP3（スコア順）
   const trendProducts = useMemo(() => {
-    const sorted = [...products].sort((a, b) => {
+    const sorted = [...uniqueProducts].sort((a, b) => {
       const scoreA = calculateDealScore(a);
       const scoreB = calculateDealScore(b);
       return scoreB - scoreA;
     });
     return sorted.filter(p => calculateDealScore(p) > 0).slice(0, 3);
-  }, [products]);
+  }, [uniqueProducts]);
 
   const tabs: Array<{ id: TabType; label: string; emoji: string }> = [
     { id: 'drops', label: '値下がり速報', emoji: '🔥' },
@@ -143,17 +201,44 @@ export default function Home() {
     <>
       <Header onSearch={setSearchQuery} />
       <div className="pb-20 bg-[#f8f9fa] min-h-screen">
-        {/* Liveヘッダー */}
-        <div className="bg-gradient-to-r from-red-50 to-orange-50 border-b border-red-200 py-3 px-4">
-          <div className="container mx-auto max-w-7xl flex items-center justify-center gap-3">
-            <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-            </span>
-            <span className="text-sm font-bold text-gray-900">Xiora Live Market</span>
-            <span className="text-xs text-gray-600">現在 {products.length}商品をリアルタイム監視中</span>
+        {/* 統計サマリーエリア（ヘッダー直下） */}
+        <section className="bg-white border-b border-gray-200 py-8 px-4">
+          <div className="container mx-auto max-w-7xl">
+            {/* メインメッセージ */}
+            <div className="text-center mb-8">
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+                買い時の商品が、<span className="text-blue-600">一瞬でわかる。</span>
+              </h1>
+              <p className="text-gray-600 text-sm md:text-base">
+                Amazonの価格変動を24時間365日監視中
+              </p>
+            </div>
+
+            {/* 統計カード */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+              {/* 監視商品数 */}
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200">
+                <div className="text-sm text-blue-700 font-medium mb-2">監視商品数</div>
+                <div className="text-4xl font-bold text-blue-900">{stats.totalProducts}</div>
+                <div className="text-xs text-blue-600 mt-1">商品をリアルタイム監視中</div>
+              </div>
+
+              {/* 本日値下がり件数 */}
+              <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-6 border border-red-200">
+                <div className="text-sm text-red-700 font-medium mb-2">本日値下がり件数</div>
+                <div className="text-4xl font-bold text-red-900">{stats.dropsToday}</div>
+                <div className="text-xs text-red-600 mt-1">件の商品が値下がり</div>
+              </div>
+
+              {/* 最安値更新件数 */}
+              <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-6 border border-yellow-200">
+                <div className="text-sm text-yellow-700 font-medium mb-2">最安値更新件数</div>
+                <div className="text-4xl font-bold text-yellow-900">{stats.lowestPriceUpdates}</div>
+                <div className="text-xs text-yellow-600 mt-1">件が過去最安値を更新</div>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
 
         {/* 本日のトレンド（TOP3カルーセル） */}
         {trendProducts.length > 0 && !searchQuery && (
@@ -233,7 +318,7 @@ export default function Home() {
                 「{searchQuery}」の検索結果
               </h2>
               <span className="text-sm text-gray-500">
-                {filteredProducts.length}件 / 全{products.length}件
+                {filteredProducts.length}件 / 全{uniqueProducts.length}件
               </span>
             </div>
           )}

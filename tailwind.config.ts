@@ -18,6 +18,8 @@ const config: Config = {
         border: "#e9ecef",
         primary: "#2563eb", // 鮮やかな青
         danger: "#ef4444",  // セール価格用の赤
+        'price-drop': '#EF4444', // 値下がり（赤）
+        'price-up': '#3B82F6', // 値上がり（青）
         text: {
           main: "#111827", // ほぼ黒
           muted: "#6b7280", // グレー
