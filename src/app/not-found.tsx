@@ -3,6 +3,8 @@ import { Home } from 'lucide-react';
 
 /**
  * 404 Not Found ページ
+ * Next.js App Routerでは、このファイルは app/not-found.tsx に配置する必要があります
+ * layout.tsxでFooterが既に含まれているため、ここでは追加しません
  */
 export default function NotFound() {
   return (
@@ -21,8 +23,9 @@ export default function NotFound() {
         <Link
           href="/"
           className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+          aria-label="ホームページに戻る"
         >
-          <Home size={20} />
+          <Home size={20} aria-hidden="true" />
           <span>ホームに戻る</span>
         </Link>
       </div>

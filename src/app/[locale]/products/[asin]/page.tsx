@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, ExternalLink, TrendingDown, TrendingUp, Minus, Trophy } from 'lucide-react';
 import { Product } from '@/types/product';
 import dynamic from 'next/dynamic';
+import { getTranslations } from 'next-intl/server';
 
 // rechartsはクライアントコンポーネントとして動的インポート
 const PriceChart = dynamic(() => import('@/components/PriceChart'), { ssr: false });
@@ -72,7 +73,7 @@ async function getProduct(asin: string): Promise<Product | null> {
 /**
  * 動的メタデータを生成
  */
-export async function generateMetadata({ params }: { params: Promise<{ asin: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; asin: string }> }): Promise<Metadata> {
   const { asin } = await params;
   const product = await getProduct(asin);
 
@@ -102,8 +103,8 @@ export async function generateMetadata({ params }: { params: Promise<{ asin: str
 /**
  * 商品詳細ページ
  */
-export default async function ProductDetailPage({ params }: { params: Promise<{ asin: string }> }) {
-  const { asin } = await params;
+export default async function ProductDetailPage({ params }: { params: Promise<{ locale: string; asin: string }> }) {
+  const { locale, asin } = await params;
   const product = await getProduct(asin);
 
   if (!product) {
@@ -138,7 +139,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       <div className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <Link
-            href="/"
+            href={`/${locale}`}
             className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
           >
             <ArrowLeft size={20} />

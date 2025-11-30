@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Bell, ExternalLink, Heart } from 'lucide-react';
 import Image from 'next/image';
+import { useLocale } from 'next-intl';
 import { Product } from '@/types/product';
 import { ResponsiveContainer, LineChart, Line } from 'recharts';
 import DealScoreTooltip from './DealScoreTooltip';

@@ -3,6 +3,7 @@
 import { Search, ShoppingBag, X, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
+import { useLocale } from 'next-intl';
 import { useCategory } from '@/contexts/CategoryContext';
 import { usePathname } from 'next/navigation';
 
@@ -12,6 +13,7 @@ import { usePathname } from 'next/navigation';
 function FavoriteButton() {
   const [favoriteCount, setFavoriteCount] = useState(0);
   const pathname = usePathname();
+  const locale = useLocale();
 
   // localStorageからお気に入り数を取得
   useEffect(() => {
@@ -40,11 +42,11 @@ function FavoriteButton() {
   }, []);
 
   // お気に入りページにいる場合はアクティブスタイルを適用
-  const isActive = pathname === '/favorites';
+  const isActive = pathname === `/${locale}/favorites` || pathname === '/favorites';
 
   return (
     <Link
-      href="/favorites"
+      href={`/${locale}/favorites`}
       className={`p-2 text-gray-600 hover:bg-gray-100 rounded-full relative transition-colors ${
         isActive ? 'bg-gray-100 text-gray-900' : ''
       }`}
@@ -89,6 +91,7 @@ export default function Header({ onSearch, onRankingClick }: HeaderProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const categoryMenuRef = useRef<HTMLDivElement>(null);
   const { selectedCategory, setSelectedCategory } = useCategory();
+  const locale = useLocale();
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -232,7 +235,7 @@ export default function Header({ onSearch, onRankingClick }: HeaderProps) {
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
           {/* ロゴ */}
-          <Link href="/" className="flex items-baseline gap-1" aria-label="TRENDIX ホームページに移動">
+          <Link href={`/${locale}`} className="flex items-baseline gap-1" aria-label="TRENDIX ホームページに移動">
             <span className="text-2xl font-bold tracking-tight text-slate-900">TRENDIX</span>
           </Link>
 
@@ -300,7 +303,7 @@ export default function Header({ onSearch, onRankingClick }: HeaderProps) {
               </button>
             ) : (
               <Link 
-                href="/" 
+                href={`/${locale}`} 
                 className="text-sm font-medium text-gray-600 hover:text-black hidden sm:block"
                 aria-label="ランキングページに移動"
               >

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useLocale } from 'next-intl';
 import { Heart, ArrowRight } from 'lucide-react';
 import ProductCard from '@/components/ProductCard';
 import { Product } from '@/types/product';
@@ -28,6 +29,7 @@ export default function FavoritesList({ allProducts, onAlertClick, searchQuery =
   const [favoriteASINs, setFavoriteASINs] = useState<string[]>([]);
   const [favoriteProducts, setFavoriteProducts] = useState<Product[]>([]);
   const router = useRouter();
+  const locale = useLocale();
 
   // お気に入りASINのリストを取得・更新
   const updateFavorites = useCallback(() => {
@@ -107,7 +109,7 @@ export default function FavoritesList({ allProducts, onAlertClick, searchQuery =
             }
           </p>
           <Link
-            href="/"
+            href={`/${locale}`}
             className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
           >
             <span>トレンド商品を見る</span>

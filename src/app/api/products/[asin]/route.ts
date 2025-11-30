@@ -16,10 +16,10 @@ function extractASIN(url: string): string | null {
  */
 export async function GET(
   request: Request,
-  { params }: { params: { asin: string } }
+  { params }: { params: Promise<{ asin: string }> }
 ) {
   try {
-    const { asin } = params;
+    const { asin } = await params;
     
     // ASINのバリデーション
     if (!asin || asin.length !== 10) {

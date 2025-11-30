@@ -65,7 +65,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja">
+    <html lang="ja" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -91,14 +91,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </>
         )}
       </head>
-      <body className="flex flex-col min-h-screen bg-white text-slate-900">
+      <body className="flex flex-col min-h-screen bg-white text-slate-900" suppressHydrationWarning>
         <WebVitals />
         {isGAEnabled && <GATracker />}
         <CategoryProvider>
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
+          {children}
         </CategoryProvider>
       </body>
     </html>
