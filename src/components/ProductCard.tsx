@@ -105,8 +105,8 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
   const isCheaper = diff < 0;
   const isExpensive = diff > 0;
   
-  // ASINを取得
-  const asin = extractASIN(product.affiliateUrl);
+  // ASINを取得（product.asinフィールドを優先、なければURLから抽出）
+  const asin = product.asin || extractASIN(product.affiliateUrl);
   
   // お気に入り状態をローカルストレージから読み込み
   useEffect(() => {
@@ -216,11 +216,12 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
     }
   };
 
+  // 商品詳細ページへのリンクURLを生成
+  const detailUrl = asin ? `/products/${asin}` : product.affiliateUrl;
+
   return (
     <a
-      href={product.affiliateUrl}
-      target="_blank"
-      rel="noopener noreferrer"
+      href={detailUrl}
       onClick={handleCardClick}
       className="group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-100 flex flex-col h-full relative"
     >
@@ -354,10 +355,21 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
                   <span>値下がり通知を受け取る</span>
                 </button>
               )}
-              <div className="flex items-center justify-center px-3 py-2 text-xs font-medium text-blue-600 hover:text-blue-700 rounded-lg transition-colors">
+              <a
+                href={product.affiliateUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  e.nativeEvent.stopImmediatePropagation();
+                  window.open(product.affiliateUrl, '_blank', 'noopener,noreferrer');
+                }}
+                className="flex items-center justify-center px-3 py-2 text-xs font-medium text-blue-600 hover:text-blue-700 rounded-lg transition-colors"
+              >
                 <span>今の価格を確認</span>
                 <ExternalLink size={12} className="ml-1" />
-              </div>
+              </a>
             </div>
           </div>
         </div>

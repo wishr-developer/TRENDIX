@@ -4,7 +4,6 @@ import { useState, useEffect, useMemo } from 'react';
 import ProductCard from '@/components/ProductCard';
 import Header from '@/components/Header';
 import AlertModal from '@/components/AlertModal';
-import FavoriteModal from '@/components/FavoriteModal';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import VirtualProductList from '@/components/VirtualProductList';
 import { Product } from '@/types/product';
@@ -49,7 +48,6 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<TabType>('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isFavoriteModalOpen, setIsFavoriteModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   // ページネーションは仮想スクロールで不要のため削除
@@ -550,26 +548,11 @@ export default function Home() {
           // ページトップにスクロール（仮想スクロールではページネーション不要）
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
-        onFavoriteClick={() => {
-          setIsFavoriteModalOpen(true);
-        }}
       />
       <AlertModal 
         isOpen={isModalOpen} 
         onClose={handleCloseModal} 
         product={selectedProduct} 
-      />
-      <FavoriteModal
-        isOpen={isFavoriteModalOpen}
-        onClose={() => setIsFavoriteModalOpen(false)}
-        products={favoriteProducts}
-        onAlertClick={handleAlertClick}
-        onFavoriteToggle={(asin, isFavorite) => {
-          // お気に入りが削除された場合、モーダルを閉じる（商品が0件になった場合）
-          if (!isFavorite && favoriteProducts.length === 1) {
-            setIsFavoriteModalOpen(false);
-          }
-        }}
       />
       <div className="pb-20 bg-[#f8f9fa] min-h-screen">
         {/* 統計サマリーエリア（ヘッダー直下） */}

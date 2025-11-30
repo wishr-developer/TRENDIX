@@ -4,12 +4,14 @@ import { Search, ShoppingBag, X, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useCategory } from '@/contexts/CategoryContext';
+import { usePathname } from 'next/navigation';
 
 /**
  * お気に入りボタンコンポーネント（お気に入り数を表示）
  */
-function FavoriteButton({ onFavoriteClick }: { onFavoriteClick?: () => void }) {
+function FavoriteButton() {
   const [favoriteCount, setFavoriteCount] = useState(0);
+  const pathname = usePathname();
 
   // localStorageからお気に入り数を取得
   useEffect(() => {
@@ -37,10 +39,15 @@ function FavoriteButton({ onFavoriteClick }: { onFavoriteClick?: () => void }) {
     };
   }, []);
 
+  // お気に入りページにいる場合はアクティブスタイルを適用
+  const isActive = pathname === '/favorites';
+
   return (
-    <button 
-      onClick={onFavoriteClick}
-      className="p-2 text-gray-600 hover:bg-gray-100 rounded-full relative transition-colors" 
+    <Link
+      href="/favorites"
+      className={`p-2 text-gray-600 hover:bg-gray-100 rounded-full relative transition-colors ${
+        isActive ? 'bg-gray-100 text-gray-900' : ''
+      }`}
       aria-label="お気に入り一覧"
     >
       <ShoppingBag size={20} />
@@ -50,14 +57,13 @@ function FavoriteButton({ onFavoriteClick }: { onFavoriteClick?: () => void }) {
           {favoriteCount > 9 ? '9+' : favoriteCount}
         </span>
       )}
-    </button>
+    </Link>
   );
 }
 
 interface HeaderProps {
   onSearch?: (query: string) => void;
   onRankingClick?: () => void;
-  onFavoriteClick?: () => void;
 }
 
 // カテゴリリスト
@@ -74,7 +80,7 @@ const categories = [
   { id: 'その他', label: 'その他' },
 ];
 
-export default function Header({ onSearch, onRankingClick, onFavoriteClick }: HeaderProps) {
+export default function Header({ onSearch, onRankingClick }: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
@@ -299,7 +305,7 @@ export default function Header({ onSearch, onRankingClick, onFavoriteClick }: He
             )}
 
             {/* お気に入りアイコン（ショッピングバッグ） */}
-            <FavoriteButton onFavoriteClick={onFavoriteClick} />
+            <FavoriteButton />
 
             {/* モバイル: 検索アイコン */}
             <button 
