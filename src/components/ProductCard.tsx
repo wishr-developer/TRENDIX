@@ -12,6 +12,7 @@ interface ProductCardProps {
   rank?: number;
   onAlertClick?: (product: Product) => void;
   onFavoriteToggle?: (asin: string, isFavorite: boolean) => void;
+  isPriority?: boolean; // 画像の優先読み込みフラグ（LCP改善用）
 }
 
 type PeriodType = '7D' | '30D' | 'ALL';
@@ -92,7 +93,7 @@ function getChartColor(product: Product): string {
   return '#9ca3af'; // グレー（変動なし）
 }
 
-export default function ProductCard({ product, onAlertClick, onFavoriteToggle }: ProductCardProps) {
+export default function ProductCard({ product, onAlertClick, onFavoriteToggle, isPriority = false }: ProductCardProps) {
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>('ALL');
   const [isFavorite, setIsFavorite] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -239,7 +240,8 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle }:
                 width={96}
                 height={96}
                 className="object-contain mix-blend-multiply p-2"
-                loading="lazy"
+                priority={isPriority}
+                loading={isPriority ? undefined : "lazy"}
                 onError={() => setImageError(true)}
               />
             )}
@@ -375,7 +377,8 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle }:
               alt={product.name}
               fill
               className="object-contain mix-blend-multiply p-4"
-              loading="lazy"
+              priority={isPriority}
+              loading={isPriority ? undefined : "lazy"}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               onError={() => setImageError(true)}
             />

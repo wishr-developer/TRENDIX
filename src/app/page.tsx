@@ -416,9 +416,10 @@ export default function Home() {
     setSelectedProduct(null);
   };
 
-  // 構造化データ（JSON-LD）の生成
+  // 構造化データ（JSON-LD）の生成（表示中の商品のみに限定）
   const structuredData = useMemo(() => {
-    const productStructuredData = filteredProducts
+    // ページネーション済みの商品（現在画面に表示されている商品のみ）から生成
+    const productStructuredData = paginatedProducts
       .filter(product => {
         const asin = extractASIN(product.affiliateUrl);
         return asin !== null;
@@ -479,7 +480,7 @@ export default function Home() {
       products: productStructuredData,
       breadcrumb: breadcrumbStructuredData,
     };
-  }, [filteredProducts, selectedCategory, categories]);
+  }, [paginatedProducts, selectedCategory, categories]);
 
   // 動的なページタイトルを生成
   const pageTitle = useMemo(() => {
@@ -823,10 +824,11 @@ export default function Home() {
               ) : (
                 <>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                    {paginatedProducts.map((p) => (
+                    {paginatedProducts.map((p, index) => (
                       <ProductCard 
                         key={p.id} 
                         product={p} 
+                        isPriority={index < 3} // 最初の3商品（インデックス0, 1, 2）を優先読み込み
                         onAlertClick={handleAlertClick}
                         onFavoriteToggle={(asin, isFavorite) => {
                           // お気に入り状態変更時の処理（必要に応じて実装）
