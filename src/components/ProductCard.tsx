@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Bell, ExternalLink } from 'lucide-react';
+import Image from 'next/image';
 import { Product } from '@/types/product';
 import { ResponsiveContainer, LineChart, Line } from 'recharts';
 import DealScoreTooltip from './DealScoreTooltip';
@@ -166,11 +167,13 @@ export default function ProductCard({ product, onAlertClick }: ProductCardProps)
       <div className="md:hidden flex gap-4 p-4 flex-1">
         {/* 左: 大きな正方形画像 */}
         <div className="flex-shrink-0">
-          <div className="w-24 h-24 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden">
-            <img
+          <div className="w-24 h-24 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden relative">
+            <Image
               src={product.imageUrl}
               alt={product.name}
-              className="w-full h-full object-contain mix-blend-multiply p-2"
+              width={96}
+              height={96}
+              className="object-contain mix-blend-multiply p-2"
               loading="lazy"
             />
           </div>
@@ -291,12 +294,14 @@ export default function ProductCard({ product, onAlertClick }: ProductCardProps)
       {/* PC: 縦長カード型レイアウト */}
       <div className="hidden md:flex flex-col flex-1">
         {/* 画像（上部） */}
-        <div className="w-full aspect-square bg-gray-50 flex items-center justify-center overflow-hidden">
-          <img
+        <div className="w-full aspect-square bg-gray-50 flex items-center justify-center overflow-hidden relative">
+          <Image
             src={product.imageUrl}
             alt={product.name}
-            className="w-full h-full object-contain mix-blend-multiply p-4"
+            fill
+            className="object-contain mix-blend-multiply p-4"
             loading="lazy"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
 

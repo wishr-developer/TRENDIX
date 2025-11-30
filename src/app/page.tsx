@@ -4,8 +4,9 @@ import { useState, useEffect, useMemo } from 'react';
 import ProductCard from '@/components/ProductCard';
 import Header from '@/components/Header';
 import AlertModal from '@/components/AlertModal';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { Product } from '@/types/product';
-import { Crown } from 'lucide-react';
+import { Crown, AlertCircle, RefreshCw } from 'lucide-react';
 
 /**
  * Deal Scoreを計算する関数
@@ -42,12 +43,58 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<TabType>('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
   useEffect(() => { 
-    fetch('/api/products')
-      .then(res => res.json())
-      .then(setProducts); 
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      setError(null);
+      
+      try {
+        const response = await fetch('/api/products');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        setProducts(data);
+      } catch (err) {
+        console.error('商品データの取得に失敗しました:', err);
+        setError('データの取得に失敗しました。時間をおいてお試しください。');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchProducts();
   }, []);
+  
+  // リトライ関数
+  const handleRetry = () => {
+    setError(null);
+    setIsLoading(true);
+    
+    fetch('/api/products')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then(data => {
+        setProducts(data);
+        setError(null);
+      })
+      .catch(err => {
+        console.error('商品データの取得に失敗しました:', err);
+        setError('データの取得に失敗しました。時間をおいてお試しください。');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   // 重複防止（ASINベースでフィルタリング）
   const uniqueProducts = useMemo(() => {
@@ -280,8 +327,79 @@ export default function Home() {
     setSelectedProduct(null);
   };
 
+  // 構造化データ（JSON-LD）の生成
+  const structuredData = useMemo(() => {
+    const productStructuredData = uniqueProducts
+      .filter(product => {
+        const asin = extractASIN(product.affiliateUrl);
+        return asin !== null;
+      })
+      .map(product => {
+        const asin = extractASIN(product.affiliateUrl);
+        return {
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: product.name,
+          sku: asin,
+          image: product.imageUrl,
+          offers: {
+            '@type': 'Offer',
+            price: product.currentPrice,
+            priceCurrency: 'JPY',
+            availability: 'https://schema.org/InStock',
+            url: product.affiliateUrl,
+          },
+        };
+      });
+
+    const breadcrumbStructuredData = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://price-watcher-plum.vercel.app',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'All Products',
+          item: 'https://price-watcher-plum.vercel.app',
+        },
+      ],
+    };
+
+    return {
+      products: productStructuredData,
+      breadcrumb: breadcrumbStructuredData,
+    };
+  }, [uniqueProducts]);
+
   return (
     <>
+      {/* 構造化データ（JSON-LD） */}
+      {structuredData.products.length > 0 && (
+        <>
+          {structuredData.products.map((productData, index) => (
+            <script
+              key={`product-${index}`}
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify(productData),
+              }}
+            />
+          ))}
+        </>
+      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData.breadcrumb),
+        }}
+      />
+      
       <Header onSearch={setSearchQuery} />
       <AlertModal 
         isOpen={isModalOpen} 
@@ -417,7 +535,7 @@ export default function Home() {
 
         {/* 商品グリッド */}
         <div className="container mx-auto max-w-7xl px-4 py-6">
-          {searchQuery && (
+          {searchQuery && !isLoading && !error && (
             <div className="mb-6">
               <h2 className="text-lg font-bold text-slate-900 mb-1">
                 「{searchQuery}」の検索結果
@@ -428,21 +546,57 @@ export default function Home() {
             </div>
           )}
           
-          {filteredProducts.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-gray-500 text-lg mb-2">商品が見つかりませんでした</p>
-              <p className="text-gray-400 text-sm">検索条件を変更してお試しください</p>
-            </div>
-          ) : (
+          {/* ローディング状態 */}
+          {isLoading && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-              {filteredProducts.map((p) => (
-                <ProductCard 
-                  key={p.id} 
-                  product={p} 
-                  onAlertClick={handleAlertClick}
-                />
+              {[...Array(6)].map((_, index) => (
+                <LoadingSkeleton key={index} />
               ))}
             </div>
+          )}
+
+          {/* エラー状態 */}
+          {error && !isLoading && (
+            <div className="text-center py-16">
+              <div className="max-w-md mx-auto">
+                <div className="flex justify-center mb-4">
+                  <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                    <AlertCircle className="w-8 h-8 text-red-600" />
+                  </div>
+                </div>
+                <h2 className="text-xl font-bold text-gray-900 mb-2">データの取得に失敗しました</h2>
+                <p className="text-gray-600 mb-6">{error}</p>
+                <button
+                  onClick={handleRetry}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  <RefreshCw size={18} />
+                  <span>再試行</span>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* 正常状態：商品一覧 */}
+          {!isLoading && !error && (
+            <>
+              {filteredProducts.length === 0 ? (
+                <div className="text-center py-16">
+                  <p className="text-gray-500 text-lg mb-2">商品が見つかりませんでした</p>
+                  <p className="text-gray-400 text-sm">検索条件を変更してお試しください</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                  {filteredProducts.map((p) => (
+                    <ProductCard 
+                      key={p.id} 
+                      product={p} 
+                      onAlertClick={handleAlertClick}
+                    />
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

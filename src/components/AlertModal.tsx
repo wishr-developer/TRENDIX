@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Bell, X } from 'lucide-react';
 import { Product } from '@/types/product';
 
@@ -23,6 +23,96 @@ export default function AlertModal({ isOpen, onClose, product }: AlertModalProps
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  
+  const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const firstInputRef = useRef<HTMLInputElement>(null);
+
+  // ESCキーでモーダルを閉じる
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isOpen]);
+
+  // モーダルが開いた時に最初の入力にフォーカス
+  useEffect(() => {
+    if (isOpen && firstInputRef.current) {
+      // 少し遅延させて確実にフォーカスを当てる
+      setTimeout(() => {
+        firstInputRef.current?.focus();
+      }, 100);
+    }
+  }, [isOpen]);
+
+  // フォーカストラップ: Tabキーでモーダル内のフォーカス可能な要素を循環させる
+  useEffect(() => {
+    if (!isOpen || !modalRef.current) return;
+
+    const modal = modalRef.current;
+    const focusableElements = modal.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    const handleTabKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+
+      if (e.shiftKey) {
+        // Shift + Tab
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement?.focus();
+        }
+      } else {
+        // Tab
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement?.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleTabKey);
+    return () => {
+      document.removeEventListener('keydown', handleTabKey);
+    };
+  }, [isOpen]);
+
+  // モーダルが開いている時、背景のスクロールを無効化
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      // 背景コンテンツをスクリーンリーダーから隠す
+      const mainContent = document.querySelector('main');
+      if (mainContent) {
+        mainContent.setAttribute('aria-hidden', 'true');
+      }
+    } else {
+      document.body.style.overflow = 'unset';
+      const mainContent = document.querySelector('main');
+      if (mainContent) {
+        mainContent.removeAttribute('aria-hidden');
+      }
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+      const mainContent = document.querySelector('main');
+      if (mainContent) {
+        mainContent.removeAttribute('aria-hidden');
+      }
+    };
+  }, [isOpen]);
 
   if (!isOpen || !product) return null;
 
@@ -57,10 +147,7 @@ export default function AlertModal({ isOpen, onClose, product }: AlertModalProps
         setSubmitStatus('success');
         // 3秒後にモーダルを閉じる
         setTimeout(() => {
-          onClose();
-          setTargetPrice('');
-          setEmail('');
-          setSubmitStatus('idle');
+          handleClose();
         }, 2000);
       } else {
         setSubmitStatus('error');
@@ -81,29 +168,41 @@ export default function AlertModal({ isOpen, onClose, product }: AlertModalProps
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="alert-modal-title"
+      aria-describedby="alert-modal-description"
+    >
       {/* オーバーレイ */}
       <div 
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={handleClose}
+        aria-hidden="true"
       ></div>
 
       {/* モーダル */}
-      <div className="relative bg-white rounded-2xl shadow-xl max-w-md w-full p-6 z-10">
+      <div 
+        ref={modalRef}
+        className="relative bg-white rounded-2xl shadow-xl max-w-md w-full p-6 z-10"
+      >
         {/* ヘッダー */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center" aria-hidden="true">
               <Bell className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900">価格アラート設定</h2>
-              <p className="text-sm text-gray-500">希望価格になったら通知します</p>
+              <h2 id="alert-modal-title" className="text-xl font-bold text-gray-900">価格アラート設定</h2>
+              <p id="alert-modal-description" className="text-sm text-gray-500">希望価格になったら通知します</p>
             </div>
           </div>
           <button
+            ref={closeButtonRef}
             onClick={handleClose}
             className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+            aria-label="モーダルを閉じる"
           >
             <X size={20} />
           </button>
@@ -129,8 +228,9 @@ export default function AlertModal({ isOpen, onClose, product }: AlertModalProps
               ターゲット価格
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">¥</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" aria-hidden="true">¥</span>
               <input
+                ref={firstInputRef}
                 id="targetPrice"
                 type="number"
                 value={targetPrice}
@@ -138,6 +238,7 @@ export default function AlertModal({ isOpen, onClose, product }: AlertModalProps
                 placeholder="例: 10000"
                 required
                 min="1"
+                aria-required="true"
                 className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -158,13 +259,14 @@ export default function AlertModal({ isOpen, onClose, product }: AlertModalProps
               onChange={(e) => setEmail(e.target.value)}
               placeholder="example@email.com"
               required
+              aria-required="true"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 
           {/* ステータスメッセージ */}
           {submitStatus === 'success' && (
-            <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+            <div className="p-3 bg-green-50 border border-green-200 rounded-lg" role="status" aria-live="polite">
               <p className="text-sm text-green-700 font-medium">
                 ✓ アラートを設定しました
               </p>
@@ -172,7 +274,7 @@ export default function AlertModal({ isOpen, onClose, product }: AlertModalProps
           )}
 
           {submitStatus === 'error' && (
-            <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+            <div className="p-3 bg-red-50 border border-red-200 rounded-lg" role="alert" aria-live="assertive">
               <p className="text-sm text-red-700 font-medium">
                 エラーが発生しました。もう一度お試しください。
               </p>
@@ -192,6 +294,7 @@ export default function AlertModal({ isOpen, onClose, product }: AlertModalProps
               type="submit"
               disabled={isSubmitting}
               className="flex-1 px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              aria-disabled={isSubmitting}
             >
               {isSubmitting ? '設定中...' : 'アラートを設定'}
             </button>
@@ -201,4 +304,3 @@ export default function AlertModal({ isOpen, onClose, product }: AlertModalProps
     </div>
   );
 }
-
