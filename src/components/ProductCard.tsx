@@ -173,8 +173,8 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
   const lowestPrice = getLowestPrice(product);
   const diffFromLowest = lowestPrice !== null ? latest - lowestPrice : null;
   
-  // 直近7日または30日で最安値更新したかチェック
-  const isLowestPriceRecent = isLowestPriceInRecentDays(product, 30);
+  // 直近7日で最安値更新したかチェック（より厳格な条件）
+  const isLowestPriceRecent = isLowestPriceInRecentDays(product, 7);
   
   // Deal Score
   const dealScore = calculateDealScore(product);
@@ -281,43 +281,44 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
         </div>
 
         {/* 右: 情報エリア */}
-        <div className="flex-1 min-w-0 flex flex-col gap-2">
-          {/* カテゴリバッジ（「その他」は表示しない） */}
-          {category && (
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700 w-fit">
-              {category}
-            </span>
-          )}
-          
-          {/* 商品名（2行制限） */}
-          <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
-            {product.name}
-          </h3>
-
-          {/* 価格変動情報（値下がりのみ表示） */}
-          {isCheaper && diff !== 0 && (
-            <div className="text-xs font-semibold text-price-drop">
-              ▼ {percentChange}%（−¥{Math.abs(diff).toLocaleString()}）
-            </div>
-          )}
-
-          {/* 過去最安値バッジ（直近30日で更新した商品のみ） */}
-          {isLowestPriceRecent && (
-            <div className="text-xs font-bold text-yellow-600">
-              🏆 過去最安値
-            </div>
-          )}
-
-          {/* 価格 */}
-          <div className="flex items-baseline gap-2 mt-auto">
+        <div className="flex-1 min-w-0 flex flex-col gap-2.5">
+          {/* 価格（最上部に配置） */}
+          <div className="flex items-baseline gap-2">
             {isCheaper && (
               <span className="text-xs text-gray-400 line-through">
                 ¥{prev.toLocaleString()}
               </span>
             )}
-            <span className="text-lg font-bold text-gray-900">
+            <span className="text-xl font-bold text-gray-900">
               ¥{latest.toLocaleString()}
             </span>
+          </div>
+
+          {/* 商品名（2行制限、フォントサイズ調整） */}
+          <h3 className="text-sm font-medium text-gray-900 line-clamp-2 leading-snug group-hover:text-blue-600 transition-colors">
+            {product.name}
+          </h3>
+
+          {/* 価格変動情報とバッジ（1行にまとめる） */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* 価格変動情報（値下がりのみ表示） */}
+            {isCheaper && diff !== 0 && (
+              <span className="text-xs font-semibold text-price-drop">
+                ▼ {percentChange}%（−¥{Math.abs(diff).toLocaleString()}）
+              </span>
+            )}
+            {/* 過去最安値バッジ（直近7日で更新した商品のみ、控えめに表示） */}
+            {isLowestPriceRecent && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
+                🏆 過去最安値
+              </span>
+            )}
+            {/* カテゴリバッジ（「その他」は表示しない、控えめに表示） */}
+            {category && (
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-gray-100 text-gray-600">
+                {category}
+              </span>
+            )}
           </div>
 
           {/* 詳細情報（折りたたみ可能） */}
@@ -398,17 +399,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
           </button>
 
           {/* CTAボタン */}
-          <div className="flex gap-2 mt-2">
-            {onAlertClick && (
-              <button 
-                type="button"
-                onClick={handleAlertClick}
-                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors z-10 relative"
-              >
-                <Bell size={14} />
-                <span>通知</span>
-              </button>
-            )}
+          <div className="flex gap-2 mt-auto pt-2">
             <a
               href={product.affiliateUrl}
               target="_blank"
@@ -418,11 +409,21 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
                 e.preventDefault();
                 window.open(product.affiliateUrl, '_blank', 'noopener,noreferrer');
               }}
-              className="flex items-center justify-center px-3 py-2 text-xs font-medium text-blue-600 hover:text-blue-700 rounded-lg transition-colors"
+              className="flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-white bg-orange-500 hover:bg-orange-600 rounded-lg transition-colors shadow-sm"
             >
-              <span>Amazon</span>
-              <ExternalLink size={12} className="ml-1" />
+              <span>Amazonで見る</span>
+              <ExternalLink size={14} />
             </a>
+            {onAlertClick && (
+              <button 
+                type="button"
+                onClick={handleAlertClick}
+                className="flex items-center justify-center px-3 py-2.5 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors z-10 relative"
+                aria-label="値下がり通知を受け取る"
+              >
+                <Bell size={16} />
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -464,43 +465,44 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
         </div>
 
         {/* 情報エリア（下部） */}
-        <div className="p-4 flex flex-col gap-3 flex-1">
-          {/* カテゴリバッジ（「その他」は表示しない） */}
-          {category && (
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700 w-fit">
-              {category}
-            </span>
-          )}
-          
-          {/* 商品名（2行制限） */}
-          <h3 className="text-base font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors min-h-[3rem]">
-            {product.name}
-          </h3>
-
-          {/* 価格変動情報（値下がりのみ表示） */}
-          {isCheaper && diff !== 0 && (
-            <div className="text-sm font-semibold text-price-drop">
-              ▼ {percentChange}%（−¥{Math.abs(diff).toLocaleString()}）
-            </div>
-          )}
-
-          {/* 過去最安値バッジ（直近30日で更新した商品のみ） */}
-          {isLowestPriceRecent && (
-            <div className="text-xs font-bold text-yellow-600">
-              🏆 過去最安値
-            </div>
-          )}
-
-          {/* 価格 */}
+        <div className="p-5 flex flex-col gap-3 flex-1">
+          {/* 価格（最上部に配置、大きく表示） */}
           <div className="flex items-baseline gap-2">
             {isCheaper && (
               <span className="text-sm text-gray-400 line-through">
                 ¥{prev.toLocaleString()}
               </span>
             )}
-            <span className="text-xl font-bold text-gray-900">
+            <span className="text-2xl font-bold text-gray-900">
               ¥{latest.toLocaleString()}
             </span>
+          </div>
+
+          {/* 商品名（2行制限、読みやすく調整） */}
+          <h3 className="text-base font-medium text-gray-900 line-clamp-2 leading-relaxed group-hover:text-blue-600 transition-colors min-h-[3rem]">
+            {product.name}
+          </h3>
+
+          {/* 価格変動情報とバッジ（1行にまとめる） */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* 価格変動情報（値下がりのみ表示） */}
+            {isCheaper && diff !== 0 && (
+              <span className="text-sm font-semibold text-price-drop">
+                ▼ {percentChange}%（−¥{Math.abs(diff).toLocaleString()}）
+              </span>
+            )}
+            {/* 過去最安値バッジ（直近7日で更新した商品のみ、控えめに表示） */}
+            {isLowestPriceRecent && (
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
+                🏆 過去最安値
+              </span>
+            )}
+            {/* カテゴリバッジ（「その他」は表示しない、控えめに表示） */}
+            {category && (
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                {category}
+              </span>
+            )}
           </div>
 
           {/* 詳細情報（折りたたみ可能） */}
@@ -581,17 +583,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
           </button>
 
           {/* CTAボタン */}
-          <div className="flex gap-2 mt-auto">
-            {onAlertClick && (
-              <button 
-                type="button"
-                onClick={handleAlertClick}
-                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors z-10 relative"
-              >
-                <Bell size={14} />
-                <span>通知</span>
-              </button>
-            )}
+          <div className="flex gap-2 mt-auto pt-2">
             <a
               href={product.affiliateUrl}
               target="_blank"
@@ -601,11 +593,21 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
                 e.preventDefault();
                 window.open(product.affiliateUrl, '_blank', 'noopener,noreferrer');
               }}
-              className="flex items-center justify-center px-3 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 rounded-lg transition-colors"
+              className="flex-1 flex items-center justify-center gap-1.5 px-4 py-3 text-sm font-semibold text-white bg-orange-500 hover:bg-orange-600 rounded-lg transition-colors shadow-sm"
             >
-              <span>Amazon</span>
-              <ExternalLink size={12} className="ml-1" />
+              <span>Amazonで見る</span>
+              <ExternalLink size={14} />
             </a>
+            {onAlertClick && (
+              <button 
+                type="button"
+                onClick={handleAlertClick}
+                className="flex items-center justify-center px-3 py-3 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors z-10 relative"
+                aria-label="値下がり通知を受け取る"
+              >
+                <Bell size={16} />
+              </button>
+            )}
           </div>
         </div>
       </div>
