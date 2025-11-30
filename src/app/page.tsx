@@ -365,8 +365,10 @@ export default function Home() {
   ];
 
   const handleAlertClick = (product: Product) => {
+    console.log('アラートボタンがクリックされました:', product.name);
     setSelectedProduct(product);
     setIsModalOpen(true);
+    console.log('モーダル状態:', true);
   };
 
   const handleCloseModal = () => {

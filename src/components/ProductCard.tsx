@@ -161,9 +161,14 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle }:
   const chartColor = getChartColor(product);
 
   // アラートボタンのクリックハンドラ（外部リンクへの遷移を防ぐ）
-  const handleAlertClick = (e: React.MouseEvent) => {
+  const handleAlertClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
+    // イベント伝播を完全に停止（ネイティブイベントも停止）
+    if (e.nativeEvent && typeof (e.nativeEvent as any).stopImmediatePropagation === 'function') {
+      (e.nativeEvent as any).stopImmediatePropagation();
+    }
+    // 親コンポーネントに商品データを渡す
     if (onAlertClick) {
       onAlertClick(product);
     }
@@ -200,12 +205,22 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle }:
     }
   };
 
+  // カード全体のクリックハンドラ（ボタンがクリックされた場合はリンク遷移を防ぐ）
+  const handleCardClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const target = e.target as HTMLElement;
+    // ボタンがクリックされた場合はリンク遷移を防ぐ
+    if (target.closest('button[type="button"]')) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <a
       href={product.affiliateUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-100 flex flex-col h-full"
+      onClick={handleCardClick}
+      className="group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-100 flex flex-col h-full relative"
     >
       {/* モバイル: 横並びレイアウト */}
       <div className="md:hidden flex gap-4 p-4 flex-1">
@@ -321,8 +336,9 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle }:
             <div className="flex gap-2">
               {onAlertClick && (
                 <button 
+                  type="button"
                   onClick={handleAlertClick}
-                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors z-10 relative"
                 >
                   <Bell size={14} />
                   <span>値下がり通知を受け取る</span>
@@ -462,8 +478,9 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle }:
             <div className="flex gap-2">
               {onAlertClick && (
                 <button 
+                  type="button"
                   onClick={handleAlertClick}
-                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors z-10 relative"
                 >
                   <Bell size={14} />
                   <span>値下がり通知を受け取る</span>
