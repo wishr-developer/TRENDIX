@@ -3,6 +3,8 @@ import "./globals.css";
 import Footer from "@/components/Footer";
 import { CategoryProvider } from "@/contexts/CategoryContext";
 import WebVitals from "@/components/WebVitals";
+import GATracker from "@/components/GATracker";
+import { GA_ID, isGAEnabled } from "@/lib/gtag";
 
 const metadataBase = new URL('https://price-watcher-plum.vercel.app');
 
@@ -67,9 +69,31 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        {/* Google Analytics 4 */}
+        {isGAEnabled && (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${GA_ID}', {
+                    page_path: window.location.pathname,
+                  });
+                `,
+              }}
+            />
+          </>
+        )}
       </head>
       <body className="flex flex-col min-h-screen bg-white text-slate-900">
         <WebVitals />
+        {isGAEnabled && <GATracker />}
         <CategoryProvider>
           <main className="flex-1">
             {children}

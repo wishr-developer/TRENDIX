@@ -72,6 +72,32 @@ RESEND_FROM_EMAIL=noreply@yourdomain.com
 - APIキーは機密情報のため、絶対に公開リポジトリにコミットしないでください
 - メール送信機能を使用しない場合でも、アラート設定自体は動作します（メール送信のみスキップされます）
 
+### 4. Google Analytics 4 (GA4) の設定（オプション）
+
+ユーザーの利用状況を分析するために、Google Analytics 4を統合できます。
+
+1. **Google Analytics 4プロパティの作成**
+   - [Google Analytics](https://analytics.google.com/) にアクセスしてアカウントを作成します
+   - 新しいプロパティを作成し、測定ID（例: `G-XXXXXXXXXX`）を取得します
+
+2. **環境変数ファイルの更新**
+   - `.env.local` ファイルに以下の内容を追加します：
+
+```env
+# Google Analytics 4 測定ID
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+```
+
+3. **動作確認**
+   - 開発サーバーを再起動します
+   - ブラウザの開発者ツールでネットワークタブを確認し、`gtag/js` へのリクエストが送信されていることを確認します
+   - Google Analyticsのリアルタイムレポートでアクセスが記録されていることを確認します
+
+**注意事項:**
+- `NEXT_PUBLIC_GA_ID` が設定されていない場合、GA4トラッキングは無効になります（エラーは発生しません）
+- 本番環境では、Vercelなどのホスティングサービスの環境変数設定から `NEXT_PUBLIC_GA_ID` を設定してください
+- プライバシーポリシーにGA4の使用を明記することを推奨します
+
 ## スクリプト
 
 ### 価格更新スクリプト

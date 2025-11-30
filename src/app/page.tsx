@@ -6,7 +6,7 @@ import Header from '@/components/Header';
 import AlertModal from '@/components/AlertModal';
 import FavoriteModal from '@/components/FavoriteModal';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
-import Pagination from '@/components/Pagination';
+import VirtualProductList from '@/components/VirtualProductList';
 import { Product } from '@/types/product';
 import { Crown, AlertCircle, RefreshCw, Search, X } from 'lucide-react';
 import { useCategory } from '@/contexts/CategoryContext';
@@ -40,8 +40,8 @@ function extractASIN(url: string): string | null {
 
 type TabType = 'drops' | 'new' | 'ranking' | 'all';
 
-// 1ページあたりの商品数
-const ITEMS_PER_PAGE = 20;
+// ページネーションは仮想スクロールで不要のため削除
+// const ITEMS_PER_PAGE = 20;
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -52,7 +52,8 @@ export default function Home() {
   const [isFavoriteModalOpen, setIsFavoriteModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  // ページネーションは仮想スクロールで不要のため削除
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
   const { selectedCategory, setSelectedCategory } = useCategory();
 
   // カテゴリリスト（Header.tsxと同期）
@@ -69,6 +70,26 @@ export default function Home() {
     { id: 'その他', label: 'その他' },
   ], []);
   
+  // 画面サイズを動的に取得
+  useEffect(() => {
+    const updateWindowSize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    // 初回レンダリング時にサイズを設定
+    updateWindowSize();
+
+    // リサイズイベントリスナーを追加
+    window.addEventListener('resize', updateWindowSize);
+
+    return () => {
+      window.removeEventListener('resize', updateWindowSize);
+    };
+  }, []);
+
   useEffect(() => { 
     const fetchProducts = async () => {
       setIsLoading(true);
@@ -372,22 +393,8 @@ export default function Home() {
     });
   }, [uniqueProducts]);
 
-  // ページネーション: 現在のページに対応する商品をスライス
-  const paginatedProducts = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-    return filteredProducts.slice(startIndex, endIndex);
-  }, [filteredProducts, currentPage]);
-
-  // 総ページ数を計算
-  const totalPages = useMemo(() => {
-    return Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
-  }, [filteredProducts.length]);
-
-  // 検索・フィルター変更時にページをリセット
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery, activeTab, selectedCategory]);
+  // ページネーションは仮想スクロールで不要のため削除
+  // 仮想スクロールでは全商品を一度に表示するため、スライスは不要
 
   // トレンドTOP3（スコア順）
   const trendProducts = useMemo(() => {
@@ -419,7 +426,7 @@ export default function Home() {
   // 構造化データ（JSON-LD）の生成（表示中の商品のみに限定）
   const structuredData = useMemo(() => {
     // ページネーション済みの商品（現在画面に表示されている商品のみ）から生成
-    const productStructuredData = paginatedProducts
+    const productStructuredData = filteredProducts
       .filter(product => {
         const asin = extractASIN(product.affiliateUrl);
         return asin !== null;
@@ -480,7 +487,7 @@ export default function Home() {
       products: productStructuredData,
       breadcrumb: breadcrumbStructuredData,
     };
-  }, [paginatedProducts, selectedCategory, categories]);
+  }, [filteredProducts, selectedCategory, categories]);
 
   // 動的なページタイトルを生成
   const pageTitle = useMemo(() => {
@@ -540,8 +547,7 @@ export default function Home() {
         onSearch={setSearchQuery} 
         onRankingClick={() => {
           setActiveTab('ranking');
-          setCurrentPage(1);
-          // ページトップにスクロール
+          // ページトップにスクロール（仮想スクロールではページネーション不要）
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
         onFavoriteClick={() => {
@@ -823,30 +829,31 @@ export default function Home() {
                 </div>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                    {paginatedProducts.map((p, index) => (
-                      <ProductCard 
-                        key={p.id} 
-                        product={p} 
-                        isPriority={index < 3} // 最初の3商品（インデックス0, 1, 2）を優先読み込み
-                        onAlertClick={handleAlertClick}
-                        onFavoriteToggle={(asin, isFavorite) => {
-                          // お気に入り状態変更時の処理（必要に応じて実装）
-                        }}
-                      />
-                    ))}
-                  </div>
-                  
-                  {/* ページネーション */}
-                  {totalPages > 1 && (
-                    <div className="mt-8">
-                      <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        totalItems={filteredProducts.length}
-                        itemsPerPage={ITEMS_PER_PAGE}
-                        onPageChange={setCurrentPage}
-                      />
+                  {/* 仮想スクロール対応の商品リスト */}
+                  {windowSize.width > 0 && windowSize.height > 0 ? (
+                    <VirtualProductList
+                      products={filteredProducts} // ページネーションなし：全商品を表示
+                      width={Math.min(windowSize.width - 32, 1200)} // パディングを考慮、最大幅1200px
+                      height={Math.max(600, windowSize.height - 400)} // 最小600px、画面高さからヘッダー等を引く
+                      onAlertClick={handleAlertClick}
+                      onFavoriteToggle={(asin, isFavorite) => {
+                        // お気に入り状態変更時の処理（必要に応じて実装）
+                      }}
+                    />
+                  ) : (
+                    // 初期レンダリング時のフォールバック（グリッド表示）
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                      {filteredProducts.slice(0, 6).map((p, index) => (
+                        <ProductCard 
+                          key={p.id} 
+                          product={p} 
+                          isPriority={index < 3}
+                          onAlertClick={handleAlertClick}
+                          onFavoriteToggle={(asin, isFavorite) => {
+                            // お気に入り状態変更時の処理（必要に応じて実装）
+                          }}
+                        />
+                      ))}
                     </div>
                   )}
                 </>

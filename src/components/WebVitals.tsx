@@ -1,6 +1,7 @@
 'use client';
 
 import { useReportWebVitals } from 'next/web-vitals';
+import { sendWebVitals, isGAEnabled } from '@/lib/gtag';
 
 /**
  * Web Vitalsメトリクスの型定義
@@ -37,15 +38,15 @@ export default function WebVitals() {
       console.log(`[Web Vitals] ${metric.name}: ${metric.value} (${metric.rating})`);
     }
 
-    // 将来的に外部サービス（Google Analytics、Vercel Analytics等）に送信可能
-    // 例: 
-    // if (typeof window !== 'undefined' && window.gtag) {
-    //   window.gtag('event', metric.name, {
-    //     value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
-    //     metric_rating: metric.rating,
-    //     metric_id: metric.id,
-    //   });
-    // }
+    // Google Analytics 4に送信
+    if (isGAEnabled) {
+      sendWebVitals({
+        name: metric.name,
+        value: metric.value,
+        rating: metric.rating,
+        id: metric.id,
+      });
+    }
   };
 
   // useReportWebVitalsフックを使用してWeb Vitalsを計測
