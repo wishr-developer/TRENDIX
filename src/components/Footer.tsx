@@ -9,7 +9,7 @@ export default function Footer() {
           掲載価格はAmazon公式サイトの価格情報をもとにしています。本サイトはAmazonアソシエイト・プログラムに参加しています。
         </p>
         <div className="text-xs text-gray-500">
-          &copy; 2024 TRENDIX. All rights reserved.
+          &copy; 2025 TRENDIX. All rights reserved.
         </div>
       </div>
     </footer>
