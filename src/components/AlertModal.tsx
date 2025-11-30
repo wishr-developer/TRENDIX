@@ -239,10 +239,11 @@ export default function AlertModal({ isOpen, onClose, product }: AlertModalProps
                 required
                 min="1"
                 aria-required="true"
+                aria-describedby="targetPrice-description"
                 className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
-            <p className="mt-1 text-xs text-gray-500">
+            <p id="targetPrice-description" className="mt-1 text-xs text-gray-500">
               この価格以下になったら通知します
             </p>
           </div>
@@ -260,8 +261,12 @@ export default function AlertModal({ isOpen, onClose, product }: AlertModalProps
               placeholder="example@email.com"
               required
               aria-required="true"
+              aria-describedby="email-description"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
+            <p id="email-description" className="mt-1 text-xs text-gray-500">
+              価格アラートの通知先メールアドレス
+            </p>
           </div>
 
           {/* ステータスメッセージ */}

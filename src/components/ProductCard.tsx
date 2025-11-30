@@ -235,16 +235,17 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
                 <span className="text-[10px] font-medium">No Image</span>
               </div>
             ) : (
-              <Image
-                src={product.imageUrl}
-                alt={product.name}
-                width={96}
-                height={96}
-                className="object-contain mix-blend-multiply p-2"
-                priority={isPriority}
-                loading={isPriority ? undefined : "lazy"}
-                onError={() => setImageError(true)}
-              />
+            <Image
+              src={product.imageUrl}
+              alt={product.name}
+              width={96}
+              height={96}
+              className="object-contain mix-blend-multiply p-2"
+              priority={isPriority}
+              loading={isPriority ? undefined : "lazy"}
+              onError={() => setImageError(true)}
+              aria-hidden="false"
+            />
             )}
           </div>
         </div>
@@ -393,6 +394,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
               loading={isPriority ? undefined : "lazy"}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               onError={() => setImageError(true)}
+              aria-hidden="false"
             />
           )}
           {/* PC用のお気に入りボタン（画像上） */}

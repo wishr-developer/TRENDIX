@@ -232,7 +232,7 @@ export default function Header({ onSearch, onRankingClick }: HeaderProps) {
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
           {/* ロゴ */}
-          <Link href="/" className="flex items-baseline gap-1">
+          <Link href="/" className="flex items-baseline gap-1" aria-label="TRENDIX ホームページに移動">
             <span className="text-2xl font-bold tracking-tight text-slate-900">TRENDIX</span>
           </Link>
 
@@ -260,9 +260,10 @@ export default function Header({ onSearch, onRankingClick }: HeaderProps) {
                 className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-black transition-colors"
                 aria-expanded={isCategoryMenuOpen}
                 aria-haspopup="true"
+                aria-label={`カテゴリを選択: 現在は${selectedCategoryLabel}`}
               >
                 <span>{selectedCategoryLabel}</span>
-                <ChevronDown size={16} className={`transition-transform ${isCategoryMenuOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown size={16} className={`transition-transform ${isCategoryMenuOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
               </button>
               
               {/* カテゴリメニュー */}
@@ -278,6 +279,7 @@ export default function Header({ onSearch, onRankingClick }: HeaderProps) {
                             ? 'bg-blue-50 text-blue-600 font-medium'
                             : 'text-gray-700'
                         }`}
+                        aria-label={`${category.label}カテゴリを選択${selectedCategory === category.id ? '（選択中）' : ''}`}
                       >
                         {category.label}
                       </button>
@@ -292,6 +294,7 @@ export default function Header({ onSearch, onRankingClick }: HeaderProps) {
               <button
                 onClick={onRankingClick}
                 className="text-sm font-medium text-gray-600 hover:text-black hidden sm:block transition-colors"
+                aria-label="ランキングページに移動"
               >
                 ランキング
               </button>
@@ -299,6 +302,7 @@ export default function Header({ onSearch, onRankingClick }: HeaderProps) {
               <Link 
                 href="/" 
                 className="text-sm font-medium text-gray-600 hover:text-black hidden sm:block"
+                aria-label="ランキングページに移動"
               >
                 ランキング
               </Link>

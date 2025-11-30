@@ -1,0 +1,84 @@
+{
+  "common": {
+    "siteName": "TRENDIX",
+    "home": "Home",
+    "search": "Search",
+    "category": "Category",
+    "ranking": "Ranking",
+    "favorites": "Favorites",
+    "all": "All",
+    "price": "Price",
+    "currentPrice": "Current Price",
+    "targetPrice": "Target Price",
+    "lowestPrice": "Lowest Price",
+    "priceDrop": "Price Drop",
+    "priceRise": "Price Rise",
+    "noChange": "No Change",
+    "alert": "Alert",
+    "setAlert": "Get Price Drop Notification",
+    "viewOnAmazon": "Check Current Price",
+    "addToFavorites": "Add to Favorites",
+    "removeFromFavorites": "Remove from Favorites",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "close": "Close",
+    "submit": "Submit",
+    "cancel": "Cancel"
+  },
+  "home": {
+    "title": "Find the best deals, instantly.",
+    "description": "Monitoring Amazon price changes 24/7",
+    "subtitle": "TRENDIX continuously monitors Amazon price changes with AI and automatically extracts and displays only products that are truly cheaper.",
+    "dropsToday": "{count} products dropped in price today",
+    "topCategory": "The {category} category is particularly worth watching",
+    "trending": "Today's Trends",
+    "newsFeed": "News Feed",
+    "noProducts": "No products found",
+    "noProductsDescription": "Please try changing your search criteria"
+  },
+  "favorites": {
+    "title": "Favorite Products",
+    "empty": "No favorites",
+    "emptyDescription": "You don't have any favorites yet. Find products from trending items!",
+    "viewTrending": "View Trending Products",
+    "count": "{count} items",
+    "noResults": "No search results found",
+    "noResultsDescription": "No favorite products matching \"{query}\" were found."
+  },
+  "product": {
+    "detail": "Product Details",
+    "priceHistory": "Price History",
+    "priceHistoryTable": "Price History (Latest 20 items)",
+    "date": "Date",
+    "priceChange": "Price Change",
+    "priceChangePercent": "Change Rate",
+    "buyOnAmazon": "Buy on Amazon",
+    "backToList": "Back to Product List"
+  },
+  "alert": {
+    "title": "Set Price Alert",
+    "description": "We'll notify you by email when the product price reaches your target price.",
+    "targetPriceLabel": "Target Price",
+    "targetPriceDescription": "Notify me when the price drops to this amount or below",
+    "emailLabel": "Email Address",
+    "emailDescription": "Email address to receive price alert notifications",
+    "submit": "Set Alert",
+    "success": "Alert set successfully",
+    "error": "Failed to set alert",
+    "submitting": "Setting..."
+  },
+  "category": {
+    "all": "All",
+    "gadget": "Gadgets",
+    "appliance": "Appliances",
+    "kitchen": "Kitchen",
+    "game": "Games",
+    "healthcare": "Healthcare",
+    "beauty": "Beauty",
+    "food": "Food",
+    "stationery": "Stationery",
+    "other": "Other"
+  }
+}
+

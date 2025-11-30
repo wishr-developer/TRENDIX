@@ -1,0 +1,84 @@
+{
+  "common": {
+    "siteName": "TRENDIX",
+    "home": "ホーム",
+    "search": "検索",
+    "category": "カテゴリ",
+    "ranking": "ランキング",
+    "favorites": "お気に入り",
+    "all": "すべて",
+    "price": "価格",
+    "currentPrice": "現在価格",
+    "targetPrice": "目標価格",
+    "lowestPrice": "過去最安値",
+    "priceDrop": "値下がり",
+    "priceRise": "値上がり",
+    "noChange": "変動なし",
+    "alert": "アラート",
+    "setAlert": "値下がり通知を受け取る",
+    "viewOnAmazon": "今の価格を確認",
+    "addToFavorites": "お気に入りに追加",
+    "removeFromFavorites": "お気に入りから削除",
+    "loading": "読み込み中...",
+    "error": "エラーが発生しました",
+    "retry": "再試行",
+    "close": "閉じる",
+    "submit": "送信",
+    "cancel": "キャンセル"
+  },
+  "home": {
+    "title": "買い時の商品が、一瞬でわかる。",
+    "description": "Amazonの価格変動を24時間365日監視中",
+    "subtitle": "TRENDIXは、Amazonの価格変動をAIで継続監視し、本当に安くなった商品のみを自動で抽出・表示します。",
+    "dropsToday": "今日は{count}商品が値下がりしています",
+    "topCategory": "特に{category}カテゴリが狙い目です",
+    "trending": "本日のトレンド",
+    "newsFeed": "ニュースフィード",
+    "noProducts": "商品が見つかりませんでした",
+    "noProductsDescription": "検索条件を変更してお試しください"
+  },
+  "favorites": {
+    "title": "お気に入り商品一覧",
+    "empty": "お気に入りがありません",
+    "emptyDescription": "お気に入りがありません。人気のトレンド商品から見つけてみましょう！",
+    "viewTrending": "トレンド商品を見る",
+    "count": "{count}件",
+    "noResults": "検索結果が見つかりませんでした",
+    "noResultsDescription": "「{query}」に一致するお気に入り商品が見つかりませんでした。"
+  },
+  "product": {
+    "detail": "商品詳細",
+    "priceHistory": "価格推移",
+    "priceHistoryTable": "価格履歴（最新20件）",
+    "date": "日付",
+    "priceChange": "変動額",
+    "priceChangePercent": "変動率",
+    "buyOnAmazon": "Amazonで購入する",
+    "backToList": "商品一覧に戻る"
+  },
+  "alert": {
+    "title": "価格アラート設定",
+    "description": "商品の価格が目標価格に達した際に、メールでお知らせします。",
+    "targetPriceLabel": "ターゲット価格",
+    "targetPriceDescription": "この価格以下になったら通知します",
+    "emailLabel": "通知先メールアドレス",
+    "emailDescription": "価格アラートの通知先メールアドレス",
+    "submit": "アラートを設定",
+    "success": "アラートを設定しました",
+    "error": "アラート設定に失敗しました",
+    "submitting": "設定中..."
+  },
+  "category": {
+    "all": "すべて",
+    "gadget": "ガジェット",
+    "appliance": "家電",
+    "kitchen": "キッチン",
+    "game": "ゲーム",
+    "healthcare": "ヘルスケア",
+    "beauty": "ビューティー",
+    "food": "食品",
+    "stationery": "文房具",
+    "other": "その他"
+  }
+}
+

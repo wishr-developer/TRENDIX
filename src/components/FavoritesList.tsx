@@ -18,12 +18,13 @@ function extractASIN(url: string): string | null {
 interface FavoritesListProps {
   allProducts: Product[];
   onAlertClick?: (product: Product) => void;
+  searchQuery?: string;
 }
 
 /**
  * お気に入り一覧コンポーネント
  */
-export default function FavoritesList({ allProducts, onAlertClick }: FavoritesListProps) {
+export default function FavoritesList({ allProducts, onAlertClick, searchQuery = '' }: FavoritesListProps) {
   const [favoriteASINs, setFavoriteASINs] = useState<string[]>([]);
   const [favoriteProducts, setFavoriteProducts] = useState<Product[]>([]);
   const router = useRouter();
@@ -36,13 +37,22 @@ export default function FavoritesList({ allProducts, onAlertClick }: FavoritesLi
     setFavoriteASINs(favorites);
 
     // ASINに基づいて商品をフィルタリング
-    const filtered = allProducts.filter((product) => {
+    let filtered = allProducts.filter((product) => {
       const asin = product.asin || extractASIN(product.affiliateUrl);
       return asin && favorites.includes(asin);
     });
 
+    // 検索クエリでフィルタリング
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter((product) => {
+        const name = product.name.toLowerCase();
+        return name.includes(query);
+      });
+    }
+
     setFavoriteProducts(filtered);
-  }, [allProducts]);
+  }, [allProducts, searchQuery]);
 
   // 初回読み込み時とlocalStorage変更時に更新
   useEffect(() => {
@@ -88,10 +98,13 @@ export default function FavoritesList({ allProducts, onAlertClick }: FavoritesLi
             </div>
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-3">
-            お気に入りがありません
+            {searchQuery ? '検索結果が見つかりませんでした' : 'お気に入りがありません'}
           </h2>
           <p className="text-gray-600 mb-8 text-lg leading-relaxed">
-            お気に入りがありません。人気のトレンド商品から見つけてみましょう！
+            {searchQuery 
+              ? `「${searchQuery}」に一致するお気に入り商品が見つかりませんでした。`
+              : 'お気に入りがありません。人気のトレンド商品から見つけてみましょう！'
+            }
           </p>
           <Link
             href="/"
