@@ -11,5 +11,6 @@ export interface Product {
   }>;
   affiliateUrl: string;
   imageUrl: string;
+  category?: string; // カテゴリ（オプショナル、後方互換性のため）
 }
 

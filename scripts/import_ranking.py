@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Amazonランキングページから商品を自動収集し、アフィリエイトIDを自動付与するスクリプト
-categories.txtのURLを読み込み、各ページから商品情報を抽出してproducts.jsonに追記する
+Amazonキーワード検索から商品を自動収集し、アフィリエイトIDを自動付与するスクリプト
+keywords.txtのキーワードを読み込み、各キーワードでAmazon検索を行い、商品情報を抽出してproducts.jsonに追記する
 """
 
 import json
@@ -10,7 +10,7 @@ import re
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from urllib.parse import urljoin
+from urllib.parse import urljoin, quote_plus
 
 import requests
 from bs4 import BeautifulSoup
@@ -25,7 +25,11 @@ ASSOCIATE_TAG = "xiora-22"
 # プロジェクトルートのパスを取得
 PROJECT_ROOT = Path(__file__).parent.parent
 DATA_FILE = PROJECT_ROOT / "data" / "products.json"
-CATEGORIES_FILE = PROJECT_ROOT / "scripts" / "categories.txt"
+KEYWORDS_FILE = PROJECT_ROOT / "scripts" / "keywords.txt"
+CATEGORY_MAP_FILE = PROJECT_ROOT / "src" / "data" / "category_map.json"
+
+# 各キーワードあたりの検索ページ数
+PAGES_PER_KEYWORD = 3
 
 # User-Agentヘッダー（ブラウザからのアクセスに見せかける）
 HEADERS = {
@@ -113,6 +117,61 @@ def build_affiliate_url(asin: str) -> str:
         return f"https://www.amazon.co.jp/dp/{asin}?tag={ASSOCIATE_TAG}"
 
 
+def load_category_map() -> dict[str, list[str]]:
+    """
+    カテゴリマッピングファイルを読み込む
+    """
+    if not CATEGORY_MAP_FILE.exists():
+        print(f"⚠️  警告: {CATEGORY_MAP_FILE} が見つかりません")
+        print("   カテゴリマッピングが適用されません\n")
+        return {}
+    
+    try:
+        with open(CATEGORY_MAP_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"⚠️  警告: カテゴリマッピングファイルの読み込みに失敗しました: {e}")
+        print("   カテゴリマッピングが適用されません\n")
+        return {}
+
+
+def assign_category(product_name: str, category_map: dict[str, list[str]]) -> str:
+    """
+    商品名に対してカテゴリマッピングを適用し、最も適切なカテゴリを返す
+    複数のカテゴリに一致した場合は、最も長く一致したキーワードを持つカテゴリを優先
+    """
+    if not category_map:
+        return "その他"
+    
+    product_name_lower = product_name.lower()
+    best_category = "その他"
+    best_match_length = 0
+    
+    for category, keywords in category_map.items():
+        for keyword in keywords:
+            keyword_lower = keyword.lower()
+            if keyword_lower in product_name_lower:
+                # より長いキーワードに一致した場合は優先
+                if len(keyword) > best_match_length:
+                    best_match_length = len(keyword)
+                    best_category = category
+    
+    return best_category
+
+
+def build_search_url(keyword: str, page: int = 1) -> str:
+    """
+    キーワード検索URLを構築する
+    """
+    # URLエンコード
+    encoded_keyword = quote_plus(keyword)
+    # ページ番号（1ページ目は省略可能）
+    if page == 1:
+        return f"https://www.amazon.co.jp/s?k={encoded_keyword}"
+    else:
+        return f"https://www.amazon.co.jp/s?k={encoded_keyword}&page={page}"
+
+
 # ============================================================================
 # スクレイピング関数
 # ============================================================================
@@ -121,45 +180,40 @@ def extract_product_name(element) -> str | None:
     """
     商品コンテナ要素から商品名を抽出する
     """
-    # パターン1: imgタグのalt属性
+    # パターン1: h2タグ内のaタグ（検索結果ページの標準パターン）
+    h2_tag = element.find("h2")
+    if h2_tag:
+        a_tag = h2_tag.find("a")
+        if a_tag:
+            # spanタグ内のテキストを優先
+            span_tag = a_tag.find("span")
+            if span_tag:
+                name = span_tag.get_text(strip=True)
+                if name and len(name) > 3:
+                    return name
+            else:
+                name = a_tag.get_text(strip=True)
+                if name and len(name) > 3:
+                    return name
+    
+    # パターン2: imgタグのalt属性
     img_tag = element.find("img")
     if img_tag and img_tag.get("alt"):
         name = img_tag.get("alt", "").strip()
-        if name and len(name) > 3:
+        if name and len(name) > 3 and name != "Sponsored":
             return name
     
-    # パターン2: h2タグ内のテキスト
-    h2_tag = element.find("h2")
-    if h2_tag:
-        name = h2_tag.get_text(strip=True)
-        if name and len(name) > 3:
-            return name
-    
-    # パターン3: aタグ内のテキスト（商品リンク）
-    link_tag = element.find("a", href=re.compile(r"/dp/|/gp/product/"))
-    if link_tag:
-        # spanタグ内のテキストを優先
-        span_tag = link_tag.find("span")
-        if span_tag:
-            name = span_tag.get_text(strip=True)
-            if name and len(name) > 3:
-                return name
-        else:
-            name = link_tag.get_text(strip=True)
-            if name and len(name) > 3:
-                return name
-    
-    # パターン4: class="a-text-normal" を含む要素
+    # パターン3: class="a-text-normal" を含む要素
     text_elements = element.find_all(class_=re.compile(r"a-text-normal"))
     for text_elem in text_elements:
         text = text_elem.get_text(strip=True)
         if text and len(text) > 10:  # 商品名らしい長さのテキスト
             return text
     
-    # パターン5: class="zg-item" や "zg-title" を含む要素（ランキングページ用）
-    title_elements = element.find_all(class_=re.compile(r"zg-title|zg-item"))
-    for title_elem in title_elements:
-        text = title_elem.get_text(strip=True)
+    # パターン4: class="a-size-base-plus" を含む要素
+    size_elements = element.find_all(class_=re.compile(r"a-size-base-plus|a-size-medium"))
+    for size_elem in size_elements:
+        text = size_elem.get_text(strip=True)
         if text and len(text) > 3:
             return text
     
@@ -180,10 +234,56 @@ def extract_image_url(element, base_url: str) -> str:
                 image_url = "https:" + image_url
             elif image_url.startswith("/"):
                 image_url = urljoin(base_url, image_url)
-            return image_url
+            # プレースホルダー画像を除外
+            if "placeholder" not in image_url.lower() and "sprites" not in image_url.lower():
+                return image_url
     
     # デフォルト画像
     return "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop"
+
+
+def extract_price(element) -> int:
+    """
+    商品コンテナ要素から価格を抽出する
+    """
+    # パターン1: class="a-price-whole" を含む要素（整数部分）
+    price_whole = element.find(class_=re.compile(r"a-price-whole"))
+    if price_whole:
+        price_text = price_whole.get_text(strip=True).replace(",", "").replace("¥", "")
+        try:
+            return int(price_text)
+        except ValueError:
+            pass
+    
+    # パターン2: class="a-price" を含む要素
+    price_elem = element.find(class_=re.compile(r"a-price"))
+    if price_elem:
+        price_text = price_elem.get_text(strip=True)
+        # 数字のみを抽出
+        price_match = re.search(r"[\d,]+", price_text.replace(",", ""))
+        if price_match:
+            try:
+                return int(price_match.group(0))
+            except ValueError:
+                pass
+    
+    # パターン3: 価格らしいテキストを直接検索
+    price_patterns = [
+        r"¥\s*([\d,]+)",
+        r"([\d,]+)\s*円",
+        r"([\d,]+)\s*JPY",
+    ]
+    for pattern in price_patterns:
+        matches = re.findall(pattern, element.get_text())
+        if matches:
+            try:
+                price_str = matches[0].replace(",", "")
+                return int(price_str)
+            except ValueError:
+                continue
+    
+    # 価格が取得できない場合は0円として設定（後続の価格更新スクリプトで補正される）
+    return 0
 
 
 def extract_product_from_element(element, base_url: str) -> dict | None:
@@ -198,6 +298,9 @@ def extract_product_from_element(element, base_url: str) -> dict | None:
             link_tag = element.find("a", href=re.compile(r"/dp/|/gp/product/"))
             if link_tag:
                 href = link_tag.get("href", "")
+                # 相対URLの場合は絶対URLに変換
+                if href.startswith("/"):
+                    href = urljoin(base_url, href)
                 asin = extract_asin_from_url(href)
                 if not asin:
                     return None
@@ -212,9 +315,8 @@ def extract_product_from_element(element, base_url: str) -> dict | None:
         # 画像URLを抽出
         image_url = extract_image_url(element, base_url)
 
-        # 価格は取得できない場合が多いため、0円として設定
-        # （後続の価格更新スクリプトで補正される）
-        price = 0
+        # 価格を抽出
+        price = extract_price(element)
 
         return {
             "asin": asin,
@@ -228,9 +330,9 @@ def extract_product_from_element(element, base_url: str) -> dict | None:
         return None
 
 
-def scrape_ranking_page(url: str) -> list[dict]:
+def scrape_search_page(url: str) -> list[dict]:
     """
-    ランキングページから商品情報を抽出する
+    検索結果ページから商品情報を抽出する
     """
     products = []
     
@@ -244,19 +346,19 @@ def scrape_ranking_page(url: str) -> list[dict]:
 
         soup = BeautifulSoup(response.text, "html.parser")
         
-        # 複数のパターンで商品コンテナを探す
+        # 検索結果ページの商品コンテナを探す
         product_elements = []
         
-        # パターン1: div[data-asin] 属性を持つ要素
-        elements_1 = soup.find_all("div", attrs={"data-asin": True})
+        # パターン1: div[data-asin] 属性を持つ要素（検索結果ページの標準パターン）
+        elements_1 = soup.find_all("div", attrs={"data-asin": True, "data-index": True})
         product_elements.extend(elements_1)
         
-        # パターン2: div.zg-grid-general-faceout（ランキングページ用）
-        elements_2 = soup.find_all("div", class_=re.compile(r"zg-grid-general-faceout|zg-item"))
+        # パターン2: div[data-component-type="s-search-result"]（検索結果ページ用）
+        elements_2 = soup.find_all("div", attrs={"data-component-type": "s-search-result"})
         product_elements.extend(elements_2)
         
-        # パターン3: li.zg-item-immersion（ランキングページ用）
-        elements_3 = soup.find_all("li", class_=re.compile(r"zg-item-immersion"))
+        # パターン3: div.s-result-item（検索結果ページ用）
+        elements_3 = soup.find_all("div", class_=re.compile(r"s-result-item"))
         product_elements.extend(elements_3)
         
         # 重複を除去（同じASINを持つ要素を統合）
@@ -269,6 +371,8 @@ def scrape_ranking_page(url: str) -> list[dict]:
                 link_tag = element.find("a", href=re.compile(r"/dp/|/gp/product/"))
                 if link_tag:
                     href = link_tag.get("href", "")
+                    if href.startswith("/"):
+                        href = urljoin(url, href)
                     asin = extract_asin_from_url(href)
             
             if asin and asin not in seen_asins:
@@ -297,7 +401,7 @@ def scrape_ranking_page(url: str) -> list[dict]:
 # ============================================================================
 
 def import_ranking():
-    """ランキングページから商品をインポートする"""
+    """キーワード検索から商品をインポートする"""
     
     # アフィリエイトIDの確認
     if ASSOCIATE_TAG == "YOUR_ID_HERE":
@@ -305,10 +409,10 @@ def import_ranking():
         print("   スクリプトの冒頭で ASSOCIATE_TAG を設定してください")
         print("   現在は通常のURLで登録されます\n")
     
-    # categories.txtが存在するか確認
-    if not CATEGORIES_FILE.exists():
-        print(f"エラー: {CATEGORIES_FILE} が見つかりません")
-        print("categories.txtを作成し、1行に1つずつAmazonランキングURLを記入してください")
+    # keywords.txtが存在するか確認
+    if not KEYWORDS_FILE.exists():
+        print(f"エラー: {KEYWORDS_FILE} が見つかりません")
+        print("keywords.txtを作成し、1行に1つずつ検索キーワードを記入してください")
         return
 
     # 既存の商品データを読み込む
@@ -321,82 +425,102 @@ def import_ranking():
     # 既存のASINセットを取得（重複チェック用）
     existing_asins = get_existing_asins(products)
 
-    # categories.txtを読み込む
-    with open(CATEGORIES_FILE, "r", encoding="utf-8") as f:
-        urls = [line.strip() for line in f if line.strip() and not line.strip().startswith("#")]
+    # keywords.txtを読み込む
+    with open(KEYWORDS_FILE, "r", encoding="utf-8") as f:
+        keywords = [line.strip() for line in f if line.strip() and not line.strip().startswith("#")]
 
-    if not urls:
-        print("categories.txtにURLが記入されていません")
+    if not keywords:
+        print("keywords.txtにキーワードが記入されていません")
         return
 
-    print(f"{len(urls)}件のランキングページを処理します...\n")
+    print(f"{len(keywords)}件のキーワードを処理します...")
+    print(f"各キーワードにつき {PAGES_PER_KEYWORD} ページを巡回します\n")
 
     total_added = 0
     total_skipped = 0
     total_failed = 0
     MAX_PRODUCTS = 150  # 最大登録件数の制限
 
-    # 各URLを処理
-    for i, url in enumerate(urls, 1):
-        print(f"[{i}/{len(urls)}] 処理中: {url}")
-
+    # 各キーワードを処理
+    for keyword_idx, keyword in enumerate(keywords, 1):
+        print(f"[{keyword_idx}/{len(keywords)}] キーワード: {keyword}")
+        
         # 最大件数に達した場合は処理を停止
         if total_added >= MAX_PRODUCTS:
             print(f"  最大登録件数（{MAX_PRODUCTS}件）に達したため、処理を停止します")
             break
 
-        # ランキングページから商品を抽出
-        scraped_products = scrape_ranking_page(url)
-
-        if not scraped_products:
-            print(f"  スキップ: 商品が見つかりませんでした")
-            total_failed += 1
-            if i < len(urls):  # 最後のURLの後は待機しない
-                random_sleep(2, 5)
-            continue
-
-        # 各商品を登録
-        for product_info in scraped_products:
+        # 各キーワードにつき複数ページを巡回
+        for page in range(1, PAGES_PER_KEYWORD + 1):
             # 最大件数に達した場合は処理を停止
             if total_added >= MAX_PRODUCTS:
-                print(f"  最大登録件数（{MAX_PRODUCTS}件）に達したため、処理を停止します")
                 break
-            asin = product_info["asin"]
 
-            # 重複チェック（ASINベース）
-            if asin in existing_asins:
-                print(f"  スキップ: {product_info['name'][:50]}... (既に登録済み: ASIN={asin})")
-                total_skipped += 1
+            # 検索URLを構築
+            search_url = build_search_url(keyword, page)
+            print(f"  ページ {page}/{PAGES_PER_KEYWORD}: {search_url}")
+
+            # 検索結果ページから商品を抽出
+            scraped_products = scrape_search_page(search_url)
+
+            if not scraped_products:
+                print(f"  スキップ: 商品が見つかりませんでした")
+                if page == 1:
+                    total_failed += 1
+                # 次のページに進む
+                random_sleep(2, 4)
                 continue
 
-            # アフィリエイトリンクを生成
-            affiliate_url = build_affiliate_url(asin)
+            # 各商品を登録
+            for product_info in scraped_products:
+                # 最大件数に達した場合は処理を停止
+                if total_added >= MAX_PRODUCTS:
+                    print(f"  最大登録件数（{MAX_PRODUCTS}件）に達したため、処理を停止します")
+                    break
+                
+                asin = product_info["asin"]
 
-            # 新しい商品データを作成
-            new_id = get_next_id(products)
-            new_product = {
-                "id": new_id,
-                "name": product_info["name"],
-                "currentPrice": product_info["price"],
-                "priceHistory": [
-                    {
-                        "date": datetime.now(timezone.utc).isoformat(),
-                        "price": product_info["price"],
-                    }
-                ],
-                "affiliateUrl": affiliate_url,
-                "imageUrl": product_info["image_url"],
-            }
+                # 重複チェック（ASINベース）
+                if asin in existing_asins:
+                    print(f"  スキップ: {product_info['name'][:50]}... (既に登録済み: ASIN={asin})")
+                    total_skipped += 1
+                    continue
 
-            products.append(new_product)
-            existing_asins.add(asin)  # 重複チェック用セットに追加
-            total_added += 1
+                # アフィリエイトリンクを生成
+                affiliate_url = build_affiliate_url(asin)
 
-            print(f"  ✓ 追加: {product_info['name'][:50]}... (ASIN={asin})")
+                # カテゴリを割り当て
+                category = assign_category(product_info["name"], category_map)
 
-        # サーバー負荷を考慮してランダムに2〜5秒待機
-        if i < len(urls):  # 最後のURLの後は待機しない
-            random_sleep(2, 5)
+                # 新しい商品データを作成
+                new_id = get_next_id(products)
+                new_product = {
+                    "id": new_id,
+                    "name": product_info["name"],
+                    "currentPrice": product_info["price"],
+                    "priceHistory": [
+                        {
+                            "date": datetime.now(timezone.utc).isoformat(),
+                            "price": product_info["price"],
+                        }
+                    ],
+                    "affiliateUrl": affiliate_url,
+                    "imageUrl": product_info["image_url"],
+                    "category": category,  # カテゴリを埋め込む
+                }
+
+                products.append(new_product)
+                existing_asins.add(asin)  # 重複チェック用セットに追加
+                total_added += 1
+
+                print(f"  ✓ 追加: {product_info['name'][:50]}... (ASIN={asin}, 価格=¥{product_info['price']:,})")
+
+            # サーバー負荷を考慮してランダムに2〜5秒待機
+            if page < PAGES_PER_KEYWORD:
+                random_sleep(2, 5)
+            elif keyword_idx < len(keywords):
+                # キーワード間は少し長めに待機
+                random_sleep(3, 6)
 
     # JSONファイルに保存
     with open(DATA_FILE, "w", encoding="utf-8") as f:

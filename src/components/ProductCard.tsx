@@ -24,37 +24,6 @@ function extractASIN(url: string): string | null {
   return match ? (match[1] || match[2]) : null;
 }
 
-/**
- * カテゴリを推測する関数
- */
-function guessCategory(product: Product): string {
-  const name = product.name.toLowerCase();
-  if (name.includes("pc") || name.includes("パソコン") || name.includes("macbook") || name.includes("ipad") || name.includes("タブレット")) {
-    return "ガジェット";
-  }
-  if (name.includes("家電") || name.includes("イヤホン") || name.includes("ヘッドホン") || name.includes("充電") || name.includes("ケーブル")) {
-    return "家電";
-  }
-  if (name.includes("キッチン") || name.includes("フライパン") || name.includes("鍋") || name.includes("食器")) {
-    return "キッチン";
-  }
-  if (name.includes("ゲーム") || name.includes("switch") || name.includes("playstation") || name.includes("nintendo")) {
-    return "ゲーム";
-  }
-  if (name.includes("プロテイン") || name.includes("サプリ") || name.includes("健康") || name.includes("洗剤")) {
-    return "ヘルスケア";
-  }
-  if (name.includes("化粧") || name.includes("スキンケア") || name.includes("美容")) {
-    return "ビューティー";
-  }
-  if (name.includes("食品") || name.includes("飲料") || name.includes("お菓子")) {
-    return "食品";
-  }
-  if (name.includes("文房具") || name.includes("ペン") || name.includes("ノート")) {
-    return "文房具";
-  }
-  return "その他";
-}
 
 /**
  * Deal Scoreを計算
@@ -156,7 +125,8 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle }:
   // Deal Score
   const dealScore = calculateDealScore(product);
   
-  const category = guessCategory(product);
+  // 商品データに埋め込まれたカテゴリを使用（なければ「その他」）
+  const category = product.category || "その他";
   const chartData = prepareChartData(product, selectedPeriod);
   const chartColor = getChartColor(product);
 

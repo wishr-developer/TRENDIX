@@ -140,35 +140,6 @@ export default function Home() {
     return unique;
   }, [products]);
 
-  // カテゴリを推測する関数
-  const guessCategory = (product: Product): string => {
-    const name = product.name.toLowerCase();
-    if (name.includes("pc") || name.includes("パソコン") || name.includes("macbook") || name.includes("ipad") || name.includes("タブレット")) {
-      return "ガジェット";
-    }
-    if (name.includes("家電") || name.includes("イヤホン") || name.includes("ヘッドホン") || name.includes("充電") || name.includes("ケーブル")) {
-      return "家電";
-    }
-    if (name.includes("キッチン") || name.includes("フライパン") || name.includes("鍋") || name.includes("食器")) {
-      return "キッチン";
-    }
-    if (name.includes("ゲーム") || name.includes("switch") || name.includes("playstation") || name.includes("nintendo")) {
-      return "ゲーム";
-    }
-    if (name.includes("プロテイン") || name.includes("サプリ") || name.includes("健康") || name.includes("洗剤")) {
-      return "ヘルスケア";
-    }
-    if (name.includes("化粧") || name.includes("スキンケア") || name.includes("美容")) {
-      return "ビューティー";
-    }
-    if (name.includes("食品") || name.includes("飲料") || name.includes("お菓子")) {
-      return "食品";
-    }
-    if (name.includes("文房具") || name.includes("ペン") || name.includes("ノート")) {
-      return "文房具";
-    }
-    return "その他";
-  };
 
   // 統計情報を計算
   const stats = useMemo(() => {
@@ -200,7 +171,7 @@ export default function Home() {
       const latest = p.currentPrice;
       const prev = history[history.length - 2].price;
       if (latest < prev) {
-        const category = guessCategory(p);
+        const category = p.category || "その他";
         categoryDrops[category] = (categoryDrops[category] || 0) + 1;
       }
     });
@@ -222,10 +193,9 @@ export default function Home() {
     let result = [...uniqueProducts];
 
     // カテゴリフィルター（最初に適用）
-    // 商品データにカテゴリ情報がないため、guessCategory関数を使用して商品名からカテゴリを推測
     if (selectedCategory && selectedCategory !== 'all') {
       result = result.filter((p: Product) => {
-        const category = guessCategory(p);
+        const category = p.category || "その他";
         return category === selectedCategory;
       });
     }
