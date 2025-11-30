@@ -5,8 +5,59 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useCategory } from '@/contexts/CategoryContext';
 
+/**
+ * お気に入りボタンコンポーネント（お気に入り数を表示）
+ */
+function FavoriteButton({ onFavoriteClick }: { onFavoriteClick?: () => void }) {
+  const [favoriteCount, setFavoriteCount] = useState(0);
+
+  // localStorageからお気に入り数を取得
+  useEffect(() => {
+    const updateFavoriteCount = () => {
+      if (typeof window !== 'undefined') {
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        setFavoriteCount(favorites.length);
+      }
+    };
+
+    updateFavoriteCount();
+    
+    // localStorageの変更を監視
+    const handleStorageChange = () => {
+      updateFavoriteCount();
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    // カスタムイベントでlocalStorageの変更を検知（同一タブ内）
+    window.addEventListener('favoriteUpdated', updateFavoriteCount);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('favoriteUpdated', updateFavoriteCount);
+    };
+  }, []);
+
+  return (
+    <button 
+      onClick={onFavoriteClick}
+      className="p-2 text-gray-600 hover:bg-gray-100 rounded-full relative transition-colors" 
+      aria-label="お気に入り一覧"
+    >
+      <ShoppingBag size={20} />
+      {/* お気に入り数のバッジ */}
+      {favoriteCount > 0 && (
+        <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+          {favoriteCount > 9 ? '9+' : favoriteCount}
+        </span>
+      )}
+    </button>
+  );
+}
+
 interface HeaderProps {
   onSearch?: (query: string) => void;
+  onRankingClick?: () => void;
+  onFavoriteClick?: () => void;
 }
 
 // カテゴリリスト
@@ -23,7 +74,7 @@ const categories = [
   { id: 'その他', label: 'その他' },
 ];
 
-export default function Header({ onSearch }: HeaderProps) {
+export default function Header({ onSearch, onRankingClick, onFavoriteClick }: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
@@ -231,18 +282,25 @@ export default function Header({ onSearch }: HeaderProps) {
               )}
             </div>
             
-            {/* ランキングリンク（将来の実装用） */}
-            <Link 
-              href="/" 
-              className="text-sm font-medium text-gray-600 hover:text-black hidden sm:block"
-            >
-              ランキング
-            </Link>
+            {/* ランキングリンク */}
+            {onRankingClick ? (
+              <button
+                onClick={onRankingClick}
+                className="text-sm font-medium text-gray-600 hover:text-black hidden sm:block transition-colors"
+              >
+                ランキング
+              </button>
+            ) : (
+              <Link 
+                href="/" 
+                className="text-sm font-medium text-gray-600 hover:text-black hidden sm:block"
+              >
+                ランキング
+              </Link>
+            )}
 
-            {/* ショッピングバッグアイコン */}
-            <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-full" aria-label="ショッピングバッグ">
-              <ShoppingBag size={20} />
-            </button>
+            {/* お気に入りアイコン（ショッピングバッグ） */}
+            <FavoriteButton onFavoriteClick={onFavoriteClick} />
 
             {/* モバイル: 検索アイコン */}
             <button 

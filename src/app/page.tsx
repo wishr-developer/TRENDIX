@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import ProductCard from '@/components/ProductCard';
 import Header from '@/components/Header';
 import AlertModal from '@/components/AlertModal';
+import FavoriteModal from '@/components/FavoriteModal';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import Pagination from '@/components/Pagination';
 import { Product } from '@/types/product';
@@ -48,6 +49,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<TabType>('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isFavoriteModalOpen, setIsFavoriteModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -330,6 +332,19 @@ export default function Home() {
     return finalResult;
   }, [uniqueProducts, searchQuery, activeTab, selectedCategory]);
 
+  // お気に入り商品を取得
+  const favoriteProducts = useMemo(() => {
+    if (typeof window === 'undefined') return [];
+    
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    if (favorites.length === 0) return [];
+    
+    return uniqueProducts.filter((product) => {
+      const asin = extractASIN(product.affiliateUrl);
+      return asin && favorites.includes(asin);
+    });
+  }, [uniqueProducts]);
+
   // ページネーション: 現在のページに対応する商品をスライス
   const paginatedProducts = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -495,11 +510,34 @@ export default function Home() {
         }}
       />
       
-      <Header onSearch={setSearchQuery} />
+      <Header 
+        onSearch={setSearchQuery} 
+        onRankingClick={() => {
+          setActiveTab('ranking');
+          setCurrentPage(1);
+          // ページトップにスクロール
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        onFavoriteClick={() => {
+          setIsFavoriteModalOpen(true);
+        }}
+      />
       <AlertModal 
         isOpen={isModalOpen} 
         onClose={handleCloseModal} 
         product={selectedProduct} 
+      />
+      <FavoriteModal
+        isOpen={isFavoriteModalOpen}
+        onClose={() => setIsFavoriteModalOpen(false)}
+        products={favoriteProducts}
+        onAlertClick={handleAlertClick}
+        onFavoriteToggle={(asin, isFavorite) => {
+          // お気に入りが削除された場合、モーダルを閉じる（商品が0件になった場合）
+          if (!isFavorite && favoriteProducts.length === 1) {
+            setIsFavoriteModalOpen(false);
+          }
+        }}
       />
       <div className="pb-20 bg-[#f8f9fa] min-h-screen">
         {/* 統計サマリーエリア（ヘッダー直下） */}

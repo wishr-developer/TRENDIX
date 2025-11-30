@@ -200,6 +200,11 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle }:
     localStorage.setItem('favorites', JSON.stringify(favorites));
     setIsFavorite(newIsFavorite);
     
+    // カスタムイベントを発火して、他のコンポーネントに通知
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('favoriteUpdated'));
+    }
+    
     if (onFavoriteToggle) {
       onFavoriteToggle(asin, newIsFavorite);
     }
