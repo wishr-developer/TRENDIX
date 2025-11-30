@@ -256,7 +256,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
       className="group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-100 flex flex-col h-full relative"
     >
       {/* モバイル: 横並びレイアウト */}
-      <div className="md:hidden flex gap-4 p-4 flex-1">
+      <div className="md:hidden flex gap-4 p-5 flex-1">
         {/* 左: 画像 */}
         <div className="flex-shrink-0">
           <div className="w-24 h-24 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden relative">
@@ -281,7 +281,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
         </div>
 
         {/* 右: 情報エリア */}
-        <div className="flex-1 min-w-0 flex flex-col gap-2.5">
+        <div className="flex-1 min-w-0 flex flex-col gap-3">
           {/* 商品名（2行制限） */}
           <h3 className="text-sm font-medium text-gray-900 line-clamp-2 leading-snug group-hover:text-blue-600 transition-colors">
             {product.name}
@@ -289,29 +289,29 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
 
           {/* 割引額の強調表示（値下がりの場合のみ、商品名と価格の間） */}
           {isCheaper && diff !== 0 && (
-            <div className="flex items-center gap-2 bg-sale-bg rounded-lg px-3 py-2 border border-orange-200">
-              <span className="text-lg font-bold text-sale">
+            <div className="flex items-center gap-3 bg-sale-bg rounded-lg px-4 py-3 border-2 border-orange-300">
+              <span className="text-xl font-bold text-sale">
                 -{percentChange}%
               </span>
-              <span className="text-base font-bold text-sale">
+              <span className="text-lg font-bold text-sale">
                 -¥{Math.abs(diff).toLocaleString()}
               </span>
             </div>
           )}
 
           {/* 価格表示（値下がりの場合は前回価格を大きく取り消し線、現在価格を強調） */}
-          <div className="flex items-baseline gap-2">
+          <div className="flex items-baseline gap-3">
             {isCheaper ? (
               <>
-                <span className="text-lg font-bold text-gray-400 line-through">
+                <span className="text-xl font-bold text-gray-500 line-through">
                   ¥{prev.toLocaleString()}
                 </span>
-                <span className="text-2xl font-bold text-gray-900">
+                <span className="text-3xl font-bold text-gray-900">
                   ¥{latest.toLocaleString()}
                 </span>
               </>
             ) : (
-              <span className="text-xl font-bold text-gray-900">
+              <span className="text-2xl font-bold text-gray-900">
                 ¥{latest.toLocaleString()}
               </span>
             )}
@@ -477,7 +477,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
         </div>
 
         {/* 情報エリア（下部） */}
-        <div className="p-5 flex flex-col gap-3 flex-1">
+        <div className="p-6 flex flex-col gap-4 flex-1">
           {/* 商品名（2行制限） */}
           <h3 className="text-base font-medium text-gray-900 line-clamp-2 leading-relaxed group-hover:text-blue-600 transition-colors min-h-[3rem]">
             {product.name}
@@ -485,29 +485,29 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
 
           {/* 割引額の強調表示（値下がりの場合のみ、商品名と価格の間） */}
           {isCheaper && diff !== 0 && (
-            <div className="flex items-center gap-3 bg-sale-bg rounded-lg px-4 py-3 border-2 border-orange-300">
-              <span className="text-2xl font-bold text-sale">
+            <div className="flex items-center gap-4 bg-sale-bg rounded-lg px-5 py-4 border-2 border-orange-300">
+              <span className="text-3xl font-bold text-sale">
                 -{percentChange}%
               </span>
-              <span className="text-xl font-bold text-sale">
+              <span className="text-2xl font-bold text-sale">
                 -¥{Math.abs(diff).toLocaleString()}
               </span>
             </div>
           )}
 
           {/* 価格表示（値下がりの場合は前回価格を大きく取り消し線、現在価格を強調） */}
-          <div className="flex items-baseline gap-3 text-center">
+          <div className="flex items-baseline gap-4">
             {isCheaper ? (
               <>
-                <span className="text-xl font-bold text-gray-400 line-through">
+                <span className="text-2xl font-bold text-gray-500 line-through">
                   ¥{prev.toLocaleString()}
                 </span>
-                <span className="text-3xl font-bold text-gray-900">
+                <span className="text-4xl font-bold text-gray-900">
                   ¥{latest.toLocaleString()}
                 </span>
               </>
             ) : (
-              <span className="text-2xl font-bold text-gray-900">
+              <span className="text-3xl font-bold text-gray-900">
                 ¥{latest.toLocaleString()}
               </span>
             )}

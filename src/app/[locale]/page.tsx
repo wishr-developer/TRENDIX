@@ -712,7 +712,7 @@ export default function Home() {
           
           {/* ローディング状態 */}
           {isLoading && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {[...Array(6)].map((_, index) => (
                 <LoadingSkeleton key={index} />
               ))}
@@ -828,7 +828,7 @@ export default function Home() {
                     />
                   ) : (
                     // 初期レンダリング時のフォールバック（グリッド表示）
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                       {filteredProducts.slice(0, 6).map((p, index) => (
                         <ProductCard 
                           key={p.id} 
