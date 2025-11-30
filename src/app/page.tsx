@@ -180,7 +180,21 @@ export default function Home() {
         break;
     }
 
-    return result;
+    // 最終確認：ASINベースで重複排除（1商品 = 1カードを保証）
+    const finalResult: Product[] = [];
+    const seenASINs = new Set<string>();
+    
+    for (const product of result) {
+      const asin = extractASIN(product.affiliateUrl);
+      const identifier = asin || product.id;
+      
+      if (!seenASINs.has(identifier)) {
+        seenASINs.add(identifier);
+        finalResult.push(product);
+      }
+    }
+
+    return finalResult;
   }, [uniqueProducts, searchQuery, activeTab]);
 
   // トレンドTOP3（スコア順）
@@ -227,8 +241,11 @@ export default function Home() {
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                 買い時の商品が、<span className="text-blue-600">一瞬でわかる。</span>
               </h1>
-              <p className="text-gray-600 text-sm md:text-base">
+              <p className="text-gray-600 text-sm md:text-base mb-2">
                 Amazonの価格変動を24時間365日監視中
+              </p>
+              <p className="text-gray-500 text-xs md:text-sm max-w-2xl mx-auto">
+                XIORA TRENDは、Amazonの価格変動をAIで継続監視し、本当に安くなった商品のみを自動で抽出・表示します。
               </p>
             </div>
 

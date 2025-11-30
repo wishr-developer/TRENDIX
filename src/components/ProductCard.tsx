@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ExternalLink, Bell } from 'lucide-react';
 import { Product } from '@/types/product';
 import { AreaChart, Area, ResponsiveContainer, LineChart, Line } from 'recharts';
+import DealScoreTooltip from './DealScoreTooltip';
 
 interface ProductCardProps {
   product: Product;
@@ -176,23 +177,26 @@ export default function ProductCard({ product, onAlertClick }: ProductCardProps)
             {product.name}
           </h3>
 
-          {/* AI Deal Score */}
+          {/* AI Deal Score（ツールチップ付き） */}
           {dealScore > 0 && (
-            <div className="text-xs font-bold text-purple-600">
-              AI Deal Score: {dealScore}/100
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-bold text-purple-600">
+                AI Deal Score: {dealScore}/100
+              </span>
+              <DealScoreTooltip />
             </div>
           )}
 
-          {/* 価格変動情報 */}
+          {/* 価格変動情報（強化版：▼ 8.3%（−¥93）形式） */}
           {diff !== 0 && (
             <div className={`text-xs font-semibold ${
               isCheaper ? 'text-price-drop' : 'text-price-up'
             }`}>
-              {isCheaper ? '↓' : '↑'} ¥{Math.abs(diff).toLocaleString()} ({percentChange}%)
+              {isCheaper ? '▼' : '▲'} {percentChange}%（{isCheaper ? '−' : '+'}¥{Math.abs(diff).toLocaleString()}）
             </div>
           )}
 
-          {/* 最安値との差 */}
+          {/* 最安値との差（統一表記） */}
           {diffFromLowest !== null && !isLowestPrice && (
             <div className="text-xs text-gray-600">
               最安値との差: {diffFromLowest > 0 ? '+' : ''}¥{diffFromLowest.toLocaleString()}
@@ -300,23 +304,26 @@ export default function ProductCard({ product, onAlertClick }: ProductCardProps)
             {product.name}
           </h3>
 
-          {/* AI Deal Score */}
+          {/* AI Deal Score（ツールチップ付き） */}
           {dealScore > 0 && (
-            <div className="text-xs font-bold text-purple-600">
-              AI Deal Score: {dealScore}/100
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-bold text-purple-600">
+                AI Deal Score: {dealScore}/100
+              </span>
+              <DealScoreTooltip />
             </div>
           )}
 
-          {/* 価格変動情報 */}
+          {/* 価格変動情報（強化版：▼ 8.3%（−¥93）形式） */}
           {diff !== 0 && (
             <div className={`text-sm font-semibold ${
               isCheaper ? 'text-price-drop' : 'text-price-up'
             }`}>
-              {isCheaper ? '↓' : '↑'} ¥{Math.abs(diff).toLocaleString()} ({percentChange}%)
+              {isCheaper ? '▼' : '▲'} {percentChange}%（{isCheaper ? '−' : '+'}¥{Math.abs(diff).toLocaleString()}）
             </div>
           )}
 
-          {/* 最安値との差 */}
+          {/* 最安値との差（統一表記） */}
           {diffFromLowest !== null && !isLowestPrice && (
             <div className="text-xs text-gray-600">
               最安値との差: {diffFromLowest > 0 ? '+' : ''}¥{diffFromLowest.toLocaleString()}

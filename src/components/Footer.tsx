@@ -7,8 +7,7 @@ export default function Footer() {
           <span className="text-lg font-light text-slate-500 ml-1">TREND</span>
         </div>
         <p className="text-xs text-gray-400 max-w-md mx-auto leading-relaxed mb-6">
-          当サイトはAmazonアソシエイト・プログラムの参加者です。
-          価格情報は定期的に更新されますが、購入時のAmazon.co.jpの表示価格が優先されます。
+          掲載価格はAmazon公式サイトの価格情報をもとにしています。本サイトはAmazonアソシエイト・プログラムに参加しています。
         </p>
         <div className="text-xs text-gray-500">
           &copy; 2024 XIORA TREND. All rights reserved.
