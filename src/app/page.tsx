@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import ProductCard from '@/components/ProductCard';
 import Header from '@/components/Header';
+import AlertModal from '@/components/AlertModal';
 import { Product } from '@/types/product';
 import { Crown } from 'lucide-react';
 
@@ -39,6 +40,8 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<TabType>('all');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   
   useEffect(() => { 
     fetch('/api/products')
@@ -197,9 +200,24 @@ export default function Home() {
     { id: 'all', label: 'すべて', emoji: '' },
   ];
 
+  const handleAlertClick = (product: Product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
+
   return (
     <>
       <Header onSearch={setSearchQuery} />
+      <AlertModal 
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal} 
+        product={selectedProduct} 
+      />
       <div className="pb-20 bg-[#f8f9fa] min-h-screen">
         {/* 統計サマリーエリア（ヘッダー直下） */}
         <section className="bg-white border-b border-gray-200 py-8 px-4">
@@ -331,7 +349,11 @@ export default function Home() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {filteredProducts.map((p) => (
-                <ProductCard key={p.id} product={p} />
+                <ProductCard 
+                  key={p.id} 
+                  product={p} 
+                  onAlertClick={handleAlertClick}
+                />
               ))}
             </div>
           )}

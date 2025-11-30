@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from 'react';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Bell } from 'lucide-react';
 import { Product } from '@/types/product';
 import { AreaChart, Area, ResponsiveContainer, LineChart, Line } from 'recharts';
 
 interface ProductCardProps {
   product: Product;
   rank?: number;
+  onAlertClick?: (product: Product) => void;
 }
 
 type PeriodType = '7D' | '30D' | 'ALL';
@@ -119,7 +120,7 @@ function getChartColor(product: Product): string {
   return '#9ca3af'; // グレー（変動なし）
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, onAlertClick }: ProductCardProps) {
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>('ALL');
   
   const history = product.priceHistory || [];
@@ -243,7 +244,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
 
           {/* 価格とボタン */}
-          <div className="flex items-center justify-between mt-auto">
+          <div className="flex flex-col gap-2 mt-auto">
             <div className="flex items-baseline gap-2">
               {isCheaper && (
                 <span className="text-xs text-gray-400 line-through">
@@ -254,12 +255,25 @@ export default function ProductCard({ product }: ProductCardProps) {
                 ¥{latest.toLocaleString()}
               </span>
             </div>
-            <button 
-              onClick={(e) => e.preventDefault()}
-              className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-            >
-              <ExternalLink size={16} />
-            </button>
+            <div className="flex gap-2">
+              <button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (onAlertClick) onAlertClick(product);
+                }}
+                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+              >
+                <Bell size={14} />
+                <span>アラート設定</span>
+              </button>
+              <button 
+                onClick={(e) => e.preventDefault()}
+                className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+              >
+                <ExternalLink size={16} />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -354,7 +368,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
 
           {/* 価格とボタン */}
-          <div className="flex items-center justify-between mt-auto">
+          <div className="flex flex-col gap-2 mt-auto">
             <div className="flex items-baseline gap-2">
               {isCheaper && (
                 <span className="text-sm text-gray-400 line-through">
@@ -365,13 +379,26 @@ export default function ProductCard({ product }: ProductCardProps) {
                 ¥{latest.toLocaleString()}
               </span>
             </div>
-            <button 
-              onClick={(e) => e.preventDefault()}
-              className="px-3 py-1.5 text-sm text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors flex items-center gap-1.5"
-            >
-              <span>Amazon</span>
-              <ExternalLink size={14} />
-            </button>
+            <div className="flex gap-2">
+              <button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (onAlertClick) onAlertClick(product);
+                }}
+                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+              >
+                <Bell size={14} />
+                <span>アラート設定</span>
+              </button>
+              <button 
+                onClick={(e) => e.preventDefault()}
+                className="px-3 py-1.5 text-sm text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors flex items-center gap-1.5"
+              >
+                <span>Amazon</span>
+                <ExternalLink size={14} />
+              </button>
+            </div>
           </div>
         </div>
       </div>
