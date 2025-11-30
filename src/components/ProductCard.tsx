@@ -259,7 +259,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
       <div className="md:hidden flex gap-4 p-5 flex-1">
         {/* 左: 画像 */}
         <div className="flex-shrink-0">
-          <div className="w-24 h-24 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden relative">
+          <div className="w-32 h-32 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden relative">
             {imageError ? (
               <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
                 <span className="text-[10px] font-medium">No Image</span>
@@ -268,8 +268,8 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
               <Image
                 src={product.imageUrl}
                 alt={product.name}
-                width={96}
-                height={96}
+                width={128}
+                height={128}
                 className="object-contain mix-blend-multiply p-2"
                 priority={isPriority}
                 loading={isPriority ? undefined : "lazy"}
@@ -283,17 +283,17 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
         {/* 右: 情報エリア */}
         <div className="flex-1 min-w-0 flex flex-col gap-3">
           {/* 商品名（2行制限） */}
-          <h3 className="text-sm font-medium text-gray-900 line-clamp-2 leading-snug group-hover:text-blue-600 transition-colors">
+          <h3 className="text-base font-medium text-gray-900 line-clamp-2 leading-snug group-hover:text-blue-600 transition-colors">
             {product.name}
           </h3>
 
           {/* 割引額の強調表示（値下がりの場合のみ、商品名と価格の間） */}
           {isCheaper && diff !== 0 && (
             <div className="flex items-center gap-3 bg-sale-bg rounded-lg px-4 py-3 border-2 border-orange-300">
-              <span className="text-xl font-bold text-sale">
+              <span className="text-2xl font-bold text-sale">
                 -{percentChange}%
               </span>
-              <span className="text-lg font-bold text-sale">
+              <span className="text-xl font-bold text-sale">
                 -¥{Math.abs(diff).toLocaleString()}
               </span>
             </div>
@@ -453,7 +453,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
               src={product.imageUrl}
               alt={product.name}
               fill
-              className="object-contain mix-blend-multiply p-4"
+              className="object-contain mix-blend-multiply p-6"
               priority={isPriority}
               loading={isPriority ? undefined : "lazy"}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -479,17 +479,17 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
         {/* 情報エリア（下部） */}
         <div className="p-6 flex flex-col gap-4 flex-1">
           {/* 商品名（2行制限） */}
-          <h3 className="text-base font-medium text-gray-900 line-clamp-2 leading-relaxed group-hover:text-blue-600 transition-colors min-h-[3rem]">
+          <h3 className="text-lg font-medium text-gray-900 line-clamp-2 leading-relaxed group-hover:text-blue-600 transition-colors min-h-[3rem]">
             {product.name}
           </h3>
 
           {/* 割引額の強調表示（値下がりの場合のみ、商品名と価格の間） */}
           {isCheaper && diff !== 0 && (
             <div className="flex items-center gap-4 bg-sale-bg rounded-lg px-5 py-4 border-2 border-orange-300">
-              <span className="text-3xl font-bold text-sale">
+              <span className="text-4xl font-bold text-sale">
                 -{percentChange}%
               </span>
-              <span className="text-2xl font-bold text-sale">
+              <span className="text-3xl font-bold text-sale">
                 -¥{Math.abs(diff).toLocaleString()}
               </span>
             </div>
