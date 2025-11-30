@@ -125,7 +125,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>('ALL');
   const [isFavorite, setIsFavorite] = useState(false);
   const [imageError, setImageError] = useState(false);
-  const [isDetailsExpanded, setIsDetailsExpanded] = useState(false); // 詳細情報の折りたたみ状態
+  const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
   
   const history = product.priceHistory || [];
   const latest = product.currentPrice;
@@ -173,7 +173,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
   const lowestPrice = getLowestPrice(product);
   const diffFromLowest = lowestPrice !== null ? latest - lowestPrice : null;
   
-  // 直近7日で最安値更新したかチェック（より厳格な条件）
+  // 直近7日で最安値更新したかチェック
   const isLowestPriceRecent = isLowestPriceInRecentDays(product, 7);
   
   // Deal Score
@@ -282,38 +282,50 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
 
         {/* 右: 情報エリア */}
         <div className="flex-1 min-w-0 flex flex-col gap-2.5">
-          {/* 価格（最上部に配置） */}
-          <div className="flex items-baseline gap-2">
-            {isCheaper && (
-              <span className="text-xs text-gray-400 line-through">
-                ¥{prev.toLocaleString()}
-              </span>
-            )}
-            <span className="text-xl font-bold text-gray-900">
-              ¥{latest.toLocaleString()}
-            </span>
-          </div>
-
-          {/* 商品名（2行制限、フォントサイズ調整） */}
+          {/* 商品名（2行制限） */}
           <h3 className="text-sm font-medium text-gray-900 line-clamp-2 leading-snug group-hover:text-blue-600 transition-colors">
             {product.name}
           </h3>
 
-          {/* 価格変動情報とバッジ（1行にまとめる） */}
-          <div className="flex items-center gap-2 flex-wrap">
-            {/* 価格変動情報（値下がりのみ表示） */}
-            {isCheaper && diff !== 0 && (
-              <span className="text-xs font-semibold text-price-drop">
-                ▼ {percentChange}%（−¥{Math.abs(diff).toLocaleString()}）
+          {/* 割引額の強調表示（値下がりの場合のみ、商品名と価格の間） */}
+          {isCheaper && diff !== 0 && (
+            <div className="flex items-center gap-2 bg-sale-bg rounded-lg px-3 py-2 border border-orange-200">
+              <span className="text-lg font-bold text-sale">
+                -{percentChange}%
+              </span>
+              <span className="text-base font-bold text-sale">
+                -¥{Math.abs(diff).toLocaleString()}
+              </span>
+            </div>
+          )}
+
+          {/* 価格表示（値下がりの場合は前回価格を大きく取り消し線、現在価格を強調） */}
+          <div className="flex items-baseline gap-2">
+            {isCheaper ? (
+              <>
+                <span className="text-lg font-bold text-gray-400 line-through">
+                  ¥{prev.toLocaleString()}
+                </span>
+                <span className="text-2xl font-bold text-gray-900">
+                  ¥{latest.toLocaleString()}
+                </span>
+              </>
+            ) : (
+              <span className="text-xl font-bold text-gray-900">
+                ¥{latest.toLocaleString()}
               </span>
             )}
-            {/* 過去最安値バッジ（直近7日で更新した商品のみ、控えめに表示） */}
+          </div>
+
+          {/* バッジ（1行にまとめる） */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* 過去最安値バッジ（直近7日で更新した商品のみ） */}
             {isLowestPriceRecent && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
                 🏆 過去最安値
               </span>
             )}
-            {/* カテゴリバッジ（「その他」は表示しない、控えめに表示） */}
+            {/* カテゴリバッジ（「その他」は表示しない） */}
             {category && (
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-gray-100 text-gray-600">
                 {category}
@@ -466,38 +478,50 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
 
         {/* 情報エリア（下部） */}
         <div className="p-5 flex flex-col gap-3 flex-1">
-          {/* 価格（最上部に配置、大きく表示） */}
-          <div className="flex items-baseline gap-2">
-            {isCheaper && (
-              <span className="text-sm text-gray-400 line-through">
-                ¥{prev.toLocaleString()}
-              </span>
-            )}
-            <span className="text-2xl font-bold text-gray-900">
-              ¥{latest.toLocaleString()}
-            </span>
-          </div>
-
-          {/* 商品名（2行制限、読みやすく調整） */}
+          {/* 商品名（2行制限） */}
           <h3 className="text-base font-medium text-gray-900 line-clamp-2 leading-relaxed group-hover:text-blue-600 transition-colors min-h-[3rem]">
             {product.name}
           </h3>
 
-          {/* 価格変動情報とバッジ（1行にまとめる） */}
-          <div className="flex items-center gap-2 flex-wrap">
-            {/* 価格変動情報（値下がりのみ表示） */}
-            {isCheaper && diff !== 0 && (
-              <span className="text-sm font-semibold text-price-drop">
-                ▼ {percentChange}%（−¥{Math.abs(diff).toLocaleString()}）
+          {/* 割引額の強調表示（値下がりの場合のみ、商品名と価格の間） */}
+          {isCheaper && diff !== 0 && (
+            <div className="flex items-center gap-3 bg-sale-bg rounded-lg px-4 py-3 border-2 border-orange-300">
+              <span className="text-2xl font-bold text-sale">
+                -{percentChange}%
+              </span>
+              <span className="text-xl font-bold text-sale">
+                -¥{Math.abs(diff).toLocaleString()}
+              </span>
+            </div>
+          )}
+
+          {/* 価格表示（値下がりの場合は前回価格を大きく取り消し線、現在価格を強調） */}
+          <div className="flex items-baseline gap-3 text-center">
+            {isCheaper ? (
+              <>
+                <span className="text-xl font-bold text-gray-400 line-through">
+                  ¥{prev.toLocaleString()}
+                </span>
+                <span className="text-3xl font-bold text-gray-900">
+                  ¥{latest.toLocaleString()}
+                </span>
+              </>
+            ) : (
+              <span className="text-2xl font-bold text-gray-900">
+                ¥{latest.toLocaleString()}
               </span>
             )}
-            {/* 過去最安値バッジ（直近7日で更新した商品のみ、控えめに表示） */}
+          </div>
+
+          {/* バッジ（1行にまとめる） */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* 過去最安値バッジ（直近7日で更新した商品のみ） */}
             {isLowestPriceRecent && (
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
                 🏆 過去最安値
               </span>
             )}
-            {/* カテゴリバッジ（「その他」は表示しない、控えめに表示） */}
+            {/* カテゴリバッジ（「その他」は表示しない） */}
             {category && (
               <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
                 {category}

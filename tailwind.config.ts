@@ -20,6 +20,8 @@ const config: Config = {
         danger: "#ef4444",  // セール価格用の赤
         'price-drop': '#EF4444', // 値下がり（赤）
         'price-up': '#3B82F6', // 値上がり（青）
+        'sale': '#FF6B35', // セール強調色（オレンジ）
+        'sale-bg': '#FFF5F2', // セール背景色（薄いオレンジ）
         text: {
           main: "#111827", // ほぼ黒
           muted: "#6b7280", // グレー
