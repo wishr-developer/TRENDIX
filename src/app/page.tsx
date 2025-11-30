@@ -70,6 +70,36 @@ export default function Home() {
     return unique;
   }, [products]);
 
+  // カテゴリを推測する関数
+  const guessCategory = (product: Product): string => {
+    const name = product.name.toLowerCase();
+    if (name.includes("pc") || name.includes("パソコン") || name.includes("macbook") || name.includes("ipad") || name.includes("タブレット")) {
+      return "ガジェット";
+    }
+    if (name.includes("家電") || name.includes("イヤホン") || name.includes("ヘッドホン") || name.includes("充電") || name.includes("ケーブル")) {
+      return "家電";
+    }
+    if (name.includes("キッチン") || name.includes("フライパン") || name.includes("鍋") || name.includes("食器")) {
+      return "キッチン";
+    }
+    if (name.includes("ゲーム") || name.includes("switch") || name.includes("playstation") || name.includes("nintendo")) {
+      return "ゲーム";
+    }
+    if (name.includes("プロテイン") || name.includes("サプリ") || name.includes("健康") || name.includes("洗剤")) {
+      return "ヘルスケア";
+    }
+    if (name.includes("化粧") || name.includes("スキンケア") || name.includes("美容")) {
+      return "ビューティー";
+    }
+    if (name.includes("食品") || name.includes("飲料") || name.includes("お菓子")) {
+      return "食品";
+    }
+    if (name.includes("文房具") || name.includes("ペン") || name.includes("ノート")) {
+      return "文房具";
+    }
+    return "その他";
+  };
+
   // 統計情報を計算
   const stats = useMemo(() => {
     const totalProducts = uniqueProducts.length;
@@ -92,10 +122,28 @@ export default function Home() {
       return p.currentPrice === lowest && history.length >= 2;
     }).length;
     
+    // カテゴリ別の値下がり件数
+    const categoryDrops: Record<string, number> = {};
+    uniqueProducts.forEach((p) => {
+      const history = p.priceHistory || [];
+      if (history.length < 2) return;
+      const latest = p.currentPrice;
+      const prev = history[history.length - 2].price;
+      if (latest < prev) {
+        const category = guessCategory(p);
+        categoryDrops[category] = (categoryDrops[category] || 0) + 1;
+      }
+    });
+    
+    // 最も値下がりが多いカテゴリ
+    const topCategory = Object.entries(categoryDrops).sort((a, b) => b[1] - a[1])[0];
+    
     return {
       totalProducts,
       dropsToday,
       lowestPriceUpdates,
+      topCategory: topCategory ? topCategory[0] : null,
+      topCategoryCount: topCategory ? topCategory[1] : 0,
     };
   }, [uniqueProducts]);
 
@@ -118,6 +166,14 @@ export default function Home() {
         }
 
         return true;
+      });
+    }
+
+    // デフォルトフィルター：Deal Score 10点未満の商品を非表示（「すべて」タブ以外）
+    if (activeTab !== 'all') {
+      result = result.filter((p: Product) => {
+        const score = calculateDealScore(p);
+        return score >= 10;
       });
     }
 
@@ -321,6 +377,20 @@ export default function Home() {
               </div>
             </div>
           </section>
+        )}
+
+        {/* トップサマリーバー */}
+        {stats.dropsToday > 0 && (
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-b border-blue-100 py-3 px-4">
+            <div className="container mx-auto max-w-7xl">
+              <p className="text-sm text-gray-700 text-center">
+                今日は<strong className="text-blue-700 font-bold">{stats.dropsToday}</strong>商品が値下がりしています。
+                {stats.topCategory && stats.topCategoryCount > 0 && (
+                  <span> 特に<strong className="text-purple-700 font-bold">{stats.topCategory}</strong>カテゴリが狙い目です。</span>
+                )}
+              </p>
+            </div>
+          </div>
         )}
 
         {/* タブ切り替えUI */}

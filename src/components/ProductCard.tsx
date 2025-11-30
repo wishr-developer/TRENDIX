@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Bell } from 'lucide-react';
+import { Bell, ExternalLink } from 'lucide-react';
 import { Product } from '@/types/product';
 import { ResponsiveContainer, LineChart, Line } from 'recharts';
 import DealScoreTooltip from './DealScoreTooltip';
@@ -155,18 +155,15 @@ export default function ProductCard({ product, onAlertClick }: ProductCardProps)
     }
   };
 
-  // カード全体のクリックハンドラ（外部リンクへ遷移）
-  const handleCardClick = () => {
-    window.open(product.affiliateUrl, '_blank', 'noopener,noreferrer');
-  };
-
   return (
-    <div
-      onClick={handleCardClick}
-      className="group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-100 cursor-pointer"
+    <a
+      href={product.affiliateUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-100 flex flex-col h-full"
     >
       {/* モバイル: 横並びレイアウト */}
-      <div className="md:hidden flex gap-4 p-4">
+      <div className="md:hidden flex gap-4 p-4 flex-1">
         {/* 左: 大きな正方形画像 */}
         <div className="flex-shrink-0">
           <div className="w-24 h-24 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden">
@@ -271,22 +268,28 @@ export default function ProductCard({ product, onAlertClick }: ProductCardProps)
                 ¥{latest.toLocaleString()}
               </span>
             </div>
-            {/* アラート設定ボタン（クリックイベントを外部へ移譲） */}
-            {onAlertClick && (
-              <button 
-                onClick={handleAlertClick}
-                className="w-full flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-              >
-                <Bell size={14} />
-                <span>アラート設定</span>
-              </button>
-            )}
+            {/* CTAボタン */}
+            <div className="flex gap-2">
+              {onAlertClick && (
+                <button 
+                  onClick={handleAlertClick}
+                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                >
+                  <Bell size={14} />
+                  <span>値下がり通知を受け取る</span>
+                </button>
+              )}
+              <div className="flex items-center justify-center px-3 py-2 text-xs font-medium text-blue-600 hover:text-blue-700 rounded-lg transition-colors">
+                <span>今の価格を確認</span>
+                <ExternalLink size={12} className="ml-1" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* PC: 縦長カード型レイアウト */}
-      <div className="hidden md:flex flex-col">
+      <div className="hidden md:flex flex-col flex-1">
         {/* 画像（上部） */}
         <div className="w-full aspect-square bg-gray-50 flex items-center justify-center overflow-hidden">
           <img
@@ -298,7 +301,7 @@ export default function ProductCard({ product, onAlertClick }: ProductCardProps)
         </div>
 
         {/* 情報エリア（下部） */}
-        <div className="p-4 flex flex-col gap-3">
+        <div className="p-4 flex flex-col gap-3 flex-1">
           {/* カテゴリタグ */}
           <span className="text-xs text-gray-500 font-medium">{category}</span>
           
@@ -389,19 +392,25 @@ export default function ProductCard({ product, onAlertClick }: ProductCardProps)
                 ¥{latest.toLocaleString()}
               </span>
             </div>
-            {/* アラート設定ボタン（クリックイベントを外部へ移譲） */}
-            {onAlertClick && (
-              <button 
-                onClick={handleAlertClick}
-                className="w-full flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-              >
-                <Bell size={14} />
-                <span>アラート設定</span>
-              </button>
-            )}
+            {/* CTAボタン */}
+            <div className="flex gap-2">
+              {onAlertClick && (
+                <button 
+                  onClick={handleAlertClick}
+                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                >
+                  <Bell size={14} />
+                  <span>値下がり通知を受け取る</span>
+                </button>
+              )}
+              <div className="flex items-center justify-center px-3 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 rounded-lg transition-colors">
+                <span>今の価格を確認</span>
+                <ExternalLink size={12} className="ml-1" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </a>
   );
 }

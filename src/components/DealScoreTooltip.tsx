@@ -25,7 +25,7 @@ export default function DealScoreTooltip() {
             AI Deal Scoreとは？
           </div>
           <p className="text-xs text-gray-600 leading-relaxed">
-            過去の価格推移をもとに「どれだけ今が買い時か」を100点満点で評価した指標です。過去平均との差・値下がり率・最安値更新度を考慮して算出しています。
+            AI Deal Scoreは、過去の価格推移をもとに「どれだけ今が買い時か」を100点満点で評価した指標です。過去平均との差・値下がり率・最安値更新度を考慮しています。
           </p>
           {/* 矢印 */}
           <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1">
