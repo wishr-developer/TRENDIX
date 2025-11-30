@@ -426,7 +426,7 @@ export default function Home() {
 
   // 動的なページタイトルを生成
   const pageTitle = useMemo(() => {
-    const baseTitle = 'XIORA TREND | Amazon最安値・トレンド速報';
+    const baseTitle = 'TRENDIX | Amazon価格トレンド分析・速報';
     if (selectedCategory && selectedCategory !== 'all') {
       const categoryLabel = categories.find(c => c.id === selectedCategory)?.label || selectedCategory;
       return `${categoryLabel} | ${baseTitle}`;
@@ -520,7 +520,7 @@ export default function Home() {
                 Amazonの価格変動を24時間365日監視中
               </p>
               <p className="text-gray-500 text-xs md:text-sm max-w-2xl mx-auto">
-                XIORA TRENDは、Amazonの価格変動をAIで継続監視し、本当に安くなった商品のみを自動で抽出・表示します。
+                TRENDIXは、Amazonの価格変動をAIがリアルタイムで分析し、本当に安くなった商品のみを自動で抽出・表示します。
               </p>
             </div>
 

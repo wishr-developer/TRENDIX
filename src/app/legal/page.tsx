@@ -13,8 +13,7 @@ export default function LegalPage() {
             href="/"
             className="flex items-baseline gap-1"
           >
-            <span className="text-2xl font-bold tracking-tight text-slate-900">XIORA</span>
-            <span className="text-xl font-light text-slate-500 ml-1">TREND</span>
+            <span className="text-2xl font-bold tracking-tight text-slate-900">TRENDIX</span>
           </Link>
         </div>
       </header>
@@ -31,7 +30,7 @@ export default function LegalPage() {
               事業者名
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              XIORA TREND
+              TRENDIX
             </p>
           </section>
 
@@ -40,7 +39,7 @@ export default function LegalPage() {
               運営責任者
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              XIORA TREND運営チーム
+              TRENDIX運営チーム
             </p>
           </section>
 

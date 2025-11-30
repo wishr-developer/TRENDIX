@@ -13,8 +13,7 @@ export default function PrivacyPage() {
             href="/"
             className="flex items-baseline gap-1"
           >
-            <span className="text-2xl font-bold tracking-tight text-slate-900">XIORA</span>
-            <span className="text-xl font-light text-slate-500 ml-1">TREND</span>
+            <span className="text-2xl font-bold tracking-tight text-slate-900">TRENDIX</span>
           </Link>
         </div>
       </header>
@@ -29,7 +28,7 @@ export default function PrivacyPage() {
               1. はじめに
             </h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              XIORA TREND（以下「当サイト」）は、ユーザーのプライバシーを尊重し、個人情報の保護に努めています。
+              TRENDIX（以下「当サイト」）は、ユーザーのプライバシーを尊重し、個人情報の保護に努めています。
               本プライバシーポリシーは、当サイトがどのような情報を収集し、どのように使用するかについて説明します。
             </p>
           </section>

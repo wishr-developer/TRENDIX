@@ -8,14 +8,14 @@ const metadataBase = new URL('https://price-watcher-plum.vercel.app');
 export const metadata: Metadata = {
   metadataBase,
   title: {
-    default: "XIORA TREND | Amazon最安値・トレンド速報",
-    template: "%s | XIORA TREND"
+    default: "TRENDIX | Amazon価格トレンド分析・速報",
+    template: "%s | TRENDIX"
   },
-  description: "Amazonの価格変動を24時間監視。ガジェット、家電、日用品の「今買うべき」最安値トレンドやセール情報を、ニュースフィード形式でリアルタイム速報します。",
+  description: "TRENDIXは、Amazonの価格変動をAIがリアルタイムで分析し、ガジェット、家電、日用品の「今買うべき」最安値トレンドやセール情報を、ニュースフィード形式で速報します。",
   keywords: ["Amazon", "最安値", "トレンド", "セール", "ガジェット", "値下げ", "速報", "価格監視", "お買い得", "値下がり"],
-  authors: [{ name: "XIORA TREND" }],
-  creator: "XIORA TREND",
-  publisher: "XIORA TREND",
+  authors: [{ name: "TRENDIX" }],
+  creator: "TRENDIX",
+  publisher: "TRENDIX",
   formatDetection: {
     email: false,
     address: false,
@@ -25,22 +25,22 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ja_JP",
     url: metadataBase.toString(),
-    siteName: "XIORA TREND",
-    title: "XIORA TREND | Amazon最安値・トレンド速報",
-    description: "Amazonの価格変動を24時間監視。ガジェット、家電、日用品の「今買うべき」最安値トレンドやセール情報を、ニュースフィード形式でリアルタイム速報します。",
+    siteName: "TRENDIX",
+    title: "TRENDIX | Amazon価格トレンド分析・速報",
+    description: "TRENDIXは、Amazonの価格変動をAIがリアルタイムで分析し、ガジェット、家電、日用品の「今買うべき」最安値トレンドやセール情報を、ニュースフィード形式で速報します。",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "XIORA TREND",
+        alt: "TRENDIX",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "XIORA TREND | Amazon最安値・トレンド速報",
-    description: "Amazonの価格変動を24時間監視。ガジェット、家電、日用品の「今買うべき」最安値トレンドやセール情報を、ニュースフィード形式でリアルタイム速報します。",
+    title: "TRENDIX | Amazon価格トレンド分析・速報",
+    description: "TRENDIXは、Amazonの価格変動をAIがリアルタイムで分析し、ガジェット、家電、日用品の「今買うべき」最安値トレンドやセール情報を、ニュースフィード形式で速報します。",
     images: ["/og-image.png"],
   },
   robots: {
