@@ -12,5 +12,6 @@ export interface Product {
   affiliateUrl: string;
   imageUrl: string;
   category?: string; // カテゴリ（オプショナル、後方互換性のため）
+  asin?: string; // ASIN（Amazon商品識別子、オプショナル）
 }
 

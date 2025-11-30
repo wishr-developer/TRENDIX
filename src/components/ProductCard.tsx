@@ -95,6 +95,7 @@ function getChartColor(product: Product): string {
 export default function ProductCard({ product, onAlertClick, onFavoriteToggle }: ProductCardProps) {
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>('ALL');
   const [isFavorite, setIsFavorite] = useState(false);
+  const [imageError, setImageError] = useState(false);
   
   const history = product.priceHistory || [];
   const latest = product.currentPrice;
@@ -202,14 +203,21 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle }:
         {/* 左: 大きな正方形画像 */}
         <div className="flex-shrink-0">
           <div className="w-24 h-24 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden relative">
-            <Image
-              src={product.imageUrl}
-              alt={product.name}
-              width={96}
-              height={96}
-              className="object-contain mix-blend-multiply p-2"
-              loading="lazy"
-            />
+            {imageError ? (
+              <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
+                <span className="text-[10px] font-medium">No Image</span>
+              </div>
+            ) : (
+              <Image
+                src={product.imageUrl}
+                alt={product.name}
+                width={96}
+                height={96}
+                className="object-contain mix-blend-multiply p-2"
+                loading="lazy"
+                onError={() => setImageError(true)}
+              />
+            )}
           </div>
         </div>
 
@@ -332,14 +340,21 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle }:
       <div className="hidden md:flex flex-col flex-1">
         {/* 画像（上部） */}
         <div className="w-full aspect-square bg-gray-50 flex items-center justify-center overflow-hidden relative">
-          <Image
-            src={product.imageUrl}
-            alt={product.name}
-            fill
-            className="object-contain mix-blend-multiply p-4"
-            loading="lazy"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
+          {imageError ? (
+            <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
+              <span className="text-sm font-medium">No Image</span>
+            </div>
+          ) : (
+            <Image
+              src={product.imageUrl}
+              alt={product.name}
+              fill
+              className="object-contain mix-blend-multiply p-4"
+              loading="lazy"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              onError={() => setImageError(true)}
+            />
+          )}
           {/* PC用のお気に入りボタン（画像上） */}
           {asin && (
             <button
