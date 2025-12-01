@@ -257,10 +257,10 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
       className="group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-100 flex flex-col h-full relative"
     >
       {/* モバイル: 横並びレイアウト */}
-      <div className="md:hidden flex gap-4 p-5 flex-1">
+      <div className="md:hidden flex gap-2.5 p-3 flex-1">
         {/* 左: 画像 */}
         <div className="flex-shrink-0">
-          <div className="w-32 h-32 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden relative">
+          <div className="w-24 h-24 bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden relative">
             {imageError ? (
               <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
                 <span className="text-[10px] font-medium">No Image</span>
@@ -269,9 +269,9 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
               <Image
                 src={product.imageUrl}
                 alt={product.name}
-                width={128}
-                height={128}
-                className="object-contain mix-blend-multiply p-2"
+                width={96}
+                height={96}
+                className="object-contain mix-blend-multiply p-1"
                 priority={isPriority}
                 loading={isPriority ? undefined : "lazy"}
                 onError={() => setImageError(true)}
@@ -282,41 +282,41 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
         </div>
 
         {/* 右: 情報エリア */}
-        <div className="flex-1 min-w-0 flex flex-col gap-3">
+        <div className="flex-1 min-w-0 flex flex-col gap-1.5">
           {/* 商品名（2行制限） */}
-          <h3 className="text-base font-medium text-gray-900 line-clamp-2 leading-snug group-hover:text-blue-600 transition-colors">
+          <h3 className="text-base font-medium text-gray-900 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors">
             {product.name}
           </h3>
 
-          {/* 割引額の強調表示（値下がりの場合のみ、商品名と価格の間） */}
-          {isCheaper && diff !== 0 && (
-            <div className="flex items-center gap-3 bg-sale-bg rounded-lg px-4 py-3 border-2 border-orange-300">
-              <span className="text-2xl font-bold text-sale">
-                -{percentChange}%
-              </span>
-              <span className="text-xl font-bold text-sale">
-                -¥{Math.abs(diff).toLocaleString()}
-              </span>
-            </div>
-          )}
-
-          {/* 価格表示（値下がりの場合は前回価格を大きく取り消し線、現在価格を強調） */}
-          <div className="flex items-baseline gap-3">
+          {/* 価格表示（最優先表示、商品名のすぐ下） */}
+          <div className="flex items-baseline gap-2">
             {isCheaper ? (
               <>
-                <span className="text-xl font-bold text-gray-500 line-through">
+                <span className="text-lg font-bold text-gray-500 line-through">
                   ¥{prev.toLocaleString()}
                 </span>
-                <span className="text-3xl font-bold text-gray-900">
+                <span className="text-2xl font-bold text-gray-900">
                   ¥{latest.toLocaleString()}
                 </span>
               </>
             ) : (
-              <span className="text-2xl font-bold text-gray-900">
+              <span className="text-xl font-bold text-gray-900">
                 ¥{latest.toLocaleString()}
               </span>
             )}
           </div>
+
+          {/* 割引額の強調表示（値下がりの場合のみ、価格の下） */}
+          {isCheaper && diff !== 0 && (
+            <div className="flex items-center gap-2 bg-sale-bg rounded-lg px-2.5 py-1.5 border-2 border-orange-300">
+              <span className="text-base font-bold text-sale">
+                -{percentChange}%
+              </span>
+              <span className="text-sm font-bold text-sale">
+                -¥{Math.abs(diff).toLocaleString()}
+              </span>
+            </div>
+          )}
 
           {/* AI Deal Score（権威性のあるエンブレム風バッジ） */}
           {dealScore > 0 && (
@@ -326,23 +326,23 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
           )}
 
           {/* 社会的証明と緊急性のトリガー */}
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap">
             {/* レビュー評価（社会的証明） */}
-            <div className="flex items-center gap-1">
-              <Star size={14} className="fill-yellow-400 text-yellow-400" />
+            <div className="flex items-center gap-0.5">
+              <Star size={12} className="fill-yellow-400 text-yellow-400" />
               <span className="text-xs font-semibold text-gray-700">4.5</span>
-              <span className="text-xs text-gray-500">(128)</span>
+              <span className="text-[10px] text-gray-500">(128)</span>
             </div>
             {/* 緊急性のトリガー（在庫残りわずか） */}
             {isCheaper && diff !== 0 && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold text-white bg-cta border border-red-600">
-                <AlertCircle size={10} />
+              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-bold text-white bg-cta border border-red-600">
+                <AlertCircle size={9} />
                 在庫残りわずか
               </span>
             )}
             {/* 過去最安値バッジ（直近7日で更新した商品のみ） */}
             {isLowestPriceRecent && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
+              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
                 🏆 過去最安値
               </span>
             )}
@@ -426,7 +426,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
           </button>
 
           {/* CTAボタン */}
-          <div className="flex gap-2 mt-auto pt-2">
+          <div className="flex gap-1.5 mt-auto pt-1.5">
             <a
               href={product.affiliateUrl}
               target="_blank"
@@ -436,19 +436,19 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
                 e.preventDefault();
                 window.open(product.affiliateUrl, '_blank', 'noopener,noreferrer');
               }}
-              className="flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 text-sm font-bold text-white bg-cta hover:bg-red-600 rounded-lg transition-colors shadow-md"
+              className="flex-1 flex items-center justify-center gap-1 px-3 py-2 text-xs font-bold text-white bg-cta hover:bg-red-600 rounded-lg transition-colors shadow-md"
             >
               <span>Amazonで見る</span>
-              <ExternalLink size={14} />
+              <ExternalLink size={12} />
             </a>
             {onAlertClick && (
               <button 
                 type="button"
                 onClick={handleAlertClick}
-                className="flex items-center justify-center px-3 py-2.5 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors z-10 relative"
+                className="flex items-center justify-center px-2.5 py-2 text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors z-10 relative"
                 aria-label="値下がり通知を受け取る"
               >
-                <Bell size={16} />
+                <Bell size={14} />
               </button>
             )}
           </div>
@@ -468,7 +468,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
               src={product.imageUrl}
               alt={product.name}
               fill
-              className="object-contain mix-blend-multiply p-6"
+              className="object-contain mix-blend-multiply p-4"
               priority={isPriority}
               loading={isPriority ? undefined : "lazy"}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -492,41 +492,41 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
         </div>
 
         {/* 情報エリア（下部） */}
-        <div className="p-6 flex flex-col gap-4 flex-1">
+        <div className="p-4 flex flex-col gap-2 flex-1">
           {/* 商品名（2行制限） */}
-          <h3 className="text-lg font-medium text-gray-900 line-clamp-2 leading-relaxed group-hover:text-blue-600 transition-colors min-h-[3rem]">
+          <h3 className="text-base font-medium text-gray-900 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors min-h-[2.5rem]">
             {product.name}
           </h3>
 
-          {/* 割引額の強調表示（値下がりの場合のみ、商品名と価格の間） */}
-          {isCheaper && diff !== 0 && (
-            <div className="flex items-center gap-4 bg-sale-bg rounded-lg px-5 py-4 border-2 border-orange-300">
-              <span className="text-4xl font-bold text-sale">
-                -{percentChange}%
-              </span>
-              <span className="text-3xl font-bold text-sale">
-                -¥{Math.abs(diff).toLocaleString()}
-              </span>
-            </div>
-          )}
-
-          {/* 価格表示（値下がりの場合は前回価格を大きく取り消し線、現在価格を強調） */}
-          <div className="flex items-baseline gap-4">
+          {/* 価格表示（最優先表示、商品名のすぐ下） */}
+          <div className="flex items-baseline gap-3">
             {isCheaper ? (
               <>
-                <span className="text-2xl font-bold text-gray-500 line-through">
+                <span className="text-xl font-bold text-gray-500 line-through">
                   ¥{prev.toLocaleString()}
                 </span>
-                <span className="text-4xl font-bold text-gray-900">
+                <span className="text-3xl font-bold text-gray-900">
                   ¥{latest.toLocaleString()}
                 </span>
               </>
             ) : (
-              <span className="text-3xl font-bold text-gray-900">
+              <span className="text-2xl font-bold text-gray-900">
                 ¥{latest.toLocaleString()}
               </span>
             )}
           </div>
+
+          {/* 割引額の強調表示（値下がりの場合のみ、価格の下） */}
+          {isCheaper && diff !== 0 && (
+            <div className="flex items-center gap-2.5 bg-sale-bg rounded-lg px-3 py-2 border-2 border-orange-300">
+              <span className="text-xl font-bold text-sale">
+                -{percentChange}%
+              </span>
+              <span className="text-lg font-bold text-sale">
+                -¥{Math.abs(diff).toLocaleString()}
+              </span>
+            </div>
+          )}
 
           {/* AI Deal Score（権威性のあるエンブレム風バッジ） */}
           {dealScore > 0 && (
@@ -536,23 +536,23 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
           )}
 
           {/* 社会的証明と緊急性のトリガー */}
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap">
             {/* レビュー評価（社会的証明） */}
-            <div className="flex items-center gap-1.5">
-              <Star size={16} className="fill-yellow-400 text-yellow-400" />
-              <span className="text-sm font-semibold text-gray-700">4.5</span>
-              <span className="text-xs text-gray-500">(128件のレビュー)</span>
+            <div className="flex items-center gap-1">
+              <Star size={14} className="fill-yellow-400 text-yellow-400" />
+              <span className="text-xs font-semibold text-gray-700">4.5</span>
+              <span className="text-[10px] text-gray-500">(128)</span>
             </div>
             {/* 緊急性のトリガー（在庫残りわずか） */}
             {isCheaper && diff !== 0 && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-white bg-cta border-2 border-red-600 shadow-sm">
-                <AlertCircle size={12} />
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold text-white bg-cta border border-red-600">
+                <AlertCircle size={10} />
                 在庫残りわずか
               </span>
             )}
             {/* 過去最安値バッジ（直近7日で更新した商品のみ） */}
             {isLowestPriceRecent && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
                 🏆 過去最安値
               </span>
             )}
@@ -633,7 +633,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
           </button>
 
           {/* CTAボタン */}
-          <div className="flex gap-2 mt-auto pt-2">
+          <div className="flex gap-2 mt-auto pt-1.5">
             <a
               href={product.affiliateUrl}
               target="_blank"
@@ -643,7 +643,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
                 e.preventDefault();
                 window.open(product.affiliateUrl, '_blank', 'noopener,noreferrer');
               }}
-              className="flex-1 flex items-center justify-center gap-1.5 px-4 py-3 text-sm font-bold text-white bg-cta hover:bg-red-600 rounded-lg transition-colors shadow-md"
+              className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 text-sm font-bold text-white bg-cta hover:bg-red-600 rounded-lg transition-colors shadow-md"
             >
               <span>Amazonで見る</span>
               <ExternalLink size={14} />
@@ -652,7 +652,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
               <button 
                 type="button"
                 onClick={handleAlertClick}
-                className="flex items-center justify-center px-3 py-3 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors z-10 relative"
+                className="flex items-center justify-center px-2.5 py-2.5 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors z-10 relative"
                 aria-label="値下がり通知を受け取る"
               >
                 <Bell size={16} />
