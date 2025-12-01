@@ -68,6 +68,9 @@ interface HeaderProps {
   onRankingClick?: () => void;
 }
 
+// デフォルトの空関数
+const noop = () => {};
+
 // カテゴリリスト
 const categories = [
   { id: 'all', label: 'すべて' },
@@ -82,7 +85,7 @@ const categories = [
   { id: 'その他', label: 'その他' },
 ];
 
-export default function Header({ onSearch, onRankingClick }: HeaderProps) {
+export default function Header({ onSearch = noop, onRankingClick = noop }: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);

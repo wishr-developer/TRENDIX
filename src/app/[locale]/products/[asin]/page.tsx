@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, ExternalLink, TrendingDown, TrendingUp, Minus, Trophy } from 'lucide-react';
 import { Product } from '@/types/product';
 import dynamic from 'next/dynamic';
-import { getTranslations } from 'next-intl/server';
+import DealScoreBadge from '@/components/DealScoreBadge';
 
 // rechartsはクライアントコンポーネントとして動的インポート
 const PriceChart = dynamic(() => import('@/components/PriceChart'), { ssr: false });
@@ -71,6 +71,64 @@ async function getProduct(asin: string): Promise<Product | null> {
 }
 
 /**
+ * Deal Scoreを計算
+ */
+function calculateDealScore(product: Product): number {
+  const history = product.priceHistory || [];
+  if (history.length < 2) return 0;
+
+  const latest = product.currentPrice;
+  const prev = history[history.length - 2].price;
+  const diff = latest - prev;
+  
+  if (diff >= 0) return 0;
+  
+  const discountPercent = prev > 0 ? (Math.abs(diff) / prev) * 100 : 0;
+  const score = Math.min(discountPercent * 2, 100);
+  
+  return Math.round(score);
+}
+
+/**
+ * 過去最安値を取得
+ */
+function getLowestPrice(product: Product): number | null {
+  const history = product.priceHistory || [];
+  if (history.length === 0) return null;
+  
+  const prices = history.map(h => h.price);
+  return Math.min(...prices, product.currentPrice);
+}
+
+/**
+ * 直近N日間で最安値更新したかチェック
+ */
+function isLowestPriceInRecentDays(product: Product, days: number): boolean {
+  const history = product.priceHistory || [];
+  if (history.length === 0) return false;
+  
+  const latest = product.currentPrice;
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - days);
+  
+  // 直近N日間の価格履歴を取得
+  const recentHistory = history.filter(h => {
+    const historyDate = new Date(h.date);
+    return historyDate >= cutoffDate;
+  });
+  
+  if (recentHistory.length === 0) return false;
+  
+  // 直近N日間の最安値を計算
+  const recentPrices = recentHistory.map(h => h.price);
+  const recentLowest = Math.min(...recentPrices, latest);
+  
+  // 現在価格が直近N日間の最安値と一致し、かつ過去最安値でもある
+  const allTimeLowest = getLowestPrice(product);
+  return latest === recentLowest && latest === allTimeLowest;
+}
+
+/**
  * 動的メタデータを生成
  */
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; asin: string }> }): Promise<Metadata> {
@@ -118,10 +176,15 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   const priceDiffPercent = prevPrice > 0 ? ((priceDiff / prevPrice) * 100).toFixed(1) : '0';
 
   // 過去最安値を計算
-  const lowestPrice = history.length > 0 
-    ? Math.min(...history.map(h => h.price), latestPrice)
-    : latestPrice;
-  const isLowestPrice = latestPrice === lowestPrice;
+  const lowestPrice = getLowestPrice(product);
+  const isLowestPrice = lowestPrice !== null && latestPrice === lowestPrice;
+  const diffFromLowest = lowestPrice !== null ? latestPrice - lowestPrice : null;
+
+  // AI Deal Scoreを計算
+  const dealScore = calculateDealScore(product);
+
+  // 直近7日で最安値更新したかチェック
+  const isLowestPriceRecent = isLowestPriceInRecentDays(product, 7);
 
   // 価格履歴データをグラフ用にフォーマット
   const chartData = history.map((h, index) => ({
@@ -130,14 +193,14 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     index,
   }));
 
-  // 価格履歴テーブル用データ
-  const tableData = [...history].reverse().slice(0, 20); // 最新20件
+  // 価格履歴テーブル用データ（日付順、最新が上）
+  const tableData = [...history].reverse().slice(0, 50); // 最新50件
 
   return (
     <div className="min-h-screen bg-[#f8f9fa]">
-      {/* ヘッダー */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
+      {/* 戻るボタン */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="container mx-auto max-w-[1920px] px-4 py-4">
           <Link
             href={`/${locale}`}
             className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
@@ -148,8 +211,72 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="container mx-auto max-w-[1920px] px-4 py-8">
+        {/* サマリーパネル（核心価値の強調） */}
+        <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl shadow-lg border-2 border-blue-100 p-6 md:p-8 mb-8">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">この価格で買うべき理由</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* AI Deal Score */}
+            <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+              <div className="text-sm font-semibold text-gray-600 mb-3">AI Deal Score</div>
+              {dealScore > 0 ? (
+                <div className="flex items-center justify-center">
+                  <DealScoreBadge score={dealScore} />
+                </div>
+              ) : (
+                <div className="text-center text-gray-400 text-sm">スコアなし</div>
+              )}
+            </div>
+
+            {/* 最安値との差 */}
+            <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+              <div className="text-sm font-semibold text-gray-600 mb-3">最安値との差</div>
+              {diffFromLowest !== null ? (
+                <div className="text-center">
+                  {diffFromLowest === 0 ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <Trophy size={24} className="text-yellow-600" />
+                      <span className="text-2xl font-bold text-yellow-700">過去最安値</span>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="text-3xl font-bold text-gray-900">
+                        +¥{diffFromLowest.toLocaleString()}
+                      </div>
+                      {lowestPrice !== null && (
+                        <div className="text-sm text-gray-500 mt-1">
+                          過去最安値: ¥{lowestPrice.toLocaleString()}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              ) : (
+                <div className="text-center text-gray-400 text-sm">データなし</div>
+              )}
+            </div>
+
+            {/* 過去最安値ステータス */}
+            <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+              <div className="text-sm font-semibold text-gray-600 mb-3">最安値更新状況</div>
+              <div className="text-center">
+                {isLowestPriceRecent ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <Trophy size={24} className="text-yellow-600" />
+                    <span className="text-xl font-bold text-yellow-700">直近7日で最安値更新</span>
+                  </div>
+                ) : isLowestPrice ? (
+                  <div className="text-lg font-semibold text-gray-700">過去最安値</div>
+                ) : (
+                  <div className="text-lg font-semibold text-gray-500">過去最安値ではない</div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 商品情報カード */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
           {/* 商品情報セクション */}
           <div className="p-6 md:p-8 border-b border-gray-200">
             <div className="flex flex-col md:flex-row gap-6 md:gap-8">
@@ -185,7 +312,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
                 {/* 価格情報 */}
                 <div className="mb-6">
-                  <div className="flex items-baseline gap-3 mb-2">
+                  <div className="flex items-baseline gap-3 mb-2 flex-wrap">
                     <span className="text-4xl font-bold text-gray-900">
                       ¥{latestPrice.toLocaleString()}
                     </span>
@@ -209,22 +336,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                     )}
                   </div>
 
-                  {/* 過去最安値情報 */}
-                  <div className="flex items-center gap-2 mt-2">
-                    {isLowestPrice ? (
-                      <span className="inline-flex items-center gap-1 px-3 py-1 bg-yellow-100 text-yellow-800 text-sm font-semibold rounded-full">
-                        <Trophy size={16} />
-                        過去最安値
-                      </span>
-                    ) : (
-                      <span className="text-sm text-gray-600">
-                        過去最安値: ¥{lowestPrice.toLocaleString()}
-                        <span className="ml-2 text-gray-500">
-                          (差額: +¥{(latestPrice - lowestPrice).toLocaleString()})
-                        </span>
-                      </span>
-                    )}
-                  </div>
+                  {/* 前回価格 */}
+                  {prevPrice !== latestPrice && (
+                    <div className="text-sm text-gray-500 line-through mb-2">
+                      前回価格: ¥{prevPrice.toLocaleString()}
+                    </div>
+                  )}
                 </div>
 
                 {/* Amazonで購入するボタン */}
@@ -232,7 +349,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                   href={product.affiliateUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 w-full md:w-auto px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold text-lg rounded-lg transition-colors shadow-md hover:shadow-lg"
+                  className="inline-flex items-center justify-center gap-2 w-full md:w-auto px-8 py-4 bg-cta hover:bg-red-600 text-white font-bold text-lg rounded-lg transition-colors shadow-md hover:shadow-lg"
                 >
                   <span>Amazonで購入する</span>
                   <ExternalLink size={20} />
@@ -241,22 +358,24 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             </div>
           </div>
 
-          {/* 価格推移グラフセクション */}
+          {/* 価格推移グラフセクション（全幅） */}
           {history.length > 0 && (
-            <div className="p-6 md:p-8 border-b border-gray-200">
+            <div className="p-6 md:p-8 border-b border-gray-200 bg-gray-50">
               <h2 className="text-xl font-bold text-gray-900 mb-6">価格推移グラフ</h2>
-              <PriceChart data={chartData} priceDiff={priceDiff} />
+              <div className="w-full">
+                <PriceChart data={chartData} priceDiff={priceDiff} />
+              </div>
             </div>
           )}
 
           {/* 価格履歴テーブルセクション */}
           {tableData.length > 0 && (
             <div className="p-6 md:p-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">価格履歴（最新20件）</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-6">価格履歴（最新50件）</h2>
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
                   <thead>
-                    <tr className="bg-gray-50 border-b border-gray-200">
+                    <tr className="bg-gray-50 border-b-2 border-gray-200">
                       <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">日付</th>
                       <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">価格</th>
                       <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">変動額</th>
@@ -270,12 +389,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                       const diffPercent = prevItem && prevItem.price > 0 
                         ? ((diff / prevItem.price) * 100).toFixed(1) 
                         : '0';
-                      const isLowest = item.price === lowestPrice;
+                      const isLowest = lowestPrice !== null && item.price === lowestPrice;
 
                       return (
                         <tr
-                          key={index}
-                          className={`border-b border-gray-100 hover:bg-gray-50 ${
+                          key={`${item.date}-${index}`}
+                          className={`border-b border-gray-100 hover:bg-gray-50 transition-colors ${
                             isLowest ? 'bg-yellow-50' : ''
                           }`}
                         >
@@ -287,32 +406,36 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                             })}
                           </td>
                           <td className="px-4 py-3 text-right text-sm font-semibold text-gray-900">
-                            ¥{item.price.toLocaleString()}
-                            {isLowest && (
-                              <Trophy size={14} className="inline ml-1 text-yellow-600" />
+                            <div className="flex items-center justify-end gap-1">
+                              ¥{item.price.toLocaleString()}
+                              {isLowest && (
+                                <Trophy size={14} className="text-yellow-600" />
+                              )}
+                            </div>
+                          </td>
+                          <td className={`px-4 py-3 text-right text-sm font-medium ${
+                            diff < 0 ? 'text-red-600' : diff > 0 ? 'text-blue-600' : 'text-gray-500'
+                          }`}>
+                            {diff !== 0 ? (
+                              <div className="flex items-center justify-end gap-1">
+                                {diff < 0 ? <TrendingDown size={14} /> : <TrendingUp size={14} />}
+                                <span>¥{Math.abs(diff).toLocaleString()}</span>
+                              </div>
+                            ) : (
+                              <span className="text-gray-400">-</span>
                             )}
                           </td>
                           <td className={`px-4 py-3 text-right text-sm font-medium ${
                             diff < 0 ? 'text-red-600' : diff > 0 ? 'text-blue-600' : 'text-gray-500'
                           }`}>
-                            {diff !== 0 && (
-                              <>
-                                {diff < 0 ? '↓' : '↑'}
-                                ¥{Math.abs(diff).toLocaleString()}
-                              </>
-                            )}
-                            {diff === 0 && '-'}
-                          </td>
-                          <td className={`px-4 py-3 text-right text-sm font-medium ${
-                            diff < 0 ? 'text-red-600' : diff > 0 ? 'text-blue-600' : 'text-gray-500'
-                          }`}>
-                            {diff !== 0 && (
-                              <>
+                            {diff !== 0 ? (
+                              <span>
                                 {diff < 0 ? '-' : '+'}
                                 {diffPercent}%
-                              </>
+                              </span>
+                            ) : (
+                              <span className="text-gray-400">-</span>
                             )}
-                            {diff === 0 && '-'}
                           </td>
                         </tr>
                       );
@@ -327,4 +450,3 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     </div>
   );
 }
-

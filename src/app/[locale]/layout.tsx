@@ -2,10 +2,13 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales, isValidLocale } from '@/i18n';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 /**
  * ロケールレイアウト
  * next-intlを使用して国際化を提供
+ * Header/Footerを全ページで共通表示
  */
 export default async function LocaleLayout({
   children,
@@ -26,7 +29,9 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider messages={messages}>
+      <Header />
       {children}
+      <Footer />
     </NextIntlClientProvider>
   );
 }
