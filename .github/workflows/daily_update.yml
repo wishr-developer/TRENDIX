@@ -2,9 +2,10 @@ name: Daily Price Update
 
 on:
   schedule:
-    # 毎日日本時間 朝9時 (UTC 0:00) に実行
-    - cron: '0 0 * * *'
-  workflow_dispatch: # 手動実行も可能
+    - cron: '0 3 * * *'    # 12:00 JST（昼休み）
+    - cron: '0 9 * * *'    # 18:00 JST（帰宅後）
+    - cron: '0 12 * * *'   # 21:00 JST（夜のSNS時間）
+  workflow_dispatch:
 
 permissions:
   contents: write # リポジトリへの書き込み権限
@@ -28,11 +29,7 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: 価格更新スクリプトを実行
-        run: |
-          python3 scripts/update_prices.py
-
-# --- X (Twitter) 自動投稿ステップ ---
+      # --- X (Twitter) 自動投稿ステップ ---
       - name: Install tweepy
         run: pip install tweepy
         
@@ -53,11 +50,11 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add data/products.json
+          git add src/data/posted_log.json
           if git diff --staged --quiet; then
             echo "変更がありませんでした"
           else
-            git commit -m "Update prices [skip ci]"
+            git commit -m "Update X post log [skip ci]"
             git push origin HEAD:${GITHUB_REF#refs/heads/}
           fi
         env:
