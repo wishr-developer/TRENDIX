@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import ProductCard from '@/components/ProductCard';
-import Header from '@/components/Header';
 import AlertModal from '@/components/AlertModal';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import VirtualProductList from '@/components/VirtualProductList';
@@ -544,14 +543,6 @@ export default function Home() {
         }}
       />
       
-      <Header 
-        onSearch={setSearchQuery} 
-        onRankingClick={() => {
-          setActiveTab('ranking');
-          // ページトップにスクロール（仮想スクロールではページネーション不要）
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
-      />
       <AlertModal 
         isOpen={isModalOpen} 
         onClose={handleCloseModal} 

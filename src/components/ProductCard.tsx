@@ -1,12 +1,10 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { Bell, ExternalLink, Heart, ChevronDown, ChevronUp, Star, Clock, AlertCircle } from 'lucide-react';
+import { Bell, ExternalLink, Heart, Star, AlertCircle } from 'lucide-react';
 import Image from 'next/image';
-import { useLocale } from 'next-intl';
 import { Product } from '@/types/product';
 import { ResponsiveContainer, LineChart, Line } from 'recharts';
-import DealScoreTooltip from './DealScoreTooltip';
 import DealScoreBadge from './DealScoreBadge';
 
 interface ProductCardProps {
@@ -126,7 +124,6 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>('ALL');
   const [isFavorite, setIsFavorite] = useState(false);
   const [imageError, setImageError] = useState(false);
-  const [isDetailsExpanded, setIsDetailsExpanded] = useState(false);
   
   const history = product.priceHistory || [];
   const latest = product.currentPrice;
@@ -185,7 +182,6 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
   
   const chartData = prepareChartData(product, selectedPeriod);
   const chartColor = getChartColor(product);
-  const locale = useLocale();
 
   // アラートボタンのクリックハンドラ
   const handleAlertClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -232,27 +228,23 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
     }
   };
 
-  // カード全体のクリックハンドラ
+  // カード全体のクリックハンドラ（外部Amazon URLに遷移）
   const handleCardClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const target = e.target as HTMLElement;
-    if (target.closest('button[type="button"]')) {
+    // ボタンをクリックした場合はカードのリンク動作を停止
+    if (target.closest('button')) {
       e.preventDefault();
+      e.stopPropagation();
+      return;
     }
+    // カード全体をクリックした場合は外部URLに遷移（デフォルト動作）
   };
-
-  // 詳細情報の展開/折りたたみ
-  const handleToggleDetails = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDetailsExpanded(!isDetailsExpanded);
-  };
-
-  // 商品詳細ページへのリンクURLを生成
-  const detailUrl = asin ? `/${locale}/products/${asin}` : product.affiliateUrl;
 
   return (
     <a
-      href={detailUrl}
+      href={product.affiliateUrl}
+      target="_blank"
+      rel="noopener noreferrer"
       onClick={handleCardClick}
       className="group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-100 flex flex-col h-full relative"
     >
@@ -344,32 +336,30 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
             )}
           </div>
 
-          {/* 詳細情報（折りたたみ可能） */}
-          {isDetailsExpanded && (
-            <div className="space-y-2 mt-2 pt-2 border-t border-gray-100">
-              {/* AI Deal Score */}
-              {dealScore > 0 && (
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-bold text-purple-600">
-                    AI Deal Score: {dealScore}/100
-                  </span>
-                  <DealScoreTooltip />
-                </div>
-              )}
+          {/* 詳細情報（常時表示） */}
+          <div className="space-y-2 mt-2 pt-2 border-t border-gray-100">
+            {/* AI Deal Score */}
+            {dealScore > 0 && (
+              <div className="flex items-center gap-1.5">
+                <DealScoreBadge score={dealScore} />
+              </div>
+            )}
 
-              {/* 最安値との差 */}
-              {diffFromLowest !== null && diffFromLowest > 0 && (
-                <div className="text-xs text-gray-600">
-                  最安値との差: +¥{diffFromLowest.toLocaleString()}
-                </div>
-              )}
+            {/* 最安値との差 */}
+            {diffFromLowest !== null && diffFromLowest > 0 && (
+              <div className="text-xs text-gray-600">
+                最安値との差: +¥{diffFromLowest.toLocaleString()}
+              </div>
+            )}
 
-              {/* 期間選択ボタンとグラフ */}
+            {/* 期間選択ボタンとグラフ */}
+            {history.length > 0 && (
               <div className="space-y-1">
                 <div className="flex gap-1">
                   {(['7D', '30D', 'ALL'] as PeriodType[]).map((period) => (
                     <button
                       key={period}
+                      type="button"
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -385,7 +375,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
                     </button>
                   ))}
                 </div>
-                <div className="h-10 w-full">
+                <div className="h-16 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={chartData}>
                       <Line
@@ -399,44 +389,23 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
                   </ResponsiveContainer>
                 </div>
               </div>
-            </div>
-          )}
-
-          {/* 詳細情報の展開/折りたたみボタン */}
-          <button
-            type="button"
-            onClick={handleToggleDetails}
-            className="flex items-center justify-center gap-1 text-xs text-gray-500 hover:text-gray-700 mt-1"
-          >
-            {isDetailsExpanded ? (
-              <>
-                <span>詳細を閉じる</span>
-                <ChevronUp size={12} />
-              </>
-            ) : (
-              <>
-                <span>詳細を見る</span>
-                <ChevronDown size={12} />
-              </>
             )}
-          </button>
+          </div>
 
           {/* CTAボタン */}
           <div className="flex gap-1.5 mt-auto pt-1.5">
-            <a
-              href={product.affiliateUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
               onClick={(e) => {
-                e.stopPropagation();
                 e.preventDefault();
+                e.stopPropagation();
                 window.open(product.affiliateUrl, '_blank', 'noopener,noreferrer');
               }}
               className="flex-1 flex items-center justify-center gap-1 px-3 py-2 text-xs font-bold text-white bg-cta hover:bg-red-600 rounded-lg transition-colors shadow-md"
             >
               <span>Amazonで見る</span>
               <ExternalLink size={12} />
-            </a>
+            </button>
             {onAlertClick && (
               <button 
                 type="button"
@@ -475,6 +444,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
           {/* お気に入りボタン（画像上） */}
           {asin && (
             <button
+              type="button"
               onClick={handleFavoriteClick}
               className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/90 backdrop-blur-sm shadow-sm hover:bg-white transition-colors"
               aria-label={isFavorite ? 'お気に入りから削除' : 'お気に入りに追加'}
@@ -550,29 +520,30 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
             )}
           </div>
 
-          {/* 詳細情報（折りたたみ可能） */}
-          {isDetailsExpanded && (
-            <div className="space-y-2 pt-2 border-t border-gray-100">
-              {/* AI Deal Score（詳細情報内では簡易表示） */}
-              {dealScore > 0 && (
-                <div className="flex items-center gap-1.5">
-                  <DealScoreBadge score={dealScore} showTooltip={false} />
-                </div>
-              )}
+          {/* 詳細情報（常時表示） */}
+          <div className="space-y-2 pt-2 border-t border-gray-100">
+            {/* AI Deal Score */}
+            {dealScore > 0 && (
+              <div className="flex items-center gap-1.5">
+                <DealScoreBadge score={dealScore} />
+              </div>
+            )}
 
-              {/* 最安値との差 */}
-              {diffFromLowest !== null && diffFromLowest > 0 && (
-                <div className="text-xs text-gray-600">
-                  最安値との差: +¥{diffFromLowest.toLocaleString()}
-                </div>
-              )}
+            {/* 最安値との差 */}
+            {diffFromLowest !== null && diffFromLowest > 0 && (
+              <div className="text-xs text-gray-600">
+                最安値との差: +¥{diffFromLowest.toLocaleString()}
+              </div>
+            )}
 
-              {/* 期間選択ボタンとグラフ */}
+            {/* 期間選択ボタンとグラフ */}
+            {history.length > 0 && (
               <div className="space-y-1">
                 <div className="flex gap-1">
                   {(['7D', '30D', 'ALL'] as PeriodType[]).map((period) => (
                     <button
                       key={period}
+                      type="button"
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -588,7 +559,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
                     </button>
                   ))}
                 </div>
-                <div className="h-10 w-full">
+                <div className="h-20 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={chartData}>
                       <Line
@@ -602,44 +573,23 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
                   </ResponsiveContainer>
                 </div>
               </div>
-            </div>
-          )}
-
-          {/* 詳細情報の展開/折りたたみボタン */}
-          <button
-            type="button"
-            onClick={handleToggleDetails}
-            className="flex items-center justify-center gap-1 text-xs text-gray-500 hover:text-gray-700"
-          >
-            {isDetailsExpanded ? (
-              <>
-                <span>詳細を閉じる</span>
-                <ChevronUp size={12} />
-              </>
-            ) : (
-              <>
-                <span>詳細を見る</span>
-                <ChevronDown size={12} />
-              </>
             )}
-          </button>
+          </div>
 
           {/* CTAボタン */}
           <div className="flex gap-1.5 mt-auto pt-1">
-            <a
-              href={product.affiliateUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
               onClick={(e) => {
-                e.stopPropagation();
                 e.preventDefault();
+                e.stopPropagation();
                 window.open(product.affiliateUrl, '_blank', 'noopener,noreferrer');
               }}
               className="flex-1 flex items-center justify-center gap-1 px-3 py-2 text-sm font-bold text-white bg-cta hover:bg-red-600 rounded-lg transition-colors shadow-md"
             >
               <span>Amazonで見る</span>
               <ExternalLink size={13} />
-            </a>
+            </button>
             {onAlertClick && (
               <button 
                 type="button"
