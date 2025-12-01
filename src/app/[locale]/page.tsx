@@ -560,7 +560,7 @@ export default function Home() {
       <div className="pb-20 bg-[#f8f9fa] min-h-screen">
         {/* 統計サマリーエリア（ヘッダー直下） */}
         <section className="bg-white border-b border-gray-200 py-8 px-4">
-          <div className="container mx-auto max-w-7xl">
+          <div className="container mx-auto max-w-[1920px]">
             {/* メインメッセージ */}
             <div className="text-center mb-8">
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
@@ -608,7 +608,7 @@ export default function Home() {
         {/* 本日のトレンド（TOP3カルーセル） */}
         {trendProducts.length > 0 && !searchQuery && (
           <section className="bg-white border-b border-gray-200 py-6 px-4">
-            <div className="container mx-auto max-w-7xl">
+            <div className="container mx-auto max-w-[1920px]">
               <div className="flex items-center gap-2 mb-4">
                 <Crown className="w-5 h-5 text-yellow-500" />
                 <h2 className="text-lg font-bold text-slate-900">本日のトレンド</h2>
@@ -656,7 +656,7 @@ export default function Home() {
         {/* トップサマリーバー */}
         {stats.dropsToday > 0 && (
           <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-b border-blue-100 py-3 px-4">
-            <div className="container mx-auto max-w-7xl">
+            <div className="container mx-auto max-w-[1920px]">
               <p className="text-sm text-gray-700 text-center">
                 今日は<strong className="text-blue-700 font-bold">{stats.dropsToday}</strong>商品が値下がりしています。
                 {stats.topCategory && stats.topCategoryCount > 0 && (
@@ -669,7 +669,7 @@ export default function Home() {
 
         {/* タブ切り替えUI */}
         <div className="bg-white border-b border-gray-200 sticky top-16 z-40">
-          <div className="container mx-auto max-w-7xl px-4">
+          <div className="container mx-auto max-w-[1920px] px-4">
             <div className="flex gap-2 overflow-x-auto scrollbar-hide py-3">
               {tabs.map((tab) => (
                 <button
@@ -690,7 +690,7 @@ export default function Home() {
         </div>
 
         {/* 商品グリッド */}
-        <div className="container mx-auto max-w-7xl px-4 py-6">
+        <div className="container mx-auto max-w-[1920px] px-4 py-6">
           {/* 検索結果・カテゴリフィルター情報 */}
           {(searchQuery || (selectedCategory && selectedCategory !== 'all')) && !isLoading && !error && (
             <div className="mb-6">
@@ -717,7 +717,7 @@ export default function Home() {
           
           {/* ローディング状態 */}
           {isLoading && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-7 lg:gap-8">
               {[...Array(6)].map((_, index) => (
                 <LoadingSkeleton key={index} />
               ))}
@@ -833,7 +833,7 @@ export default function Home() {
                     />
                   ) : (
                     // 初期レンダリング時のフォールバック（グリッド表示）
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-7 lg:gap-8">
                       {filteredProducts.slice(0, 6).map((p, index) => (
                         <ProductCard 
                           key={p.id} 

@@ -458,7 +458,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
       {/* PC: 縦長カード型レイアウト */}
       <div className="hidden md:flex flex-col flex-1">
         {/* 画像（上部） */}
-        <div className="w-full aspect-square bg-gray-50 flex items-center justify-center overflow-hidden relative">
+        <div className="w-full aspect-[4/3] bg-gray-50 flex items-center justify-center overflow-hidden relative">
           {imageError ? (
             <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
               <span className="text-sm font-medium">No Image</span>
@@ -492,25 +492,25 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
         </div>
 
         {/* 情報エリア（下部） */}
-        <div className="p-4 flex flex-col gap-2 flex-1">
+        <div className="p-3 flex flex-col gap-1.5 flex-1">
           {/* 商品名（2行制限） */}
           <h3 className="text-base font-medium text-gray-900 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors min-h-[2.5rem]">
             {product.name}
           </h3>
 
           {/* 価格表示（最優先表示、商品名のすぐ下） */}
-          <div className="flex items-baseline gap-3">
+          <div className="flex items-baseline gap-2.5">
             {isCheaper ? (
               <>
-                <span className="text-xl font-bold text-gray-500 line-through">
+                <span className="text-lg font-bold text-gray-500 line-through">
                   ¥{prev.toLocaleString()}
                 </span>
-                <span className="text-3xl font-bold text-gray-900">
+                <span className="text-2xl font-bold text-gray-900">
                   ¥{latest.toLocaleString()}
                 </span>
               </>
             ) : (
-              <span className="text-2xl font-bold text-gray-900">
+              <span className="text-xl font-bold text-gray-900">
                 ¥{latest.toLocaleString()}
               </span>
             )}
@@ -518,11 +518,11 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
 
           {/* 割引額の強調表示（値下がりの場合のみ、価格の下） */}
           {isCheaper && diff !== 0 && (
-            <div className="flex items-center gap-2.5 bg-sale-bg rounded-lg px-3 py-2 border-2 border-orange-300">
-              <span className="text-xl font-bold text-sale">
+            <div className="flex items-center gap-2 bg-sale-bg rounded-lg px-2.5 py-1.5 border-2 border-orange-300">
+              <span className="text-lg font-bold text-sale">
                 -{percentChange}%
               </span>
-              <span className="text-lg font-bold text-sale">
+              <span className="text-base font-bold text-sale">
                 -¥{Math.abs(diff).toLocaleString()}
               </span>
             </div>
@@ -536,23 +536,23 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
           )}
 
           {/* 社会的証明と緊急性のトリガー */}
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-1.5 flex-wrap">
             {/* レビュー評価（社会的証明） */}
-            <div className="flex items-center gap-1">
-              <Star size={14} className="fill-yellow-400 text-yellow-400" />
-              <span className="text-xs font-semibold text-gray-700">4.5</span>
-              <span className="text-[10px] text-gray-500">(128)</span>
+            <div className="flex items-center gap-0.5">
+              <Star size={12} className="fill-yellow-400 text-yellow-400" />
+              <span className="text-[11px] font-semibold text-gray-700">4.5</span>
+              <span className="text-[9px] text-gray-500">(128)</span>
             </div>
             {/* 緊急性のトリガー（在庫残りわずか） */}
             {isCheaper && diff !== 0 && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold text-white bg-cta border border-red-600">
-                <AlertCircle size={10} />
+              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-bold text-white bg-cta border border-red-600">
+                <AlertCircle size={9} />
                 在庫残りわずか
               </span>
             )}
             {/* 過去最安値バッジ（直近7日で更新した商品のみ） */}
             {isLowestPriceRecent && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
+              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
                 🏆 過去最安値
               </span>
             )}
@@ -633,7 +633,7 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
           </button>
 
           {/* CTAボタン */}
-          <div className="flex gap-2 mt-auto pt-1.5">
+          <div className="flex gap-1.5 mt-auto pt-1">
             <a
               href={product.affiliateUrl}
               target="_blank"
@@ -643,19 +643,19 @@ export default function ProductCard({ product, onAlertClick, onFavoriteToggle, i
                 e.preventDefault();
                 window.open(product.affiliateUrl, '_blank', 'noopener,noreferrer');
               }}
-              className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 text-sm font-bold text-white bg-cta hover:bg-red-600 rounded-lg transition-colors shadow-md"
+              className="flex-1 flex items-center justify-center gap-1 px-3 py-2 text-sm font-bold text-white bg-cta hover:bg-red-600 rounded-lg transition-colors shadow-md"
             >
               <span>Amazonで見る</span>
-              <ExternalLink size={14} />
+              <ExternalLink size={13} />
             </a>
             {onAlertClick && (
               <button 
                 type="button"
                 onClick={handleAlertClick}
-                className="flex items-center justify-center px-2.5 py-2.5 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors z-10 relative"
+                className="flex items-center justify-center px-2 py-2 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors z-10 relative"
                 aria-label="値下がり通知を受け取る"
               >
-                <Bell size={16} />
+                <Bell size={15} />
               </button>
             )}
           </div>
