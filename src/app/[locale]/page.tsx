@@ -4,7 +4,6 @@ import { useState, useEffect, useMemo } from 'react';
 import ProductCard from '@/components/ProductCard';
 import AlertModal from '@/components/AlertModal';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
-import VirtualProductList from '@/components/VirtualProductList';
 import { Product } from '@/types/product';
 import { Crown, AlertCircle, RefreshCw, Search, X } from 'lucide-react';
 import { useCategory } from '@/contexts/CategoryContext';
@@ -49,8 +48,6 @@ export default function Home() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  // ページネーションは仮想スクロールで不要のため削除
-  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
   const { selectedCategory, setSelectedCategory } = useCategory();
 
   // カテゴリリスト（Header.tsxと同期）
@@ -66,26 +63,6 @@ export default function Home() {
     { id: '文房具', label: '文房具' },
     { id: 'その他', label: 'その他' },
   ], []);
-  
-  // 画面サイズを動的に取得
-  useEffect(() => {
-    const updateWindowSize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-
-    // 初回レンダリング時にサイズを設定
-    updateWindowSize();
-
-    // リサイズイベントリスナーを追加
-    window.addEventListener('resize', updateWindowSize);
-
-    return () => {
-      window.removeEventListener('resize', updateWindowSize);
-    };
-  }, []);
 
   useEffect(() => { 
     const fetchProducts = async () => {
@@ -548,9 +525,9 @@ export default function Home() {
         onClose={handleCloseModal} 
         product={selectedProduct} 
       />
-      <div className="pb-20 bg-[#f8f9fa] min-h-screen">
+      <div className="pb-16 bg-[#f8f9fa] min-h-screen">
         {/* 統計サマリーエリア（ヘッダー直下） */}
-        <section className="bg-white border-b border-gray-200 py-8 px-4">
+        <section className="bg-white border-b border-gray-200 py-6 px-3">
           <div className="container mx-auto max-w-[1920px]">
             {/* メインメッセージ */}
             <div className="text-center mb-8">
@@ -598,7 +575,7 @@ export default function Home() {
 
         {/* 本日のトレンド（TOP3カルーセル） */}
         {trendProducts.length > 0 && !searchQuery && (
-          <section className="bg-white border-b border-gray-200 py-6 px-4">
+          <section className="bg-white border-b border-gray-200 py-5 px-3">
             <div className="container mx-auto max-w-[1920px]">
               <div className="flex items-center gap-2 mb-4">
                 <Crown className="w-5 h-5 text-yellow-500" />
@@ -646,7 +623,7 @@ export default function Home() {
 
         {/* トップサマリーバー */}
         {stats.dropsToday > 0 && (
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-b border-blue-100 py-3 px-4">
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-b border-blue-100 py-3 px-3">
             <div className="container mx-auto max-w-[1920px]">
               <p className="text-sm text-gray-700 text-center">
                 今日は<strong className="text-blue-700 font-bold">{stats.dropsToday}</strong>商品が値下がりしています。
@@ -660,7 +637,7 @@ export default function Home() {
 
         {/* タブ切り替えUI */}
         <div className="bg-white border-b border-gray-200 sticky top-16 z-40">
-          <div className="container mx-auto max-w-[1920px] px-4">
+          <div className="container mx-auto max-w-[1920px] px-3">
             <div className="flex gap-2 overflow-x-auto scrollbar-hide py-3">
               {tabs.map((tab) => (
                 <button
@@ -681,7 +658,7 @@ export default function Home() {
         </div>
 
         {/* 商品グリッド */}
-        <div className="container mx-auto max-w-[1920px] px-4 py-6">
+        <div className="container mx-auto max-w-[1920px] px-3 py-5">
           {/* 検索結果・カテゴリフィルター情報 */}
           {(searchQuery || (selectedCategory && selectedCategory !== 'all')) && !isLoading && !error && (
             <div className="mb-6">
@@ -708,7 +685,7 @@ export default function Home() {
           
           {/* ローディング状態 */}
           {isLoading && (
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-7 lg:gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 md:gap-5 lg:gap-6">
               {[...Array(6)].map((_, index) => (
                 <LoadingSkeleton key={index} />
               ))}
@@ -811,33 +788,20 @@ export default function Home() {
                 </div>
               ) : (
                 <>
-                  {/* 仮想スクロール対応の商品リスト */}
-                  {windowSize.width > 0 && windowSize.height > 0 ? (
-                    <VirtualProductList
-                      products={filteredProducts} // ページネーションなし：全商品を表示
-                      width={Math.min(windowSize.width - 32, 1200)} // パディングを考慮、最大幅1200px
-                      height={Math.max(600, windowSize.height - 400)} // 最小600px、画面高さからヘッダー等を引く
-                      onAlertClick={handleAlertClick}
-                      onFavoriteToggle={(asin, isFavorite) => {
-                        // お気に入り状態変更時の処理（必要に応じて実装）
-                      }}
-                    />
-                  ) : (
-                    // 初期レンダリング時のフォールバック（グリッド表示）
-                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-7 lg:gap-8">
-                      {filteredProducts.slice(0, 6).map((p, index) => (
-                        <ProductCard 
-                          key={p.id} 
-                          product={p} 
-                          isPriority={index < 3}
-                          onAlertClick={handleAlertClick}
-                          onFavoriteToggle={(asin, isFavorite) => {
-                            // お気に入り状態変更時の処理（必要に応じて実装）
-                          }}
-                        />
-                      ))}
-                    </div>
-                  )}
+                  {/* 高密度グリッド表示（垂直カード） */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 md:gap-5 lg:gap-6">
+                    {filteredProducts.map((p, index) => (
+                      <ProductCard 
+                        key={p.id} 
+                        product={p} 
+                        isPriority={index < 6}
+                        onAlertClick={handleAlertClick}
+                        onFavoriteToggle={(asin, isFavorite) => {
+                          // お気に入り状態変更時の処理（必要に応じて実装）
+                        }}
+                      />
+                    ))}
+                  </div>
                 </>
               )}
             </>
