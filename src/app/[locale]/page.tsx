@@ -1,13 +1,19 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import dynamic from 'next/dynamic';
 import ProductCard from '@/components/ProductCard';
-import AlertModal from '@/components/AlertModal';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { Product } from '@/types/product';
 import { Crown, AlertCircle, RefreshCw, Search, X } from 'lucide-react';
 import { useCategory } from '@/contexts/CategoryContext';
 import categoryLabelsJson from '@/data/category_labels.json';
+
+// 非クリティカルなコンポーネントを動的インポート（遅延読み込み）
+const AlertModal = dynamic(() => import('@/components/AlertModal'), {
+  ssr: false,
+  loading: () => null,
+});
 
 /**
  * Deal Scoreを計算する関数
@@ -521,11 +527,13 @@ export default function Home() {
         }}
       />
       
-      <AlertModal 
-        isOpen={isModalOpen} 
-        onClose={handleCloseModal} 
-        product={selectedProduct} 
-      />
+      {isModalOpen && (
+        <AlertModal 
+          isOpen={isModalOpen} 
+          onClose={handleCloseModal} 
+          product={selectedProduct} 
+        />
+      )}
       <div className="pb-16 bg-[#f8f9fa] min-h-screen">
         {/* 統計サマリーエリア（ヘッダー直下） */}
         <section className="bg-white border-b border-gray-200 py-6 px-3">

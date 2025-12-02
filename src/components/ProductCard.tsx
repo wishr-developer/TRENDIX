@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { Bell, ExternalLink, Heart, Star, AlertCircle } from 'lucide-react';
 import Image from 'next/image';
 import { Product } from '@/types/product';
-import { ResponsiveContainer, LineChart, Line } from 'recharts';
 import DealScoreBadge from './DealScoreBadge';
+import ProductCardChart from './ProductCardChart';
 
 interface ProductCardProps {
   product: Product;
@@ -73,38 +74,6 @@ function isLowestPriceInRecentDays(product: Product, days: number): boolean {
   return latest === recentLowest && latest === allTimeLowest;
 }
 
-/** 期間に基づいて価格推移データをフィルタリング */
-function prepareChartData(product: Product, period: PeriodType): Array<{ price: number }> {
-  const history = product.priceHistory || [];
-
-  if (history.length === 0) {
-    return [{ price: product.currentPrice }];
-  }
-
-  let filteredHistory = [...history];
-
-  if (period === '7D') {
-    filteredHistory = history.slice(-7);
-  } else if (period === '30D') {
-    filteredHistory = history.slice(-30);
-  }
-
-  return filteredHistory.map((h) => ({ price: h.price }));
-}
-
-/** グラフの色を決定 */
-function getChartColor(product: Product): string {
-  const history = product.priceHistory || [];
-  if (history.length < 2) return '#9ca3af';
-
-  const latest = product.currentPrice;
-  const prev = history[history.length - 2].price;
-  const diff = latest - prev;
-
-  if (diff < 0) return '#EF4444';
-  if (diff > 0) return '#3B82F6';
-  return '#9ca3af';
-}
 
 export default function ProductCard({
   product,
@@ -163,9 +132,6 @@ export default function ProductCard({
   const isLowestPriceRecent = isLowestPriceInRecentDays(product, 7);
 
   const dealScore = calculateDealScore(product);
-
-  const chartData = prepareChartData(product, selectedPeriod);
-  const chartColor = getChartColor(product);
 
   const handleAlertClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -362,17 +328,7 @@ export default function ProductCard({
                 ))}
               </div>
               <div className="h-16 md:h-20 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={chartData}>
-                    <Line
-                      type="monotone"
-                      dataKey="price"
-                      stroke={chartColor}
-                      strokeWidth={2}
-                      dot={false}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
+                <ProductCardChart product={product} selectedPeriod={selectedPeriod} />
               </div>
             </div>
           )}

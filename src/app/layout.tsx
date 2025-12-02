@@ -1,10 +1,18 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import { CategoryProvider } from "@/contexts/CategoryContext";
-import WebVitals from "@/components/WebVitals";
-import GATracker from "@/components/GATracker";
 import { GA_ID, isGAEnabled } from "@/lib/gtag";
+
+// 非クリティカルなコンポーネントを動的インポート（遅延読み込み）
+const WebVitals = dynamic(() => import("@/components/WebVitals"), {
+  ssr: false,
+});
+
+const GATracker = dynamic(() => import("@/components/GATracker"), {
+  ssr: false,
+});
 
 const metadataBase = new URL('https://price-watcher-plum.vercel.app');
 
