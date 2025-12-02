@@ -240,7 +240,7 @@ export default function Header({ onSearch = noop, onRankingClick = noop }: Heade
         <div className="container mx-auto px-3 h-16 flex items-center justify-between gap-4">
           {/* ロゴ */}
           <Link href={`/${locale}`} className="flex items-baseline gap-1 group" aria-label="TRENDIX ホームページに移動">
-            <span className="text-2xl font-bold font-serif tracking-tight text-trust relative">
+            <span className="text-3xl font-bold font-serif tracking-tight text-trust relative">
               TRENDIX
               <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-accent opacity-60 group-hover:opacity-100 transition-opacity"></span>
             </span>
@@ -253,7 +253,7 @@ export default function Header({ onSearch = noop, onRankingClick = noop }: Heade
               placeholder="何をお探しですか？（例: MacBook, スニーカー...）" 
               value={searchQuery}
               onChange={handleSearchChange}
-              className="w-full h-10 pl-4 pr-10 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust transition-all"
+              className="w-full h-10 pl-4 pr-10 bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust/40 transition-all shadow-sm hover:shadow-md"
               aria-label="商品を検索"
             />
             <button className="absolute right-3 top-2.5 text-gray-400 hover:text-trust transition-colors" aria-label="検索">
@@ -267,7 +267,7 @@ export default function Header({ onSearch = noop, onRankingClick = noop }: Heade
             <div className="relative" ref={categoryMenuRef}>
               <button
                 onClick={() => setIsCategoryMenuOpen(!isCategoryMenuOpen)}
-                className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-black transition-colors"
+                className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-trust px-3 py-1.5 rounded-xl hover:bg-gray-50/80 hover:shadow-sm transition-all duration-200"
                 aria-expanded={isCategoryMenuOpen}
                 aria-haspopup="true"
                 aria-label={`カテゴリを選択: 現在は${selectedCategoryLabel}`}
@@ -303,7 +303,7 @@ export default function Header({ onSearch = noop, onRankingClick = noop }: Heade
             {onRankingClick ? (
               <button
                 onClick={onRankingClick}
-                className="text-sm font-medium text-gray-600 hover:text-black hidden sm:block transition-colors"
+                className="text-sm font-medium text-gray-600 hover:text-trust px-3 py-1.5 rounded-xl hover:bg-gray-50/80 hover:shadow-sm hidden sm:block transition-all duration-200"
                 aria-label="ランキングページに移動"
               >
                 ランキング
@@ -311,7 +311,7 @@ export default function Header({ onSearch = noop, onRankingClick = noop }: Heade
             ) : (
               <Link 
                 href={`/${locale}`} 
-                className="text-sm font-medium text-gray-600 hover:text-black hidden sm:block"
+                className="text-sm font-medium text-gray-600 hover:text-trust px-3 py-1.5 rounded-xl hover:bg-gray-50/80 hover:shadow-sm hidden sm:block transition-all duration-200"
                 aria-label="ランキングページに移動"
               >
                 ランキング

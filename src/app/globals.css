@@ -4,6 +4,34 @@
 
 body {
   @apply bg-[#FBFBFB] text-text-main antialiased font-serif;
+  line-height: 1.7;
+  /* サブトルテクスチャ（布のような手触り感） */
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.01) 0px,
+      transparent 1px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.01) 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.01) 0px,
+      transparent 1px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.01) 3px
+    );
+  background-size: 4px 4px;
+}
+
+/* 背景画像の自然な表示 */
+section {
+  position: relative;
+}
+
+/* セリフ体の可読性向上 */
+.font-serif {
+  line-height: 1.75;
 }
 
 /* なめらかなスクロール */

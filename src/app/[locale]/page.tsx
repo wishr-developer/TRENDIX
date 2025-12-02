@@ -536,11 +536,22 @@ export default function Home() {
       )}
       <div className="pb-16 bg-[#FBFBFB] min-h-screen">
         {/* 統計サマリーエリア（ヘッダー直下） */}
-        <section className="bg-white/80 backdrop-blur-sm border-b border-gray-200/50 py-6 px-3">
-          <div className="container mx-auto max-w-[1920px]">
+        <section className="relative bg-white/80 backdrop-blur-sm border-b border-gray-200/50 py-6 px-3 overflow-hidden">
+          {/* 背景画像 */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+            style={{
+              backgroundImage: "url('/images/paris_street_blurred.jpg')",
+            }}
+            aria-hidden="true"
+          ></div>
+          {/* オーバーレイ（グラデーション） */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/60 to-white/80" aria-hidden="true"></div>
+          {/* コンテンツ */}
+          <div className="container mx-auto max-w-[1920px] relative z-10">
             {/* メインメッセージ */}
             <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-text-main mb-2">
+              <h1 className="text-4xl md:text-5xl font-bold text-text-main mb-2 leading-tight">
                 買い時の商品が、<span className="text-trust">一瞬でわかる。</span>
               </h1>
               <p className="text-gray-600 text-sm md:text-base mb-2">
@@ -580,11 +591,12 @@ export default function Home() {
               </div>
             </div>
           </div>
+          </div>
         </section>
 
         {/* 本日のトレンド（TOP3カルーセル） */}
         {trendProducts.length > 0 && !searchQuery && (
-          <section className="bg-white border-b border-gray-200 py-5 px-3">
+          <section className="bg-white/90 backdrop-blur-sm border-b border-gray-200/50 py-6 md:py-8 px-4 md:px-6">
             <div className="container mx-auto max-w-[1920px]">
               <div className="flex items-center gap-2 mb-4">
                 <Crown className="w-5 h-5 text-yellow-500" />
@@ -632,7 +644,7 @@ export default function Home() {
 
         {/* トップサマリーバー */}
         {stats.dropsToday > 0 && (
-          <div className="bg-gradient-to-r from-rose-50/60 to-pink-50/40 border-b border-rose-100/50 py-3 px-3">
+          <div className="bg-gradient-to-r from-rose-50/60 to-pink-50/40 border-b border-rose-100/50 py-4 px-4 md:px-6">
             <div className="container mx-auto max-w-[1920px]">
               <p className="text-sm text-gray-700 text-center">
                 今日は<strong className="text-rose-700 font-bold font-sans">{stats.dropsToday}</strong>商品が値下がりしています。
@@ -650,6 +662,9 @@ export default function Home() {
             </div>
           </div>
         )}
+
+        {/* エレガントな区切り */}
+        <div className="border-t border-gray-200/50 my-8"></div>
 
         {/* タブ切り替えUI */}
         <div className="bg-white border-b border-gray-200 sticky top-16 z-40">
@@ -674,7 +689,7 @@ export default function Home() {
         </div>
 
         {/* 商品グリッド */}
-        <div className="container mx-auto max-w-[1920px] px-3 py-5">
+        <div className="container mx-auto max-w-[1920px] px-4 md:px-6 py-8 md:py-10">
           {/* 検索結果・カテゴリフィルター情報 */}
           {(searchQuery || (selectedCategory && selectedCategory !== 'all')) && !isLoading && !error && (
             <div className="mb-6">
