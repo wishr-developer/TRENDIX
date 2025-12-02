@@ -534,14 +534,14 @@ export default function Home() {
           product={selectedProduct} 
         />
       )}
-      <div className="pb-16 bg-[#f8f9fa] min-h-screen">
+      <div className="pb-16 bg-[#FBFBFB] min-h-screen">
         {/* 統計サマリーエリア（ヘッダー直下） */}
-        <section className="bg-white border-b border-gray-200 py-6 px-3">
+        <section className="bg-white/80 backdrop-blur-sm border-b border-gray-200/50 py-6 px-3">
           <div className="container mx-auto max-w-[1920px]">
             {/* メインメッセージ */}
             <div className="text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-                買い時の商品が、<span className="text-blue-600">一瞬でわかる。</span>
+              <h1 className="text-3xl md:text-4xl font-bold text-text-main mb-2">
+                買い時の商品が、<span className="text-trust">一瞬でわかる。</span>
               </h1>
               <p className="text-gray-600 text-sm md:text-base mb-2">
                 Amazonの価格変動を24時間365日監視中
@@ -554,29 +554,29 @@ export default function Home() {
             {/* 統計カード */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
               {/* 監視商品数（信頼性カラー） */}
-              <div className="bg-gradient-to-br from-trust-light to-blue-50 rounded-xl p-6 border border-trust-light">
-                <div className="text-sm text-trust-dark font-medium mb-2">監視商品数</div>
-                <div className="text-4xl font-bold text-trust-dark font-sans">{stats.totalProducts}</div>
-                <div className="text-xs text-trust mt-1">商品をリアルタイム監視中</div>
+              <div className="bg-gradient-to-br from-blue-50/60 to-indigo-50/40 rounded-2xl p-6 border border-blue-100/50 shadow-soft">
+                <div className="text-sm text-trust font-medium mb-2">監視商品数</div>
+                <div className="text-4xl font-bold text-trust font-sans">{stats.totalProducts}</div>
+                <div className="text-xs text-gray-600 mt-1">商品をリアルタイム監視中</div>
               </div>
 
               {/* 本日値下がり件数（価格アンカリング強調） */}
-              <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-6 border-2 border-cta relative overflow-hidden">
+              <div className="bg-gradient-to-br from-rose-50/60 to-pink-50/40 rounded-2xl p-6 border border-rose-100/50 shadow-soft relative overflow-hidden">
                 <div className="absolute top-2 right-2">
-                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-bold text-white bg-cta shadow-md">
+                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-bold text-white bg-cta/90 shadow-sm">
                     🔥 お得
                   </span>
                 </div>
-                <div className="text-sm text-red-700 font-medium mb-2">本日値下がり件数</div>
-                <div className="text-4xl font-bold text-red-900 font-sans">{stats.dropsToday}</div>
-                <div className="text-xs text-red-600 mt-1">件の商品が値下がり</div>
+                <div className="text-sm text-rose-700 font-medium mb-2">本日値下がり件数</div>
+                <div className="text-4xl font-bold text-rose-800 font-sans">{stats.dropsToday}</div>
+                <div className="text-xs text-rose-600 mt-1">件の商品が値下がり</div>
               </div>
 
               {/* 最安値更新件数 */}
-              <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-6 border border-yellow-200">
-                <div className="text-sm text-yellow-700 font-medium mb-2">最安値更新件数</div>
-                <div className="text-4xl font-bold text-yellow-900 font-sans">{stats.lowestPriceUpdates}</div>
-                <div className="text-xs text-yellow-600 mt-1">件が過去最安値を更新</div>
+              <div className="bg-gradient-to-br from-amber-50/60 to-yellow-50/40 rounded-2xl p-6 border border-amber-100/50 shadow-soft">
+                <div className="text-sm text-amber-700 font-medium mb-2">最安値更新件数</div>
+                <div className="text-4xl font-bold text-amber-800 font-sans">{stats.lowestPriceUpdates}</div>
+                <div className="text-xs text-amber-600 mt-1">件が過去最安値を更新</div>
               </div>
             </div>
           </div>
@@ -632,15 +632,15 @@ export default function Home() {
 
         {/* トップサマリーバー */}
         {stats.dropsToday > 0 && (
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-b border-blue-100 py-3 px-3">
+          <div className="bg-gradient-to-r from-rose-50/60 to-pink-50/40 border-b border-rose-100/50 py-3 px-3">
             <div className="container mx-auto max-w-[1920px]">
               <p className="text-sm text-gray-700 text-center">
-                今日は<strong className="text-blue-700 font-bold font-sans">{stats.dropsToday}</strong>商品が値下がりしています。
+                今日は<strong className="text-rose-700 font-bold font-sans">{stats.dropsToday}</strong>商品が値下がりしています。
                 {stats.topCategory && stats.topCategoryCount > 0 && (
                   <span>
                     {' '}
                     特に
-                    <strong className="text-purple-700 font-bold">
+                    <strong className="text-rose-800 font-bold">
                       {categoryLabelMap[stats.topCategory] || stats.topCategory}
                     </strong>
                     カテゴリが狙い目です。

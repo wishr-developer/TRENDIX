@@ -236,11 +236,14 @@ export default function Header({ onSearch = noop, onRankingClick = noop }: Heade
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-trust-light">
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200/50">
         <div className="container mx-auto px-3 h-16 flex items-center justify-between gap-4">
           {/* ロゴ */}
-          <Link href={`/${locale}`} className="flex items-baseline gap-1" aria-label="TRENDIX ホームページに移動">
-            <span className="text-2xl font-bold font-serif tracking-tight text-slate-900">TRENDIX</span>
+          <Link href={`/${locale}`} className="flex items-baseline gap-1 group" aria-label="TRENDIX ホームページに移動">
+            <span className="text-2xl font-bold font-serif tracking-tight text-trust relative">
+              TRENDIX
+              <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-accent opacity-60 group-hover:opacity-100 transition-opacity"></span>
+            </span>
           </Link>
 
           {/* 検索バー（PCのみ表示） */}

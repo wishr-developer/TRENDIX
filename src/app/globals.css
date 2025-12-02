@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-[#f8f9fa] text-text-main antialiased font-serif;
+  @apply bg-[#FBFBFB] text-text-main antialiased font-serif;
 }
 
 /* なめらかなスクロール */

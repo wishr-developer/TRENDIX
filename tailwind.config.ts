@@ -14,53 +14,64 @@ const config: Config = {
         sans: ['var(--font-sans)', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       colors: {
-        background: "#ffffff",
-        surface: "#f8f9fa", // 非常に薄いグレー
-        border: "#e9ecef",
-        // 信頼性カラー（低彩度の青、ニュートラル）
+        background: "#FBFBFB", // 非常に薄いウォームグレー/アイボリー
+        surface: "#FFFFFF", // 純白（カード/浮上）
+        border: "#E5E5E5", // 柔らかいボーダー
+        // プライマリ（信頼）- 深いネイビーブルー
         'trust': {
-          DEFAULT: '#4A90E2', // 低彩度の青
-          light: '#E8F4FD', // 薄い青
-          dark: '#2C5F8F', // 濃い青
+          DEFAULT: '#1a3455', // 深いネイビーブルー（伝統的なエレガンス）
+          light: '#E8F0F5', // 薄いネイビー
+          dark: '#1a3455', // 深いネイビー
         },
-        // 行動喚起カラー（高彩度の赤・オレンジ）
+        // アクセント - 真鍮ゴールド
+        'accent': {
+          DEFAULT: '#B8860B', // 真鍮ゴールド（控えめな高級感）
+          light: '#F5E6D3', // 薄いゴールド
+          dark: '#8B6914', // 濃いゴールド
+        },
+        // 行動喚起カラー（控えめな赤）
         'cta': {
-          DEFAULT: '#FF4444', // 高彩度の赤
-          orange: '#FF6B35', // 高彩度のオレンジ
-          light: '#FFE5E5', // 薄い赤
+          DEFAULT: '#D9534F', // 控えめな赤
+          orange: '#D9534F', // 控えめな赤
+          light: '#F5E6E5', // 薄い赤
         },
-        primary: "#2563eb", // 鮮やかな青
-        danger: "#ef4444",  // セール価格用の赤
-        'price-drop': '#EF4444', // 値下がり（赤）
-        'price-up': '#3B82F6', // 値上がり（青）
-        'sale': '#FF6B35', // セール強調色（オレンジ）
-        'sale-bg': '#FFF5F2', // セール背景色（薄いオレンジ）
+        primary: "#1a3455", // 深いネイビーブルー
+        danger: "#D9534F",  // 控えめな赤
+        'price-drop': '#D9534F', // 値下がり（控えめな赤）
+        'price-up': '#1a3455', // 値上がり（ネイビー）
+        'sale': '#D9534F', // セール強調色（控えめな赤）
+        'sale-bg': '#F5E6E5', // セール背景色（薄い赤）
         // AI Deal Score用メタリック配色
         'score-metallic': {
-          gold: '#D4AF37', // 金色
+          gold: '#B8860B', // 真鍮ゴールド
           silver: '#C0C0C0', // 銀色
           bronze: '#CD7F32', // 銅色
-          blue: '#4A90E2', // メタリックブルー
+          blue: '#1a3455', // ネイビーブルー
         },
         text: {
-          main: "#111827", // ほぼ黒
+          main: "#1a3455", // ネイビー（ほぼ黒の代わり）
           muted: "#6b7280", // グレー
         },
         // Deal Score用グラデーション
         score: {
           s: {
-            from: "#a855f7", // 紫
-            to: "#ec4899", // ピンク
+            from: "#1a3455", // ネイビー
+            to: "#B8860B", // ゴールド
           },
           a: {
-            from: "#3b82f6", // 青
-            to: "#06b6d4", // シアン
+            from: "#1a3455", // ネイビー
+            to: "#4A90E2", // 青
           },
         }
       },
       boxShadow: {
-        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
-        'card': '0 0 0 1px rgba(0,0,0,0.03), 0 2px 8px rgba(0,0,0,0.04)',
+        'soft': '0 2px 20px -5px rgba(0, 0, 0, 0.08), 0 8px 24px -4px rgba(0, 0, 0, 0.05)',
+        'card': '0 2px 12px -2px rgba(0, 0, 0, 0.06), 0 4px 16px -4px rgba(0, 0, 0, 0.04)',
+      },
+      borderRadius: {
+        'xl': '1rem',
+        '2xl': '1.25rem',
+        '3xl': '1.5rem',
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',

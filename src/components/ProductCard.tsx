@@ -194,7 +194,7 @@ export default function ProductCard({
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleCardClick}
-      className="group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-100 flex flex-col h-full relative"
+      className="group bg-white rounded-2xl shadow-soft hover:shadow-card transition-all duration-300 overflow-hidden flex flex-col h-full relative"
     >
       {/* 画像（上部） */}
       <div className="w-full aspect-[4/3] bg-gray-50 flex items-center justify-center overflow-hidden relative">
@@ -233,7 +233,7 @@ export default function ProductCard({
       {/* 情報エリア（下部） */}
       <div className="p-3 flex flex-col gap-1.5 flex-1">
         {/* 商品名 */}
-        <h3 className="text-sm md:text-base font-medium text-gray-900 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors min-h-[2.25rem]">
+        <h3 className="text-sm md:text-base font-medium text-text-main line-clamp-2 leading-tight group-hover:text-trust transition-colors min-h-[2.25rem]">
           {product.name}
         </h3>
 
@@ -280,12 +280,12 @@ export default function ProductCard({
         <div className="flex items-center gap-1.5 flex-wrap">
           {dealScore > 0 && <DealScoreBadge score={dealScore} />}
           <div className="flex items-center gap-0.5">
-            <Star size={12} className="fill-yellow-400 text-yellow-400" />
+            <Star size={12} className="fill-accent text-accent" />
             <span className="text-[11px] font-semibold text-gray-700 font-sans">4.5</span>
             <span className="text-[9px] text-gray-500 font-sans">(128)</span>
           </div>
           {isCheaper && diff !== 0 && (
-            <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-bold text-white bg-cta border border-red-600">
+            <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-bold text-white bg-cta border border-cta/20">
               <AlertCircle size={9} />
               在庫残りわずか
             </span>
@@ -343,7 +343,7 @@ export default function ProductCard({
               e.stopPropagation();
               window.open(product.affiliateUrl, '_blank', 'noopener,noreferrer');
             }}
-            className="flex-1 flex items-center justify-center gap-1 px-3 py-2 text-xs md:text-sm font-bold text-white bg-cta hover:bg-red-600 rounded-lg transition-colors shadow-md"
+            className="flex-1 flex items-center justify-center gap-1 px-3 py-2 text-xs md:text-sm font-bold text-white bg-cta hover:bg-cta/90 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
           >
             <span>Amazonで見る</span>
             <ExternalLink size={12} />
@@ -352,7 +352,7 @@ export default function ProductCard({
             <button
               type="button"
               onClick={handleAlertClick}
-              className="flex items-center justify-center px-2 py-2 text-xs md:text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors z-10 relative"
+              className="flex items-center justify-center px-2 py-2 text-xs md:text-sm font-medium text-gray-600 bg-gray-100/80 hover:bg-gray-200/80 rounded-xl transition-all duration-200 z-10 relative"
               aria-label="値下がり通知を受け取る"
             >
               <Bell size={14} />
