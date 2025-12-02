@@ -11,6 +11,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         serif: ['var(--font-serif)', 'Playfair Display', 'Georgia', 'serif'],
+        sans: ['var(--font-sans)', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       colors: {
         background: "#ffffff",

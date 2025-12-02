@@ -251,25 +251,25 @@ export default function ProductCard({
           <div className="flex items-baseline gap-2.5 flex-wrap">
             {isCheaper ? (
               <>
-                <span className="text-base md:text-lg font-bold text-gray-500 line-through">
+                <span className="text-base md:text-lg font-bold text-gray-500 line-through font-sans">
                   ¥{prev.toLocaleString()}
                 </span>
-                <span className="text-2xl font-bold text-gray-900">
+                <span className="text-2xl font-bold text-gray-900 font-sans">
                   ¥{latest.toLocaleString()}
                 </span>
                 {diff !== 0 && (
                   <>
-                    <span className="text-sm md:text-base font-bold text-sale">
+                    <span className="text-sm md:text-base font-bold text-sale font-sans">
                       -{percentChange}%
                     </span>
-                    <span className="text-xs md:text-sm font-bold text-sale">
+                    <span className="text-xs md:text-sm font-bold text-sale font-sans">
                       -¥{Math.abs(diff).toLocaleString()}
                     </span>
                   </>
                 )}
               </>
             ) : (
-              <span className="text-xl font-bold text-gray-900">
+              <span className="text-xl font-bold text-gray-900 font-sans">
                 ¥{latest.toLocaleString()}
               </span>
             )}
@@ -281,8 +281,8 @@ export default function ProductCard({
           {dealScore > 0 && <DealScoreBadge score={dealScore} />}
           <div className="flex items-center gap-0.5">
             <Star size={12} className="fill-yellow-400 text-yellow-400" />
-            <span className="text-[11px] font-semibold text-gray-700">4.5</span>
-            <span className="text-[9px] text-gray-500">(128)</span>
+            <span className="text-[11px] font-semibold text-gray-700 font-sans">4.5</span>
+            <span className="text-[9px] text-gray-500 font-sans">(128)</span>
           </div>
           {isCheaper && diff !== 0 && (
             <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-bold text-white bg-cta border border-red-600">
@@ -301,7 +301,7 @@ export default function ProductCard({
         <div className="space-y-2 pt-2 border-t border-gray-100">
           {diffFromLowest !== null && diffFromLowest > 0 && (
             <div className="text-xs text-gray-600">
-              最安値との差: +¥{diffFromLowest.toLocaleString()}
+              最安値との差: <span className="font-sans">+¥{diffFromLowest.toLocaleString()}</span>
             </div>
           )}
 

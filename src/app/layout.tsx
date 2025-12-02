@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
-import { Playfair_Display } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import { CategoryProvider } from "@/contexts/CategoryContext";
@@ -15,11 +15,19 @@ const GATracker = dynamic(() => import("@/components/GATracker"), {
   ssr: false,
 });
 
-// Playfair Displayフォントの設定（ラグジュアリーでエディトリアルなセリフ体）
+// Playfair Displayフォントの設定（ラグジュアリーでエディトリアルなセリフ体・本文用）
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
   variable: "--font-serif",
+  display: "swap",
+});
+
+// Interフォントの設定（データ・UI要素用サンセリフ体）
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-sans",
   display: "swap",
 });
 
@@ -81,7 +89,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja" suppressHydrationWarning className={playfairDisplay.variable}>
+    <html lang="ja" suppressHydrationWarning className={`${playfairDisplay.variable} ${inter.variable}`}>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

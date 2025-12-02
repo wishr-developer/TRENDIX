@@ -556,7 +556,7 @@ export default function Home() {
               {/* 監視商品数（信頼性カラー） */}
               <div className="bg-gradient-to-br from-trust-light to-blue-50 rounded-xl p-6 border border-trust-light">
                 <div className="text-sm text-trust-dark font-medium mb-2">監視商品数</div>
-                <div className="text-4xl font-bold text-trust-dark">{stats.totalProducts}</div>
+                <div className="text-4xl font-bold text-trust-dark font-sans">{stats.totalProducts}</div>
                 <div className="text-xs text-trust mt-1">商品をリアルタイム監視中</div>
               </div>
 
@@ -568,14 +568,14 @@ export default function Home() {
                   </span>
                 </div>
                 <div className="text-sm text-red-700 font-medium mb-2">本日値下がり件数</div>
-                <div className="text-4xl font-bold text-red-900">{stats.dropsToday}</div>
+                <div className="text-4xl font-bold text-red-900 font-sans">{stats.dropsToday}</div>
                 <div className="text-xs text-red-600 mt-1">件の商品が値下がり</div>
               </div>
 
               {/* 最安値更新件数 */}
               <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-6 border border-yellow-200">
                 <div className="text-sm text-yellow-700 font-medium mb-2">最安値更新件数</div>
-                <div className="text-4xl font-bold text-yellow-900">{stats.lowestPriceUpdates}</div>
+                <div className="text-4xl font-bold text-yellow-900 font-sans">{stats.lowestPriceUpdates}</div>
                 <div className="text-xs text-yellow-600 mt-1">件が過去最安値を更新</div>
               </div>
             </div>
@@ -635,7 +635,7 @@ export default function Home() {
           <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-b border-blue-100 py-3 px-3">
             <div className="container mx-auto max-w-[1920px]">
               <p className="text-sm text-gray-700 text-center">
-                今日は<strong className="text-blue-700 font-bold">{stats.dropsToday}</strong>商品が値下がりしています。
+                今日は<strong className="text-blue-700 font-bold font-sans">{stats.dropsToday}</strong>商品が値下がりしています。
                 {stats.topCategory && stats.topCategoryCount > 0 && (
                   <span>
                     {' '}
