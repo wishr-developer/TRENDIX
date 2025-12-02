@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
-import { Poppins } from "next/font/google";
+import { Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import { CategoryProvider } from "@/contexts/CategoryContext";
@@ -15,11 +15,11 @@ const GATracker = dynamic(() => import("@/components/GATracker"), {
   ssr: false,
 });
 
-// Poppinsフォントの設定
-const poppins = Poppins({
+// Playfair Displayフォントの設定（ラグジュアリーでエディトリアルなセリフ体）
+const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
-  variable: "--font-poppins",
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-serif",
   display: "swap",
 });
 
@@ -81,7 +81,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja" suppressHydrationWarning className={poppins.variable}>
+    <html lang="ja" suppressHydrationWarning className={playfairDisplay.variable}>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -107,7 +107,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </>
         )}
       </head>
-      <body className={`${poppins.className} flex flex-col min-h-screen bg-white text-slate-900`} suppressHydrationWarning>
+      <body className={`${playfairDisplay.className} flex flex-col min-h-screen bg-white text-slate-900`} suppressHydrationWarning>
         <WebVitals />
         {isGAEnabled && <GATracker />}
         <CategoryProvider>

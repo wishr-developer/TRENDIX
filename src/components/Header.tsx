@@ -240,7 +240,7 @@ export default function Header({ onSearch = noop, onRankingClick = noop }: Heade
         <div className="container mx-auto px-3 h-16 flex items-center justify-between gap-4">
           {/* ロゴ */}
           <Link href={`/${locale}`} className="flex items-baseline gap-1" aria-label="TRENDIX ホームページに移動">
-            <span className="text-2xl font-bold tracking-tight text-slate-900">TRENDIX</span>
+            <span className="text-2xl font-bold font-serif tracking-tight text-slate-900">TRENDIX</span>
           </Link>
 
           {/* 検索バー（PCのみ表示） */}
