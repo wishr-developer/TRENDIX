@@ -42,6 +42,64 @@ function calculateDealScore(product: Product): number {
   return Math.round(score);
 }
 
+/** 過去N日間の平均価格を取得（データが少ない場合は全期間で計算） */
+function getAveragePriceInDays(product: Product, days: number): number | null {
+  const history = product.priceHistory || [];
+  if (history.length === 0) return null;
+
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - days);
+
+  const recentHistory = history.filter((h) => {
+    const historyDate = new Date(h.date);
+    return historyDate >= cutoffDate;
+  });
+
+  const target = recentHistory.length > 0 ? recentHistory : history;
+  if (target.length === 0) return null;
+
+  const sum = target.reduce((acc, h) => acc + h.price, 0);
+  return sum / target.length;
+}
+
+/** 「なぜお得か」を1行で説明するテキストを生成 */
+function getDealReason(product: Product): string | null {
+  const history = product.priceHistory || [];
+  if (history.length < 2) return null;
+
+  const latest = product.currentPrice;
+  const prev = history[history.length - 2].price;
+  const diffFromPrev = latest - prev;
+
+  const avg30 = getAveragePriceInDays(product, 30);
+
+  // 1. 過去30日平均より十分安い場合を優先して表示
+  if (avg30 && latest < avg30) {
+    const diffFromAvg = avg30 - latest;
+    const discountPercentFromAvg =
+      avg30 > 0 ? Math.round((diffFromAvg / avg30) * 100 * 10) / 10 : 0;
+
+    // 平均より3%以上安い場合のみ強調
+    if (discountPercentFromAvg >= 3) {
+      return `過去30日平均より約¥${Math.round(diffFromAvg).toLocaleString()}安く（約${discountPercentFromAvg}%オフ）、今が狙い目です。`;
+    }
+  }
+
+  // 2. 直近価格からの値下がりが大きい場合
+  if (diffFromPrev < 0) {
+    const discountPercentFromPrev =
+      prev > 0 ? Math.round((Math.abs(diffFromPrev) / prev) * 100 * 10) / 10 : 0;
+
+    // 直近からの値下がりが3%以上なら説明を表示
+    if (discountPercentFromPrev >= 3) {
+      return `直近価格より約¥${Math.abs(diffFromPrev).toLocaleString()}安く（約${discountPercentFromPrev}%オフ）なっています。`;
+    }
+  }
+
+  // 3. データはあるが特筆すべき差がない場合は表示なし
+  return null;
+}
+
 /** 過去最安値を取得 */
 function getLowestPrice(product: Product): number | null {
   const history = product.priceHistory || [];
@@ -132,6 +190,7 @@ export default function ProductCard({
   const isLowestPriceRecent = isLowestPriceInRecentDays(product, 7);
 
   const dealScore = calculateDealScore(product);
+  const dealReason = getDealReason(product);
 
   const handleAlertClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -274,6 +333,13 @@ export default function ProductCard({
               </span>
             )}
           </div>
+
+          {/* 「なぜお得か」の1行説明 */}
+          {dealReason && (
+            <p className="text-xs md:text-[13px] text-gray-600 leading-snug">
+              {dealReason}
+            </p>
+          )}
         </div>
 
         {/* ステータスブロック */}
