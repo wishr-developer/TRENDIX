@@ -45,17 +45,32 @@ const heroBackgroundImages = [
 
 interface HomeClientProps {
   initialProducts: Product[];
+  isLoading?: boolean;
 }
 
-export default function HomeClient({ initialProducts }: HomeClientProps) {
-  const [products] = useState<Product[]>(initialProducts);
+export default function HomeClient({ initialProducts, isLoading: externalIsLoading = false }: HomeClientProps) {
+  const [products, setProducts] = useState<Product[]>(initialProducts);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<TabType>("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isLoading] = useState(false);
-  const [error] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(externalIsLoading);
+  const [error, setError] = useState<string | null>(null);
+
+  // initialProductsが変更されたときにproductsを更新
+  useEffect(() => {
+    if (initialProducts.length > 0) {
+      setProducts(initialProducts);
+      setIsLoading(false);
+      setError(null);
+    } else if (externalIsLoading) {
+      setIsLoading(true);
+    } else if (initialProducts.length === 0 && !externalIsLoading) {
+      // データ取得が完了したが空の場合
+      setIsLoading(false);
+    }
+  }, [initialProducts, externalIsLoading]);
   const { selectedCategory, setSelectedCategory } = useCategory();
   const [priceBand, setPriceBand] = useState<PriceBand>("all");
   const [sortKey, setSortKey] = useState<SortKey>("default");
