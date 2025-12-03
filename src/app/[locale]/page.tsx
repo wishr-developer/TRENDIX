@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import ProductCard from '@/components/ProductCard';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import Header from '@/components/Header';
+import AlertModal from '@/components/AlertModal';
 import { Product } from '@/types/product';
 import { Crown, AlertCircle, RefreshCw, Search, X } from 'lucide-react';
 import { useCategory } from '@/contexts/CategoryContext';
@@ -39,13 +40,6 @@ const PRICE_BANDS: Record<
 
 const categoryLabelMap = categoryLabelsJson as Record<string, string>;
 
-// ヒーローセクション用の背景画像リスト（フランス/イタリアの街並み）
-const heroBackgroundImages = [
-  '/images/paris_street_blurred.jpg',
-  '/images/street1.jpg',
-  '/images/street2.jpg',
-  '/images/street3.jpg',
-];
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -59,19 +53,12 @@ export default function Home() {
   const { selectedCategory, setSelectedCategory } = useCategory();
   const [priceBand, setPriceBand] = useState<PriceBand>('all');
   const [sortKey, setSortKey] = useState<SortKey>('default');
-  
-  // ヒーロー背景画像の状態管理
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isFading, setIsFading] = useState(false);
 
-  // 検索クエリの変更をハンドル（入力値のみ更新、検索は実行しない）
+  // 検索クエリの変更をハンドル（DAISO型：即時フィルタ）
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-  };
-
-  // 検索実行（検索ボタンまたはエンターキーで呼ばれる）
-  const handleSearchExecute = () => {
-    setDebouncedSearchQuery(searchQuery);
+    // 即座に検索実行（Enter不要）
+    setDebouncedSearchQuery(query);
   };
 
   // カテゴリリスト（Header.tsxと同期/Tier1コード→日本語ラベル）
@@ -141,22 +128,6 @@ export default function Home() {
     fetchProducts();
   }, []);
 
-  // ヒーロー背景画像の自動切り替え（30秒ごと）
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsFading(true);
-      
-      // フェードアウト完了後に画像を切り替え
-      setTimeout(() => {
-        setCurrentImageIndex((prevIndex) => 
-          (prevIndex + 1) % heroBackgroundImages.length
-        );
-        setIsFading(false);
-      }, 500); // フェードアウトの時間（500ms）
-    }, 30000); // 30秒ごとに切り替え
-
-    return () => clearInterval(interval);
-  }, []);
   
   // リトライ関数
   const handleRetry = async () => {
@@ -475,11 +446,12 @@ export default function Home() {
     return sorted.filter(p => calculateDealScore(p) > 0).slice(0, 3);
   }, [uniqueProducts]);
 
-  const tabs: Array<{ id: TabType; label: string; emoji: string }> = [
-    { id: 'drops', label: '値下がり速報', emoji: '🔥' },
-    { id: 'new', label: '新着', emoji: '✨' },
-    { id: 'ranking', label: 'ランキング', emoji: '👑' },
-    { id: 'all', label: 'すべて', emoji: '' },
+  // DAISO型：タブUI（派手なアイコン・色を削減）
+  const tabs: Array<{ id: TabType; label: string }> = [
+    { id: 'drops', label: '値下がり' },
+    { id: 'new', label: '新着' },
+    { id: 'ranking', label: 'ランキング' },
+    { id: 'all', label: 'すべて' },
   ];
 
   // useCallbackでメモ化して再レンダリングを防止
@@ -599,7 +571,7 @@ export default function Home() {
   return (
     <>
       {/* ヘッダー（検索機能付き） */}
-      <Header searchQuery={searchQuery} onSearch={handleSearch} onSearchExecute={handleSearchExecute} />
+      <Header searchQuery={searchQuery} onSearch={handleSearch} />
 
       {/* 構造化データ（JSON-LD） */}
       {structuredData.products.length > 0 && (
@@ -629,167 +601,60 @@ export default function Home() {
           product={selectedProduct} 
         />
       )}
-      <div className="pb-16 min-h-screen">
-        {/* 統計サマリーエリア（ヘッダー直下） */}
-        <section className="relative bg-white/80 backdrop-blur-sm border-b border-gray-200/50 py-8 md:py-12 px-3 overflow-hidden">
-          {/* 背景画像（動的切り替え） */}
-          <div 
-            className={`absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 transition-opacity duration-500 ${
-              isFading ? 'opacity-0' : 'opacity-20'
-            }`}
-            style={{
-              backgroundImage: `url('${heroBackgroundImages[currentImageIndex]}')`,
-            }}
-            aria-hidden="true"
-          ></div>
-          {/* オーバーレイ（グラデーション） */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/60 to-white/80" aria-hidden="true"></div>
-          {/* コンテンツ */}
-          <div className="container mx-auto max-w-[1920px] relative z-10">
+      <div className="pb-16 min-h-screen bg-white">
+        {/* DAISO型：ヒーローセクション */}
+        <section className="bg-white border-b border-gray-200 py-8 md:py-12 px-4">
+          <div className="container mx-auto max-w-6xl">
             {/* メインメッセージ */}
             <div className="text-center mb-8">
-              <h1 className="text-4xl md:text-5xl font-bold text-text-main mb-2 leading-tight">
-                買い時の商品が、<span className="text-trust">一瞬でわかる。</span>
+              <h1 className="text-3xl md:text-4xl font-normal text-gray-900 mb-3 leading-tight">
+                買い時の商品が、ひと目でわかる
               </h1>
-              <p className="text-gray-600 text-sm md:text-base mb-2">
-                Amazonの価格変動を24時間365日監視中
+              <p className="text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+                Amazonの価格変動をAIが監視し、本当に下がった商品だけを表示
               </p>
-              <p className="text-gray-500 text-xs md:text-sm max-w-2xl mx-auto">
-                TRENDIXは、Amazonの価格変動をAIがリアルタイムで分析し、本当に安くなった商品のみを自動で抽出・表示します。
-              </p>
-              <div className="mt-4 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 text-[11px] md:text-xs text-gray-700">
-                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/80 border border-gray-200">
-                  AIが「本当にお得な値下がり」だけを自動抽出
-                </span>
-                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/80 border border-gray-200">
-                  過去価格と下落率からデータで買い時を判定
-                </span>
-                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/80 border border-gray-200">
-                  価格グラフを見なくても「なぜお得か」が一瞬で分かる
-                </span>
-              </div>
             </div>
 
-            {/* 統計カード（ロード完了後のみ表示） */}
+            {/* DAISO型：数字ブロック（3カラム横並び） */}
             {!isLoading && (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-                {/* 監視商品数（信頼性カラー） */}
-                <div className="bg-gradient-to-br from-blue-50/60 to-indigo-50/40 rounded-2xl p-6 border border-blue-100/50 shadow-soft">
-                  <div className="text-sm text-trust font-medium mb-2">監視商品数</div>
-                  <div className="text-4xl font-bold text-trust font-sans">{stats.totalProducts}</div>
-                  <div className="text-xs text-gray-600 mt-1">商品をリアルタイム監視中</div>
+                {/* 監視商品数 */}
+                <div className="bg-white border border-gray-300 rounded p-6 text-center">
+                  <div className="text-sm text-gray-600 mb-2">監視商品数</div>
+                  <div className="text-3xl font-normal text-gray-900 font-sans">{stats.totalProducts}</div>
                 </div>
 
-                {/* 本日値下がり件数（価格アンカリング強調） */}
-                <div className="bg-gradient-to-br from-rose-50/60 to-pink-50/40 rounded-2xl p-6 border border-rose-100/50 shadow-soft relative overflow-hidden animate-pulse-slow">
-                  <div className="absolute top-2 right-2">
-                    <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-bold text-white bg-cta/90 shadow-sm">
-                      🔥 お得
-                    </span>
-                  </div>
-                  <div className="text-sm text-rose-700 font-medium mb-2">本日値下がり件数</div>
-                  <div className="text-4xl font-bold text-rose-800 font-sans">{stats.dropsToday}</div>
-                  <div className="text-xs text-rose-600 mt-1">件の商品が値下がり</div>
+                {/* 本日値下がり件数 */}
+                <div className="bg-white border border-gray-300 rounded p-6 text-center">
+                  <div className="text-sm text-gray-600 mb-2">本日値下がり件数</div>
+                  <div className="text-3xl font-normal text-gray-900 font-sans">{stats.dropsToday}</div>
                 </div>
 
                 {/* 最安値更新件数 */}
-                <div className="bg-gradient-to-br from-amber-50/60 to-yellow-50/40 rounded-2xl p-6 border border-amber-100/50 shadow-soft">
-                  <div className="text-sm text-amber-700 font-medium mb-2">最安値更新件数</div>
-                  <div className="text-4xl font-bold text-amber-800 font-sans">{stats.lowestPriceUpdates}</div>
-                  <div className="text-xs text-amber-600 mt-1">件が過去最安値を更新</div>
+                <div className="bg-white border border-gray-300 rounded p-6 text-center">
+                  <div className="text-sm text-gray-600 mb-2">最安値更新件数</div>
+                  <div className="text-3xl font-normal text-gray-900 font-sans">{stats.lowestPriceUpdates}</div>
                 </div>
               </div>
             )}
           </div>
         </section>
 
-        {/* 本日のトレンド（TOP3カルーセル） */}
-        {trendProducts.length > 0 && !debouncedSearchQuery && (
-          <section className="bg-white/90 backdrop-blur-sm border-b border-gray-200/50 py-6 md:py-8 px-4 md:px-6">
-            <div className="container mx-auto max-w-[1920px]">
-              <div className="flex items-center gap-2 mb-4">
-                <Crown className="w-5 h-5 text-yellow-500" />
-                <h2 className="text-lg font-bold text-slate-900">本日のトレンド</h2>
-              </div>
-              <div className="relative">
-                <div className="overflow-x-auto scrollbar-hide">
-                  <div className="flex gap-4 pb-2">
-                    {trendProducts.map((product, index) => (
-                      <a
-                        key={product.id}
-                        href={product.affiliateUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-shrink-0 w-64 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-200 hover:shadow-md transition-shadow"
-                      >
-                        <div className="flex items-center gap-2 mb-2">
-                          <Crown size={14} className="text-yellow-500" />
-                          <span className="text-xs font-bold text-purple-600">No.{index + 1}</span>
-                        </div>
-                        <div className="text-sm font-bold text-gray-900 line-clamp-2 mb-2">
-                          {product.name}
-                        </div>
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-lg font-bold text-gray-900">
-                            ¥{product.currentPrice.toLocaleString()}
-                          </span>
-                          {product.priceHistory.length >= 2 && (
-                            <span className="text-xs text-gray-400 line-through">
-                              ¥{product.priceHistory[product.priceHistory.length - 2].price.toLocaleString()}
-                            </span>
-                          )}
-                        </div>
-                        <div className="text-xs text-red-600 font-semibold mt-1">
-                          AI Deal Score: {calculateDealScore(product)}/100
-                        </div>
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
 
-        {/* トップサマリーバー */}
-        {stats.dropsToday > 0 && (
-          <div className="bg-gradient-to-r from-rose-50/60 to-pink-50/40 border-b border-rose-100/50 py-4 px-4 md:px-6">
-            <div className="container mx-auto max-w-[1920px]">
-              <p className="text-sm text-gray-700 text-center">
-                今日は<strong className="text-rose-700 font-bold font-sans">{stats.dropsToday}</strong>商品が値下がりしています。
-                {stats.topCategory && stats.topCategoryCount > 0 && (
-                  <span>
-                    {' '}
-                    特に
-                    <strong className="text-rose-800 font-bold">
-                      {categoryLabelMap[stats.topCategory] || stats.topCategory}
-                    </strong>
-                    カテゴリが狙い目です。
-                  </span>
-                )}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* エレガントな区切り */}
-        <div className="border-t border-gray-200/50 my-10 md:my-12"></div>
-
-        {/* タブ切り替えUI */}
+        {/* DAISO型：タブ切り替えUI */}
         <div className="bg-white border-b border-gray-200 sticky top-16 z-40">
-          <div className="container mx-auto max-w-[1920px] px-3">
-            <div className="flex gap-2 overflow-x-auto scrollbar-hide py-3">
+          <div className="container mx-auto max-w-6xl px-4">
+            <div className="flex gap-1 overflow-x-auto scrollbar-hide py-3">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                  className={`px-4 py-2 text-sm whitespace-nowrap transition-all border-b-2 ${
                     activeTab === tab.id
-                      ? 'bg-gray-900 text-white'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                      ? 'text-gray-900 font-medium border-gray-900'
+                      : 'text-gray-500 border-transparent hover:text-gray-700'
                   }`}
                 >
-                  {tab.emoji && <span className="mr-1">{tab.emoji}</span>}
                   {tab.label}
                 </button>
               ))}
@@ -797,8 +662,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 商品グリッド */}
-        <div className="container mx-auto max-w-[1920px] px-4 md:px-6 py-8 md:py-10">
+        {/* DAISO型：商品グリッド */}
+        <div className="container mx-auto max-w-6xl px-4 md:px-6 py-8 md:py-10">
           {/* 検索結果・カテゴリフィルター情報 */}
           {(debouncedSearchQuery || (selectedCategory && selectedCategory !== 'all')) && !isLoading && !error && (
             <div className="mb-6">
@@ -823,71 +688,43 @@ export default function Home() {
             </div>
           )}
           
-          {/* シンプルなフィルター＆ソート（スマホ優先レイアウト） */}
+          {/* DAISO型：フィルター＆ソートUI */}
           {!isLoading && !error && (
-            <div className="mb-5 flex flex-col gap-3">
-              <div className="flex flex-wrap gap-2 text-xs">
-                <span className="text-gray-500">価格帯:</span>
-                <button
-                  type="button"
-                  onClick={() => setPriceBand('all')}
-                  className={`px-2 py-1 rounded-full border text-[11px] ${
-                    priceBand === 'all'
-                      ? 'bg-gray-900 text-white border-gray-900'
-                      : 'bg-white text-gray-700 border-gray-200'
-                  }`}
-                >
-                  すべて
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPriceBand('under3k')}
-                  className={`px-2 py-1 rounded-full border text-[11px] ${
-                    priceBand === 'under3k'
-                      ? 'bg-gray-900 text-white border-gray-900'
-                      : 'bg-white text-gray-700 border-gray-200'
-                  }`}
-                >
-                  〜3,000円
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPriceBand('3kto10k')}
-                  className={`px-2 py-1 rounded-full border text-[11px] ${
-                    priceBand === '3kto10k'
-                      ? 'bg-gray-900 text-white border-gray-900'
-                      : 'bg-white text-gray-700 border-gray-200'
-                  }`}
-                >
-                  3,000〜10,000円
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPriceBand('over10k')}
-                  className={`px-2 py-1 rounded-full border text-[11px] ${
-                    priceBand === 'over10k'
-                      ? 'bg-gray-900 text-white border-gray-900'
-                      : 'bg-white text-gray-700 border-gray-200'
-                  }`}
-                >
-                  10,000円〜
-                </button>
+            <div className="mb-6 flex flex-wrap items-center gap-3 py-4 border-b border-gray-200">
+              {/* 価格帯フィルター */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-600">価格帯:</span>
+                <div className="flex gap-1">
+                  {(['all', 'under3k', '3kto10k', 'over10k'] as PriceBand[]).map((band) => (
+                    <button
+                      key={band}
+                      type="button"
+                      onClick={() => setPriceBand(band)}
+                      className={`px-3 py-1 text-sm border border-gray-300 rounded ${
+                        priceBand === band
+                          ? 'bg-gray-100 text-gray-900'
+                          : 'bg-white text-gray-700 hover:bg-gray-50'
+                      }`}
+                    >
+                      {PRICE_BANDS[band].label}
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-3 text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="text-gray-500">並び替え:</span>
-                  <select
-                    value={sortKey}
-                    onChange={(e) => setSortKey(e.target.value as SortKey)}
-                    className="h-8 px-2 rounded-lg border border-gray-200 bg-white text-xs text-gray-700"
-                  >
-                    <option value="default">おすすめ順</option>
-                    <option value="dealScore">AI Deal Scoreが高い順</option>
-                    <option value="discountPercent">割引率が高い順</option>
-                    <option value="discountAmount">値下げ額が大きい順</option>
-                  </select>
-                </div>
+              {/* 並び替え */}
+              <div className="flex items-center gap-2 ml-auto">
+                <span className="text-sm text-gray-600">並び替え:</span>
+                <select
+                  value={sortKey}
+                  onChange={(e) => setSortKey(e.target.value as SortKey)}
+                  className="h-8 px-3 border border-gray-300 bg-white text-sm text-gray-700 rounded"
+                >
+                  <option value="default">おすすめ順</option>
+                  <option value="dealScore">AI Deal Scoreが高い順</option>
+                  <option value="discountPercent">割引率が高い順</option>
+                  <option value="discountAmount">値下げ額が大きい順</option>
+                </select>
               </div>
             </div>
           )}

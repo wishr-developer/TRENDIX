@@ -56,7 +56,7 @@ function getAveragePriceInDays(product: Product, days: number): number | null {
   return sum / target.length;
 }
 
-/** 「なぜお得か」を1行で説明するテキストを生成 */
+/** DAISO型：「なぜお得か」を1行で説明するテキストを生成（客観データのみ、煽り文言禁止） */
 function getDealReason(product: Product): string | null {
   const history = product.priceHistory || [];
   if (history.length < 2) return null;
@@ -73,9 +73,9 @@ function getDealReason(product: Product): string | null {
     const discountPercentFromAvg =
       avg30 > 0 ? Math.round((diffFromAvg / avg30) * 100 * 10) / 10 : 0;
 
-    // 平均より一定以上安い場合のみ強調
+    // 平均より一定以上安い場合のみ表示
     if (discountPercentFromAvg >= DEAL_REASON_CONFIG.minAvgDiscountPercent) {
-      return `過去30日平均より約¥${Math.round(diffFromAvg).toLocaleString()}安く（約${discountPercentFromAvg}%オフ）、今が狙い目です。`;
+      return `過去30日平均との差：-¥${Math.round(diffFromAvg).toLocaleString()}（約${discountPercentFromAvg}%）`;
     }
   }
 
@@ -86,7 +86,7 @@ function getDealReason(product: Product): string | null {
 
     // 直近からの値下がりが一定以上なら説明を表示
     if (discountPercentFromPrev >= DEAL_REASON_CONFIG.minPrevDiscountPercent) {
-      return `直近価格より約¥${Math.abs(diffFromPrev).toLocaleString()}安く（約${discountPercentFromPrev}%オフ）なっています。`;
+      return `直近価格より -¥${Math.abs(diffFromPrev).toLocaleString()}（約${discountPercentFromPrev}%）`;
     }
   }
 
@@ -247,10 +247,10 @@ function ProductCard({
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleCardClick}
-      className="group bg-white rounded-3xl shadow-artistic hover:shadow-card transition-all duration-300 ease-out overflow-hidden flex flex-col h-full relative border border-gray-100/60"
+      className="group bg-white border border-gray-300 overflow-hidden flex flex-col h-full relative hover:border-gray-400 transition-colors"
     >
-      {/* 画像（上部） */}
-      <div className="w-full aspect-[4/3] bg-gradient-to-br from-gray-50 to-gray-100/50 flex items-center justify-center overflow-hidden relative border-b border-gray-100/40">
+      {/* DAISO型：画像（正方形・余白あり） */}
+      <div className="w-full aspect-square bg-gray-50 flex items-center justify-center overflow-hidden relative">
         {imageError ? (
           <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
             <span className="text-sm font-medium">No Image</span>
@@ -283,119 +283,58 @@ function ProductCard({
         )}
       </div>
 
-      {/* 情報エリア（下部） */}
-      <div className="p-3 flex flex-col gap-1.5 flex-1">
-        {/* 商品名 */}
-        <h3 className="text-sm md:text-base font-normal text-text-main line-clamp-2 leading-tight group-hover:text-trust transition-colors min-h-[2.25rem]">
+      {/* DAISO型：情報エリア（下部） */}
+      <div className="p-4 flex flex-col gap-2 flex-1">
+        {/* 商品名（2〜3行まで、太字禁止） */}
+        <h3 className="text-sm text-gray-900 line-clamp-3 leading-relaxed">
           {product.name}
         </h3>
 
-        {/* カテゴリバッジ（日本語ラベル） */}
-        {categoryLabel && (
-          <div className="mt-0.5">
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-gray-100 text-gray-700 border border-gray-200">
-              {categoryLabel}
-            </span>
-          </div>
-        )}
-
-        {/* 価格ブロック */}
+        {/* DAISO型：価格（最も視認性高く、落ち着いたトーン） */}
         <div className="flex flex-col gap-1">
-          <div className="flex items-baseline gap-2.5 flex-wrap">
+          <div className="flex items-baseline gap-2 flex-wrap">
             {isCheaper ? (
               <>
-                <span className="text-base md:text-lg font-semibold text-gray-500 line-through font-sans">
+                <span className="text-lg font-normal text-gray-500 line-through font-sans">
                   ¥{prev.toLocaleString()}
                 </span>
-                <span className="text-2xl font-semibold text-gray-900 font-sans">
+                <span className="text-2xl font-normal text-gray-900 font-sans">
                   ¥{latest.toLocaleString()}
                 </span>
                 {diff !== 0 && (
-                  <>
-                    <span className="text-sm md:text-base font-semibold text-sale font-sans">
-                      -{percentChange}%
-                    </span>
-                    <span className="text-xs md:text-sm font-semibold text-sale font-sans">
-                      -¥{Math.abs(diff).toLocaleString()}
-                    </span>
-                  </>
+                  <span className="text-sm font-normal text-gray-600 font-sans">
+                    -{percentChange}%
+                  </span>
                 )}
               </>
             ) : (
-              <span className="text-xl font-semibold text-gray-900 font-sans">
+              <span className="text-xl font-normal text-gray-900 font-sans">
                 ¥{latest.toLocaleString()}
               </span>
             )}
           </div>
 
-          {/* 「なぜお得か」の1行説明 */}
+          {/* 「なぜお得か」表示（条件を満たす商品のみ、落ち着いたトーン） */}
           {dealReason && (
-            <p className="text-xs md:text-[13px] text-gray-600 leading-snug">
+            <p className="text-xs text-gray-600 leading-relaxed mt-1">
               {dealReason}
             </p>
           )}
         </div>
 
-        {/* ステータスブロック */}
-        <div className="flex items-center gap-1.5 flex-wrap">
-          {dealScore > 0 && <DealScoreBadge score={dealScore} />}
-          <div className="flex items-center gap-0.5">
-            <Star size={12} className="fill-accent text-accent" />
-            <span className="text-[11px] font-semibold text-gray-700 font-sans">4.5</span>
-            <span className="text-[9px] text-gray-500 font-sans">(128)</span>
+        {/* DAISO型：補足情報（AI Deal Score、レビューなど） */}
+        <div className="flex items-center gap-2 flex-wrap mt-auto">
+          {/* AI Deal Score：40点未満は非表示 */}
+          {dealScore >= 40 && <DealScoreBadge score={dealScore} />}
+          <div className="flex items-center gap-1">
+            <Star size={12} className="fill-gray-400 text-gray-400" />
+            <span className="text-xs text-gray-600 font-sans">4.5</span>
+            <span className="text-xs text-gray-500 font-sans">(128)</span>
           </div>
-          {isCheaper && diff !== 0 && (
-            <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-bold text-white bg-cta border border-cta/20">
-              <AlertCircle size={9} />
-              在庫残りわずか
-            </span>
-          )}
-          {isLowestPriceRecent && (
-            <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
-              🏆 過去最安値
-            </span>
-          )}
         </div>
 
-        {/* 詳細情報（常時表示） */}
-        <div className="space-y-2 pt-2 border-t border-gray-100">
-          {diffFromLowest !== null && diffFromLowest > 0 && (
-            <div className="text-xs text-gray-600">
-              最安値との差: <span className="font-sans">+¥{diffFromLowest.toLocaleString()}</span>
-            </div>
-          )}
-
-          {history.length > 0 && isPriority && (
-            <div className="space-y-1">
-              <div className="flex gap-1">
-                {(['7D', '30D', 'ALL'] as PeriodType[]).map((period) => (
-                  <button
-                    key={period}
-                    type="button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setSelectedPeriod(period);
-                    }}
-                    className={`px-2 py-0.5 text-[10px] font-medium rounded transition-colors ${
-                      selectedPeriod === period
-                        ? 'bg-gray-900 text-white'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    }`}
-                  >
-                    {period}
-                  </button>
-                ))}
-              </div>
-              <div className="h-16 md:h-20 w-full">
-                <ProductCardChart product={product} selectedPeriod={selectedPeriod} />
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* CTAボタン */}
-        <div className="flex gap-1.5 mt-auto pt-1">
+        {/* DAISO型：CTAボタン（シンプル） */}
+        <div className="mt-2 pt-2 border-t border-gray-200">
           <button
             type="button"
             onClick={(e) => {
@@ -403,21 +342,11 @@ function ProductCard({
               e.stopPropagation();
               window.open(product.affiliateUrl, '_blank', 'noopener,noreferrer');
             }}
-            className="flex-1 flex items-center justify-center gap-1 px-3 py-2 text-xs md:text-sm font-bold text-white bg-cta hover:bg-cta/90 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
+            className="w-full flex items-center justify-center gap-1 px-4 py-2 text-sm font-normal text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 transition-colors"
           >
-            <span>Amazonで見る</span>
-            <ExternalLink size={12} />
+            <span>商品を見る</span>
+            <ExternalLink size={14} />
           </button>
-          {onAlertClick && (
-            <button
-              type="button"
-              onClick={handleAlertClick}
-              className="flex items-center justify-center px-2 py-2 text-xs md:text-sm font-medium text-gray-600 bg-gray-100/80 hover:bg-gray-200/80 rounded-xl transition-all duration-200 z-10 relative"
-              aria-label="値下がり通知を受け取る"
-            >
-              <Bell size={14} />
-            </button>
-          )}
         </div>
       </div>
     </a>
