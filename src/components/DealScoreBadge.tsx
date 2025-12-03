@@ -14,18 +14,61 @@ interface DealScoreBadgeProps {
 export default function DealScoreBadge({ score, showTooltip = true }: DealScoreBadgeProps) {
   const [isHovered, setIsHovered] = useState(false);
 
-  // スコアに応じたランクと色を決定
+  // スコアに応じたランクと色・トーンを決定
   const getScoreRank = (score: number) => {
-    if (score >= 80) return { rank: 'S', color: 'from-score-metallic-gold to-yellow-400', bgColor: 'bg-gradient-to-br from-yellow-50 to-yellow-100', borderColor: 'border-yellow-300', textColor: 'text-yellow-800' };
-    if (score >= 60) return { rank: 'A', color: 'from-score-metallic-blue to-blue-400', bgColor: 'bg-gradient-to-br from-blue-50 to-blue-100', borderColor: 'border-blue-300', textColor: 'text-blue-800' };
-    if (score >= 40) return { rank: 'B', color: 'from-green-500 to-emerald-400', bgColor: 'bg-gradient-to-br from-green-50 to-green-100', borderColor: 'border-green-300', textColor: 'text-green-800' };
-    if (score >= 20) return { rank: 'C', color: 'from-gray-400 to-gray-300', bgColor: 'bg-gradient-to-br from-gray-50 to-gray-100', borderColor: 'border-gray-300', textColor: 'text-gray-800' };
-    return { rank: 'D', color: 'from-gray-300 to-gray-200', bgColor: 'bg-gray-50', borderColor: 'border-gray-200', textColor: 'text-gray-600' };
+    if (score >= 80)
+      return {
+        rank: 'S',
+        color: 'from-score-metallic-gold to-yellow-400',
+        bgColor: 'bg-gradient-to-br from-yellow-50 to-yellow-100',
+        borderColor: 'border-yellow-300',
+        textColor: 'text-yellow-800',
+        tone: 'strong',
+      };
+    if (score >= 60)
+      return {
+        rank: 'A',
+        color: 'from-score-metallic-blue to-blue-400',
+        bgColor: 'bg-gradient-to-br from-blue-50 to-blue-100',
+        borderColor: 'border-blue-300',
+        textColor: 'text-blue-800',
+        tone: 'strong',
+      };
+    if (score >= 40)
+      return {
+        rank: 'B',
+        color: 'from-green-500 to-emerald-400',
+        bgColor: 'bg-gradient-to-br from-green-50 to-green-100',
+        borderColor: 'border-green-300',
+        textColor: 'text-green-800',
+        tone: 'medium',
+      };
+    if (score >= 20)
+      return {
+        rank: 'C',
+        color: 'from-gray-200 to-gray-300',
+        bgColor: 'bg-gradient-to-br from-gray-50 to-gray-100',
+        borderColor: 'border-gray-200',
+        textColor: 'text-gray-500',
+        tone: 'weak',
+      };
+    // 20点未満はバッジ自体を非表示（買い時ではない）
+    return {
+      rank: 'D',
+      color: 'from-gray-200 to-gray-200',
+      bgColor: 'bg-transparent',
+      borderColor: 'border-transparent',
+      textColor: 'text-gray-400',
+      tone: 'hidden',
+    };
   };
 
   const scoreRank = getScoreRank(score);
 
-  if (score === 0) return null;
+  if (score === 0 || scoreRank.tone === 'hidden') return null;
+
+  const label =
+    score >= 40 ? 'AI Deal Score' : '参考スコア';
 
   return (
     <div className="relative inline-block">
@@ -42,8 +85,8 @@ export default function DealScoreBadge({ score, showTooltip = true }: DealScoreB
         
         {/* スコア数値 */}
         <div className="flex flex-col">
-          <span className={`text-xs font-bold ${scoreRank.textColor}`}>
-            AI Deal Score
+          <span className={`text-[11px] font-semibold ${scoreRank.textColor}`}>
+            {label}
           </span>
           <span className={`text-sm font-bold ${scoreRank.textColor}`}>
             {score}/100

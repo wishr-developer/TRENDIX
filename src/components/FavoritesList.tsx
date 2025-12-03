@@ -7,6 +7,7 @@ import { useLocale } from 'next-intl';
 import { Heart, ArrowRight } from 'lucide-react';
 import ProductCard from '@/components/ProductCard';
 import { Product } from '@/types/product';
+import { buildSearchTokens, matchesTokens } from '@/lib/search';
 
 /**
  * URLからASINを抽出
@@ -46,11 +47,13 @@ export default function FavoritesList({ allProducts, onAlertClick, searchQuery =
 
     // 検索クエリでフィルタリング
     if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter((product) => {
-        const name = product.name.toLowerCase();
-        return name.includes(query);
-      });
+      const tokens = buildSearchTokens(searchQuery);
+      if (tokens.length > 0) {
+        filtered = filtered.filter((product) => {
+          const target = `${product.name} ${product.brand ?? ''}`;
+          return matchesTokens(target, tokens);
+        });
+      }
     }
 
     setFavoriteProducts(filtered);

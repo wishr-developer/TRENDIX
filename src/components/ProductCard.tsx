@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { Product } from '@/types/product';
 import DealScoreBadge from './DealScoreBadge';
 import ProductCardChart from './ProductCardChart';
+import { calculateDealScore } from '@/lib/dealScore';
 
 interface ProductCardProps {
   product: Product;
@@ -30,23 +31,6 @@ const DEAL_REASON_CONFIG = {
 function extractASIN(url: string): string | null {
   const match = url.match(/\/dp\/([A-Z0-9]{10})|\/gp\/product\/([A-Z0-9]{10})/);
   return match ? (match[1] || match[2]) : null;
-}
-
-/** Deal Scoreを計算 */
-function calculateDealScore(product: Product): number {
-  const history = product.priceHistory || [];
-  if (history.length < 2) return 0;
-
-  const latest = product.currentPrice;
-  const prev = history[history.length - 2].price;
-  const diff = latest - prev;
-
-  if (diff >= 0) return 0;
-
-  const discountPercent = prev > 0 ? (Math.abs(diff) / prev) * 100 : 0;
-  const score = Math.min(discountPercent * 2, 100);
-
-  return Math.round(score);
 }
 
 /** 過去N日間の平均価格を取得（データが少ない場合は全期間で計算） */

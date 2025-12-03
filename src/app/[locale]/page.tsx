@@ -9,31 +9,8 @@ import { Product } from '@/types/product';
 import { Crown, AlertCircle, RefreshCw, Search, X } from 'lucide-react';
 import { useCategory } from '@/contexts/CategoryContext';
 import categoryLabelsJson from '@/data/category_labels.json';
-
-// 非クリティカルなコンポーネントを動的インポート（遅延読み込み）
-const AlertModal = dynamic(() => import('@/components/AlertModal'), {
-  ssr: false,
-  loading: () => null,
-});
-
-/**
- * Deal Scoreを計算する関数
- */
-function calculateDealScore(product: Product): number {
-  const history = product.priceHistory || [];
-  if (history.length < 2) return 0;
-
-  const latest = product.currentPrice;
-  const prev = history[history.length - 2].price;
-  const diff = latest - prev;
-  
-  if (diff >= 0) return 0;
-  
-  const discountPercent = prev > 0 ? (Math.abs(diff) / prev) * 100 : 0;
-  const score = Math.min(discountPercent * 2, 100);
-  
-  return Math.round(score);
-}
+import { calculateDealScore } from '@/lib/dealScore';
+import { buildSearchTokens, matchesTokens } from '@/lib/search';
 
 /**
  * URLからASINを抽出（重複防止用）
@@ -46,6 +23,16 @@ function extractASIN(url: string): string | null {
 type TabType = 'drops' | 'new' | 'ranking' | 'all';
 type PriceBand = 'all' | 'under3k' | '3kto10k' | 'over10k';
 type SortKey = 'default' | 'dealScore' | 'discountPercent' | 'discountAmount';
+
+const PRICE_BANDS: Record<
+  PriceBand,
+  { label: string; min: number; max: number | null }
+> = {
+  all: { label: 'すべて', min: 0, max: null },
+  under3k: { label: '〜3,000円', min: 0, max: 3000 },
+  '3kto10k': { label: '3,000〜10,000円', min: 3000, max: 10000 },
+  over10k: { label: '10,000円〜', min: 10000, max: null },
+};
 
 // ページネーションは仮想スクロールで不要のため削除
 // const ITEMS_PER_PAGE = 20;
@@ -72,7 +59,6 @@ export default function Home() {
   const { selectedCategory, setSelectedCategory } = useCategory();
   const [priceBand, setPriceBand] = useState<PriceBand>('all');
   const [sortKey, setSortKey] = useState<SortKey>('default');
-  const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([]);
   
   // ヒーロー背景画像の状態管理
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -297,13 +283,6 @@ export default function Home() {
     };
   }, [uniqueProducts]);
 
-  // テキスト正規化（大文字小文字・全角半角を揃える）
-  const normalizeText = (text: string) =>
-    text
-      .toLowerCase()
-      .normalize('NFKC')
-      .trim();
-
   // タブに応じたフィルタリング
   const filteredProducts = useMemo(() => {
     let result = [...uniqueProducts];
@@ -319,42 +298,25 @@ export default function Home() {
       });
     }
 
-    // 追加のカテゴリ複数選択フィルター（あれば優先）
-    if (selectedCategoryIds.length > 0) {
-      result = result.filter((p: Product) => {
-        const category = p.category || 'OTHERS';
-        return selectedCategoryIds.includes(category);
-      });
-    }
-
     // 価格帯フィルター
+    const band = PRICE_BANDS[priceBand];
     result = result.filter((p: Product) => {
       const price = p.currentPrice;
-      switch (priceBand) {
-        case 'under3k':
-          return price > 0 && price < 3000;
-        case '3kto10k':
-          return price >= 3000 && price <= 10000;
-        case 'over10k':
-          return price > 10000;
-        case 'all':
-        default:
-          return true;
-      }
+      if (price <= 0) return false;
+      if (price < band.min) return false;
+      if (band.max !== null && price > band.max) return false;
+      return true;
     });
 
     // 検索フィルター（デバウンス済みのクエリを使用）
     if (debouncedSearchQuery && debouncedSearchQuery.trim()) {
-      const tokens = debouncedSearchQuery
-        .split(/[\s、　]+/)
-        .map(normalizeText)
-        .filter(Boolean);
+      const tokens = buildSearchTokens(debouncedSearchQuery);
 
       if (tokens.length > 0) {
         result = result.filter((p: Product) => {
-          const target = normalizeText(`${p.name} ${p.brand ?? ''}`);
+          const target = `${p.name} ${p.brand ?? ''}`;
           // すべてのトークンをAND条件で含むか
-          return tokens.every((t) => target.includes(t));
+          return matchesTokens(target, tokens);
         });
       }
     }
@@ -476,15 +438,7 @@ export default function Home() {
     }
 
     return finalResult;
-  }, [
-    uniqueProducts,
-    debouncedSearchQuery,
-    activeTab,
-    selectedCategory,
-    priceBand,
-    sortKey,
-    selectedCategoryIds,
-  ]);
+  }, [uniqueProducts, debouncedSearchQuery, activeTab, selectedCategory, priceBand, sortKey]);
 
   // お気に入り商品を取得
   const favoriteProducts = useMemo(() => {
