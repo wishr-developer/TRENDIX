@@ -29,8 +29,8 @@ const PRICE_BANDS: Record<
   { label: string; min: number; max: number | null }
 > = {
   all: { label: 'すべて', min: 0, max: null },
-  under3k: { label: '〜3,000円', min: 0, max: 3000 },
-  '3kto10k': { label: '3,000〜10,000円', min: 3000, max: 10000 },
+  under3k: { label: '〜3,000円', min: 0, max: 2999 },
+  '3kto10k': { label: '3,000〜10,000円', min: 3000, max: 9999 },
   over10k: { label: '10,000円〜', min: 10000, max: null },
 };
 
