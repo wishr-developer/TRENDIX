@@ -75,7 +75,8 @@ function FavoriteButton() {
 
 interface HeaderProps {
   searchQuery?: string; // 親コンポーネントから検索クエリを受け取る
-  onSearch?: (query: string) => void;
+  onSearch?: (query: string) => void; // 入力値の更新用
+  onSearchExecute?: () => void; // 検索実行用（検索ボタンまたはエンターキー）
   onRankingClick?: () => void;
 }
 
@@ -84,7 +85,7 @@ const noop = () => {};
 
 const categoryLabelMap = categoryLabelsJson as Record<string, string>;
 
-export default function Header({ searchQuery: externalSearchQuery, onSearch = noop, onRankingClick = noop }: HeaderProps) {
+export default function Header({ searchQuery: externalSearchQuery, onSearch = noop, onSearchExecute = noop, onRankingClick = noop }: HeaderProps) {
   // 外部から渡されたsearchQueryを使用、なければローカルstateを使用（後方互換性のため）
   const [localSearchQuery, setLocalSearchQuery] = useState('');
   // externalSearchQueryが明示的に渡されている場合（undefinedでない場合）はそれを使用
@@ -121,6 +122,19 @@ export default function Header({ searchQuery: externalSearchQuery, onSearch = no
       // 外部からsearchQueryが渡されていない場合、ローカルstateを更新
       setLocalSearchQuery(value);
       onSearch(value);
+    }
+  };
+
+  // 検索実行（検索ボタンまたはエンターキー）
+  const handleSearchSubmit = () => {
+    onSearchExecute();
+  };
+
+  // エンターキーで検索実行
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearchSubmit();
     }
   };
 
@@ -272,10 +286,16 @@ export default function Header({ searchQuery: externalSearchQuery, onSearch = no
               placeholder="何をお探しですか？（例: MacBook, スニーカー...）" 
               value={searchQuery}
               onChange={handleSearchChange}
+              onKeyDown={handleKeyDown}
               className="w-full h-10 pl-4 pr-10 bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust/40 transition-all shadow-sm hover:shadow-md"
               aria-label="商品を検索"
             />
-            <button className="absolute right-3 top-2.5 text-gray-400 hover:text-trust transition-colors" aria-label="検索">
+            <button 
+              onClick={handleSearchSubmit}
+              className="absolute right-3 top-2.5 text-gray-400 hover:text-trust transition-colors" 
+              aria-label="検索"
+              type="button"
+            >
               <Search size={18} />
             </button>
           </div>
@@ -398,10 +418,16 @@ export default function Header({ searchQuery: externalSearchQuery, onSearch = no
                   placeholder="何をお探しですか？（例: MacBook, スニーカー...）" 
                   value={searchQuery}
                   onChange={handleSearchChange}
+                  onKeyDown={handleKeyDown}
                   className="w-full h-12 pl-4 pr-12 bg-gray-50 border border-gray-200 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-trust/20 focus:border-trust transition-all"
                   aria-label="商品を検索"
                 />
-                <button className="absolute right-3 top-3 text-gray-400 hover:text-trust transition-colors" aria-label="検索">
+                <button 
+                  onClick={handleSearchSubmit}
+                  className="absolute right-3 top-3 text-gray-400 hover:text-trust transition-colors" 
+                  aria-label="検索"
+                  type="button"
+                >
                   <Search size={20} />
                 </button>
               </div>

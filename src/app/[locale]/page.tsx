@@ -64,19 +64,15 @@ export default function Home() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFading, setIsFading] = useState(false);
 
-  // 検索クエリの変更をハンドル
+  // 検索クエリの変更をハンドル（入力値のみ更新、検索は実行しない）
   const handleSearch = (query: string) => {
     setSearchQuery(query);
   };
 
-  // 検索クエリのデバウンス（150ms - レスポンス速度向上）
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearchQuery(searchQuery);
-    }, 150);
-
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
+  // 検索実行（検索ボタンまたはエンターキーで呼ばれる）
+  const handleSearchExecute = () => {
+    setDebouncedSearchQuery(searchQuery);
+  };
 
   // カテゴリリスト（Header.tsxと同期/Tier1コード→日本語ラベル）
   const categories = useMemo(
@@ -584,7 +580,7 @@ export default function Home() {
   return (
     <>
       {/* ヘッダー（検索機能付き） */}
-      <Header searchQuery={searchQuery} onSearch={handleSearch} />
+      <Header searchQuery={searchQuery} onSearch={handleSearch} onSearchExecute={handleSearchExecute} />
 
       {/* 構造化データ（JSON-LD） */}
       {structuredData.products.length > 0 && (
