@@ -446,11 +446,11 @@ export default function Home() {
     return sorted.filter(p => calculateDealScore(p) > 0).slice(0, 3);
   }, [uniqueProducts]);
 
-  // DAISO型：タブUI（派手なアイコン・色を削減）
+  // DAISO型：タブUI（買い物サイトらしい名称）
   const tabs: Array<{ id: TabType; label: string }> = [
-    { id: 'drops', label: '値下がり' },
+    { id: 'drops', label: 'お得な商品' },
     { id: 'new', label: '新着' },
-    { id: 'ranking', label: 'ランキング' },
+    { id: 'ranking', label: 'おすすめ' },
     { id: 'all', label: 'すべて' },
   ];
 
@@ -605,11 +605,14 @@ export default function Home() {
         {/* DAISO型：ヒーローセクション */}
         <section className="bg-white border-b border-gray-200 py-6 md:py-8 px-4">
           <div className="w-full">
-            {/* メインメッセージ */}
+            {/* メインメッセージ（ファーストビュー：5秒で3つのことを理解） */}
             <div className="text-center mb-6">
-              <h1 className="text-2xl md:text-3xl font-normal text-gray-900 mb-2 leading-tight">
-                買い時の商品が、ひと目でわかる
+              <h1 className="text-2xl md:text-3xl font-normal text-gray-900 mb-3 leading-tight">
+                今買っていいか、代わりに判断します
               </h1>
+              <p className="text-sm md:text-base text-gray-600 mb-4">
+                値下がりや価格の理由が分かり、安心して買い物できます
+              </p>
             </div>
 
             {/* DAISO型：太めの検索バー（ヒーロー直下） */}

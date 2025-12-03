@@ -75,7 +75,7 @@ function getDealReason(product: Product): string | null {
 
     // 平均より一定以上安い場合のみ表示
     if (discountPercentFromAvg >= DEAL_REASON_CONFIG.minAvgDiscountPercent) {
-      return `最近では安い価格です`;
+      return `今の価格は過去より安めです`;
     }
   }
 
@@ -86,7 +86,7 @@ function getDealReason(product: Product): string | null {
 
     // 直近からの値下がりが一定以上なら説明を表示
     if (discountPercentFromPrev >= DEAL_REASON_CONFIG.minPrevDiscountPercent) {
-      return `直近で値下がりしました`;
+      return `直近で値下がりしています`;
     }
   }
 
