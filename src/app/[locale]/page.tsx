@@ -1,57 +1,33 @@
-import { Product } from '@/types/product';
-import fs from 'fs';
-import path from 'path';
+'use client';
+
 import HomeClient from './HomeClient';
+import { Product } from '@/types/product';
+import { useState, useEffect } from 'react';
 
 /**
- * サーバーサイドで商品データを取得（高速化のため直接ファイルから読み込み）
+ * ホームページ（クライアントコンポーネント）
+ * API経由で商品データを取得して、HomeClientに渡す
+ * これにより、HTMLに全商品データが埋め込まれず、Vercelのサイズ制限を回避
  */
-async function getProducts(): Promise<Product[]> {
-  try {
-    const filePath = path.join(process.cwd(), 'data', 'products.json');
-    
-    // ファイルの存在確認
-    if (!fs.existsSync(filePath)) {
-      console.error(`商品データファイルが見つかりません: ${filePath}`);
-      return [];
-    }
+export default function Home() {
+  const [initialProducts, setInitialProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-    // メモリキャッシュをチェック（グローバル変数）
-    const cache = (global as any).__productsCache;
-    if (cache) {
-      const stats = fs.statSync(filePath);
-      if (cache.mtime === stats.mtimeMs) {
-        return cache.products;
-      }
-    }
+  useEffect(() => {
+    // API経由で商品データを取得
+    fetch('/api/products')
+      .then((res) => res.json())
+      .then((data: Product[]) => {
+        setInitialProducts(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error('商品データの取得に失敗しました:', error);
+        setInitialProducts([]);
+        setIsLoading(false);
+      });
+  }, []);
 
-    // ファイルを読み込んでパース
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const products: Product[] = JSON.parse(fileContents);
-
-    // キャッシュを更新
-    const stats = fs.statSync(filePath);
-    (global as any).__productsCache = {
-      products,
-      mtime: stats.mtimeMs,
-      timestamp: Date.now(),
-    };
-
-    return products;
-  } catch (error) {
-    console.error('商品データの読み込みに失敗しました:', error);
-    return [];
-  }
-}
-
-/**
- * ホームページ（サーバーコンポーネント）
- * 初期データをサーバーで取得して、クライアントコンポーネントに渡す
- */
-export default async function Home() {
-  // サーバーサイドで商品データを取得（API経由ではなく直接ファイルから）
-  const initialProducts = await getProducts();
-  
-  // HomeClientに初期データを渡す
+  // ローディング中は空の配列を渡す（HomeClient内でローディング状態を処理）
   return <HomeClient initialProducts={initialProducts} />;
 }
