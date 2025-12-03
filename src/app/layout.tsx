@@ -31,7 +31,7 @@ const inter = Inter({
   display: "swap",
 });
 
-const metadataBase = new URL('https://trendix.vercel.app');
+const metadataBase = new URL('https://trendixx.vercel.app');
 
 export const metadata: Metadata = {
   metadataBase,

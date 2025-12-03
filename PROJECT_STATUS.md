@@ -3,7 +3,7 @@
 ## 📊 プロジェクト概要
 
 **サイト名**: XIORA TREND  
-**URL**: https://trendix.vercel.app  
+**URL**: https://trendixx.vercel.app  
 **目的**: Amazon商品の価格変動を24時間監視し、最安値トレンドをリアルタイム速報するECメディアサイト
 
 ---

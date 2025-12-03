@@ -479,7 +479,7 @@ export default function Home() {
       });
 
     // 動的なBreadcrumbList（カテゴリフィルターに応じて変更）
-    const baseUrl = 'https://trendix.vercel.app';
+    const baseUrl = 'https://trendixx.vercel.app';
     const breadcrumbItems = [
       {
         '@type': 'ListItem',
