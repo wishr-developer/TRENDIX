@@ -834,9 +834,9 @@ export default function HomeClient({ initialProducts, isLoading: externalIsLoadi
                 </div>
               ) : (
                 <>
-                  {/* マルチデバイス対応：スマホ1列、タブレット2列、PC3〜4列 */}
+                  {/* Amazon/楽天風：画面幅に応じて動的に列数が変わる */}
                   <div 
-                    className="grid-responsive grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 md:gap-x-5 lg:gap-x-6 gap-y-6 md:gap-y-7 lg:gap-y-8"
+                    className="grid-responsive grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-x-3 sm:gap-x-4 md:gap-x-4 lg:gap-x-5 gap-y-4 sm:gap-y-5 md:gap-y-6 lg:gap-y-7"
                   >
                     {productsWithCategoryLabels.map(({ product: p, categoryLabel }, index) => (
                       <ProductCard

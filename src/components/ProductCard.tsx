@@ -466,9 +466,10 @@ function ProductCard({
           ? 'bg-white border border-gray-200 shadow-md hover:shadow-lg hover:-translate-y-0.5' // おすすめ商品：影をほんの少しだけ強化
           : 'bg-white border border-gray-200 shadow-sm hover:shadow-md hover:-translate-y-0.5' // 通常カード
       }`}
+      style={{ minHeight: 0 }} // グリッドアイテムの高さを均一に
     >
-      {/* DAISO型：画像（正方形・余白あり） - カード全体がクリック可能なため、画像もクリック可能 */}
-      <div className="w-full aspect-square bg-gray-50 flex items-center justify-center overflow-hidden relative">
+      {/* Amazon/楽天風：画像（画面幅に応じてアスペクト比を調整） - カード全体がクリック可能なため、画像もクリック可能 */}
+      <div className="w-full aspect-[4/3] sm:aspect-[3/2] md:aspect-square bg-gray-50 flex items-center justify-center overflow-hidden relative">
         {!isValidImageUrl || imageError ? (
           <div className="w-full h-full aspect-square flex flex-col items-center justify-center text-gray-400">
             <span className="text-sm font-medium">No Image</span>
@@ -478,7 +479,7 @@ function ProductCard({
             src={product.imageUrl}
             alt={product.name}
             fill
-            className="object-contain mix-blend-multiply p-3"
+            className="object-contain mix-blend-multiply p-1.5 sm:p-2 md:p-2.5 lg:p-3"
             priority={isPriority}
             loading={isPriority ? 'eager' : 'lazy'}
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
@@ -501,12 +502,13 @@ function ProductCard({
             unoptimized={true}
           />
         )}
-        {/* STEP 6: おすすめラベル（商品画像の左下） - 質感統一 */}
+        {/* STEP 6: おすすめラベル（商品画像の左下） - 質感統一、画面幅に応じてサイズ調整 */}
         {isRecommended && (
-          <div className="absolute bottom-2 left-2 px-2.5 py-1 bg-white/95 backdrop-blur-sm border border-calm-navy/20 rounded-lg z-10">
-            <span className="text-xs font-medium text-calm-navy flex items-center gap-1">
-              <CheckCircle2 size={12} className="text-calm-navy" />
-              TRENDIXおすすめ
+          <div className="absolute bottom-1 sm:bottom-1.5 md:bottom-2 left-1 sm:left-1.5 md:left-2 px-1.5 sm:px-2 md:px-2.5 py-0.5 sm:py-0.5 md:py-1 bg-white/95 backdrop-blur-sm border border-calm-navy/20 rounded-md sm:rounded-lg z-10">
+            <span className="text-[9px] sm:text-[10px] md:text-xs font-medium text-calm-navy flex items-center gap-0.5 sm:gap-1">
+              <CheckCircle2 size={8} className="sm:w-3 sm:h-3 md:w-3 md:h-3 text-calm-navy" />
+              <span className="hidden sm:inline">TRENDIXおすすめ</span>
+              <span className="sm:hidden">おすすめ</span>
             </span>
           </div>
         )}
@@ -525,8 +527,8 @@ function ProductCard({
         )}
       </div>
 
-      {/* DAISO型：情報エリア（下部） - 情報順序固定：バッジ→価格→差額→判断コメント→商品名→CTA */}
-      <div className="p-4 flex flex-col gap-2 flex-1">
+      {/* Amazon/楽天風：情報エリア（下部） - 情報順序固定：バッジ→価格→差額→判断コメント→商品名→CTA */}
+      <div className="p-2 sm:p-2.5 md:p-3 lg:p-4 flex flex-col gap-1.5 sm:gap-2 flex-1 min-h-0">
         {/* STEP 2: スポンサー広告表記（小さくグレー寄り） */}
         {isSponsored && (
           <div className="mb-1">
@@ -552,12 +554,12 @@ function ProductCard({
            ├ 差額（-¥◯◯ / %）
            └ 「Amazon.co.jp の現在価格」表記
         */}
-        <div className="bg-gray-50 rounded-xl p-3 border border-gray-300/30 relative pb-4 border-b border-gray-200/60">
-          {/* 判断バッジ（価格エリアの上部、価格とは別レイヤー） */}
+        <div className="bg-gray-50 rounded-xl p-1.5 sm:p-2 md:p-2.5 lg:p-3 border border-gray-300/30 relative pb-2 sm:pb-2.5 md:pb-3 lg:pb-4 border-b border-gray-200/60">
+          {/* 判断バッジ（価格エリアの上部、価格とは別レイヤー） - 画面幅に応じてサイズ調整 */}
           {shouldShowJudgmentBadge && (
-            <div className="mb-2 flex justify-start">
-              <div className="px-2.5 py-1 bg-calm-blue-gray/20 rounded-full">
-                <span className="text-xs font-medium text-calm-navy">
+            <div className="mb-1 sm:mb-1.5 md:mb-2 flex justify-start">
+              <div className="px-1.5 sm:px-2 md:px-2.5 py-0.5 sm:py-0.5 md:py-1 bg-calm-blue-gray/20 rounded-full">
+                <span className="text-[9px] sm:text-[10px] md:text-xs font-medium text-calm-navy">
                   今の価格は安心
                 </span>
               </div>
@@ -566,7 +568,7 @@ function ProductCard({
           {/* 価格エリアをクリック可能にする（Amazon由来を視覚的に接続） */}
           <div
             onClick={handlePriceClick}
-            className="cursor-pointer hover:bg-gray-50/50 rounded-md p-1 transition-colors"
+            className="cursor-pointer hover:bg-gray-50/50 rounded-md p-1 md:p-1 transition-colors min-h-[44px]"
             role="button"
             tabIndex={0}
             onKeyDown={(e) => {
@@ -583,9 +585,9 @@ function ProductCard({
               - product.currentPriceを直接使用（Amazon価格そのもの）
               - 別名変数（latest, current等）は使用禁止
             */}
-            <div className="flex flex-col gap-1.5">
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl md:text-3xl font-semibold text-gray-900 font-sans">
+            <div className="flex flex-col gap-0.5 sm:gap-1 md:gap-1.5">
+              <div className="flex items-baseline gap-1 sm:gap-1.5 md:gap-2">
+                <span className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold text-gray-900 font-sans">
                   ¥{currentPrice.toLocaleString()}
                 </span>
               </div>
@@ -596,22 +598,22 @@ function ProductCard({
                 - 条件を満たさない場合はDOM自体を出力しない
               */}
               {isCheaper && prevPrice !== null && prevPrice > 0 && (
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-sm font-normal text-gray-400 line-through font-sans">
+                <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 flex-wrap">
+                  <span className="text-xs sm:text-xs md:text-sm font-normal text-gray-400 line-through font-sans">
                     ¥{prevPrice.toLocaleString()}
                   </span>
-                  <span className="text-sm font-medium text-calm-navy font-sans">
+                  <span className="text-xs sm:text-xs md:text-sm font-medium text-calm-navy font-sans">
                     -¥{discountAmount.toLocaleString()}
                   </span>
-                  <span className="text-xs font-normal text-calm-blue-gray font-sans">
+                  <span className="text-[10px] sm:text-[10px] md:text-xs font-normal text-calm-blue-gray font-sans">
                     (-{discountPercent}%)
                   </span>
                 </div>
               )}
             </div>
             {/* Amazon由来を示す（価格のすぐ下） */}
-            <div className="mt-2">
-              <span className="text-[11px] text-gray-400/90 font-normal">
+            <div className="mt-1 sm:mt-1.5 md:mt-2">
+              <span className="text-[9px] sm:text-[10px] md:text-[11px] text-gray-400/90 font-normal">
                 Amazon.co.jp の現在価格
               </span>
             </div>
@@ -625,17 +627,17 @@ function ProductCard({
             )}
           </div>
 
-          {/* 判断コメント（アイコン付き） - 最大2行、タブレット: text-xs - スポンサー広告・価格ズレの場合は表示しない */}
+          {/* 判断コメント（アイコン付き） - 最大2行、画面幅に応じてサイズ調整 - スポンサー広告・価格ズレの場合は表示しない */}
           {dealReason && isCheaper && discountAmount > 0 && !isSponsored && isPriceValid && (
-            <div className="flex items-start gap-1.5 mt-3 pt-3 border-t border-gray-200/60">
+            <div className="flex items-start gap-1 sm:gap-1.5 mt-2 sm:mt-2.5 md:mt-3 pt-2 sm:pt-2.5 md:pt-3 border-t border-gray-200/60">
               {dealReason.includes('値下がり') ? (
-                <Clock size={12} className="text-calm-blue-gray mt-0.5 flex-shrink-0" />
+                <Clock size={10} className="sm:w-3 sm:h-3 md:w-3 md:h-3 text-calm-blue-gray mt-0.5 flex-shrink-0" />
               ) : dealReason.includes('安め') ? (
-                <TrendingDown size={12} className="text-calm-blue-gray mt-0.5 flex-shrink-0" />
+                <TrendingDown size={10} className="sm:w-3 sm:h-3 md:w-3 md:h-3 text-calm-blue-gray mt-0.5 flex-shrink-0" />
               ) : (
-                <CheckCircle2 size={12} className="text-calm-blue-gray mt-0.5 flex-shrink-0" />
+                <CheckCircle2 size={10} className="sm:w-3 sm:h-3 md:w-3 md:h-3 text-calm-blue-gray mt-0.5 flex-shrink-0" />
               )}
-              <p className="text-xs md:text-xs lg:text-xs text-gray-600 leading-relaxed flex-1 line-clamp-2">
+              <p className="text-[10px] sm:text-[10px] md:text-xs text-gray-600 leading-relaxed flex-1 line-clamp-2">
                 {dealReason}
               </p>
             </div>
@@ -651,22 +653,22 @@ function ProductCard({
         </div>
 
         {/* レビュー評価（価格エリアの下） */}
-        <div className="flex items-center gap-1 mt-3">
-          <Star size={12} className="fill-gray-400 text-gray-400" />
-          <span className="text-xs text-gray-600 font-sans">4.5</span>
-          <span className="text-xs text-gray-500 font-sans">(128)</span>
+        <div className="flex items-center gap-0.5 sm:gap-1 mt-2 sm:mt-2.5 md:mt-3">
+          <Star size={10} className="sm:w-3 sm:h-3 md:w-3 md:h-3 fill-gray-400 text-gray-400" />
+          <span className="text-[10px] sm:text-[10px] md:text-xs text-gray-600 font-sans">4.5</span>
+          <span className="text-[10px] sm:text-[10px] md:text-xs text-gray-500 font-sans">(128)</span>
         </div>
 
-        {/* 商品名（価格の後、CTAの前） - タブレット: 2行固定、モバイル: 2行、PC: 3行 */}
-        <h3 className="text-sm text-gray-900 line-clamp-2 md:line-clamp-2 lg:line-clamp-3 leading-relaxed mt-2">
+        {/* 商品名（価格の後、CTAの前） - Amazon/楽天風：画面幅に応じて行数調整 */}
+        <h3 className="text-xs sm:text-xs md:text-sm text-gray-900 line-clamp-2 sm:line-clamp-2 md:line-clamp-3 leading-relaxed mt-1.5 sm:mt-2 px-1 sm:px-1.5 md:px-0">
           {product.name}
         </h3>
 
-        {/* DAISO型：CTAボタン（シンプル・上品） - 常にカード下部 */}
-        <div className="mt-2 pt-2 border-t border-gray-200">
+        {/* Amazon/楽天風：CTAボタン（シンプル・上品） - 常にカード下部 */}
+        <div className="mt-auto pt-1.5 sm:pt-2 border-t border-gray-200">
           {/* STEP 7 実装①: 購入直前の安心テキスト（おすすめ商品のみ） */}
           {isRecommended && !isSponsored && (
-            <p className="text-[11px] text-gray-400 mb-2 leading-relaxed">
+            <p className="text-[9px] sm:text-[10px] md:text-[11px] text-gray-400 mb-1 sm:mb-1.5 md:mb-2 leading-relaxed">
               ※ 価格は変動します。気になる場合はAmazonで最終確認できます。
             </p>
           )}
@@ -679,10 +681,10 @@ function ProductCard({
               // スクロール位置はブラウザが自動的に保持する
               window.open(product.affiliateUrl, '_blank', 'noopener,noreferrer');
             }}
-            className="w-full flex items-center justify-center gap-1 px-4 py-3 md:py-3 lg:py-2 text-sm font-normal text-calm-navy bg-white border border-calm-blue-gray/30 hover:bg-calm-light hover:border-calm-navy transition-all rounded-md shadow-sm hover:shadow-md min-h-[44px]"
+            className="w-full flex items-center justify-center gap-0.5 sm:gap-1 px-2 sm:px-2.5 md:px-3 lg:px-4 py-1.5 sm:py-2 md:py-2.5 lg:py-3 text-xs sm:text-xs md:text-sm font-normal text-calm-navy bg-white border border-calm-blue-gray/30 hover:bg-calm-light hover:border-calm-navy transition-all rounded-md shadow-sm hover:shadow-md min-h-[36px] sm:min-h-[40px] md:min-h-[44px]"
           >
             <span>商品を見る</span>
-            <ExternalLink size={14} />
+            <ExternalLink size={12} className="sm:w-3.5 sm:h-3.5 md:w-3.5 md:h-3.5" />
           </button>
         </div>
       </div>
