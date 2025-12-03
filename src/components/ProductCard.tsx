@@ -19,6 +19,13 @@ interface ProductCardProps {
 
 type PeriodType = '7D' | '30D' | 'ALL';
 
+// 「なぜお得か」表示用の閾値・設定（将来他の場所でも再利用可能）
+const DEAL_REASON_CONFIG = {
+  avgWindowDays: 30,
+  minAvgDiscountPercent: 3, // 過去平均より何%以上安いと「お得」とみなすか
+  minPrevDiscountPercent: 3, // 直近価格からの下落が何%以上であれば表示するか
+};
+
 /** URLからASINを抽出 */
 function extractASIN(url: string): string | null {
   const match = url.match(/\/dp\/([A-Z0-9]{10})|\/gp\/product\/([A-Z0-9]{10})/);
@@ -71,7 +78,7 @@ function getDealReason(product: Product): string | null {
   const prev = history[history.length - 2].price;
   const diffFromPrev = latest - prev;
 
-  const avg30 = getAveragePriceInDays(product, 30);
+  const avg30 = getAveragePriceInDays(product, DEAL_REASON_CONFIG.avgWindowDays);
 
   // 1. 過去30日平均より十分安い場合を優先して表示
   if (avg30 && latest < avg30) {
@@ -79,8 +86,8 @@ function getDealReason(product: Product): string | null {
     const discountPercentFromAvg =
       avg30 > 0 ? Math.round((diffFromAvg / avg30) * 100 * 10) / 10 : 0;
 
-    // 平均より3%以上安い場合のみ強調
-    if (discountPercentFromAvg >= 3) {
+    // 平均より一定以上安い場合のみ強調
+    if (discountPercentFromAvg >= DEAL_REASON_CONFIG.minAvgDiscountPercent) {
       return `過去30日平均より約¥${Math.round(diffFromAvg).toLocaleString()}安く（約${discountPercentFromAvg}%オフ）、今が狙い目です。`;
     }
   }
@@ -90,8 +97,8 @@ function getDealReason(product: Product): string | null {
     const discountPercentFromPrev =
       prev > 0 ? Math.round((Math.abs(diffFromPrev) / prev) * 100 * 10) / 10 : 0;
 
-    // 直近からの値下がりが3%以上なら説明を表示
-    if (discountPercentFromPrev >= 3) {
+    // 直近からの値下がりが一定以上なら説明を表示
+    if (discountPercentFromPrev >= DEAL_REASON_CONFIG.minPrevDiscountPercent) {
       return `直近価格より約¥${Math.abs(diffFromPrev).toLocaleString()}安く（約${discountPercentFromPrev}%オフ）なっています。`;
     }
   }

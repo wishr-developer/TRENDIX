@@ -44,6 +44,8 @@ function extractASIN(url: string): string | null {
 }
 
 type TabType = 'drops' | 'new' | 'ranking' | 'all';
+type PriceBand = 'all' | 'under3k' | '3kto10k' | 'over10k';
+type SortKey = 'default' | 'dealScore' | 'discountPercent' | 'discountAmount';
 
 // ページネーションは仮想スクロールで不要のため削除
 // const ITEMS_PER_PAGE = 20;
@@ -68,6 +70,9 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { selectedCategory, setSelectedCategory } = useCategory();
+  const [priceBand, setPriceBand] = useState<PriceBand>('all');
+  const [sortKey, setSortKey] = useState<SortKey>('default');
+  const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([]);
   
   // ヒーロー背景画像の状態管理
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -292,6 +297,13 @@ export default function Home() {
     };
   }, [uniqueProducts]);
 
+  // テキスト正規化（大文字小文字・全角半角を揃える）
+  const normalizeText = (text: string) =>
+    text
+      .toLowerCase()
+      .normalize('NFKC')
+      .trim();
+
   // タブに応じたフィルタリング
   const filteredProducts = useMemo(() => {
     let result = [...uniqueProducts];
@@ -307,22 +319,44 @@ export default function Home() {
       });
     }
 
+    // 追加のカテゴリ複数選択フィルター（あれば優先）
+    if (selectedCategoryIds.length > 0) {
+      result = result.filter((p: Product) => {
+        const category = p.category || 'OTHERS';
+        return selectedCategoryIds.includes(category);
+      });
+    }
+
+    // 価格帯フィルター
+    result = result.filter((p: Product) => {
+      const price = p.currentPrice;
+      switch (priceBand) {
+        case 'under3k':
+          return price > 0 && price < 3000;
+        case '3kto10k':
+          return price >= 3000 && price <= 10000;
+        case 'over10k':
+          return price > 10000;
+        case 'all':
+        default:
+          return true;
+      }
+    });
+
     // 検索フィルター（デバウンス済みのクエリを使用）
     if (debouncedSearchQuery && debouncedSearchQuery.trim()) {
-      const query = debouncedSearchQuery.trim().toLowerCase();
-      result = result.filter((p: Product) => {
-        const name = p.name.toLowerCase();
-        const isMatch = name.includes(query);
-        if (!isMatch) return false;
+      const tokens = debouncedSearchQuery
+        .split(/[\s、　]+/)
+        .map(normalizeText)
+        .filter(Boolean);
 
-        if (query === 'apple' || query === 'アップル') {
-          if (name.includes('香り') || name.includes('トリートメント') || name.includes('ヘア') || name.includes('ボディ') || name.includes('シャンプー')) {
-            return false;
-          }
-        }
-
-        return true;
-      });
+      if (tokens.length > 0) {
+        result = result.filter((p: Product) => {
+          const target = normalizeText(`${p.name} ${p.brand ?? ''}`);
+          // すべてのトークンをAND条件で含むか
+          return tokens.every((t) => target.includes(t));
+        });
+      }
     }
 
     // デフォルトフィルター：Deal Score 10点未満の商品を非表示（「すべて」タブ以外）
@@ -381,15 +415,50 @@ export default function Home() {
       default:
         // すべて（新着順）
         result.sort((a, b) => {
-          const dateA = a.priceHistory && a.priceHistory.length > 0 
-            ? new Date(a.priceHistory[a.priceHistory.length - 1].date).getTime() 
+          const dateA = a.priceHistory && a.priceHistory.length > 0
+            ? new Date(a.priceHistory[a.priceHistory.length - 1].date).getTime()
             : 0;
-          const dateB = b.priceHistory && b.priceHistory.length > 0 
-            ? new Date(b.priceHistory[b.priceHistory.length - 1].date).getTime() 
+          const dateB = b.priceHistory && b.priceHistory.length > 0
+            ? new Date(b.priceHistory[b.priceHistory.length - 1].date).getTime()
             : 0;
           return dateB - dateA;
         });
         break;
+    }
+
+    // 追加ソート（ユーザー指定）
+    if (sortKey !== 'default') {
+      result.sort((a, b) => {
+        const historyA = a.priceHistory || [];
+        const historyB = b.priceHistory || [];
+        const prevA =
+          historyA.length > 1
+            ? historyA[historyA.length - 2].price
+            : a.currentPrice;
+        const prevB =
+          historyB.length > 1
+            ? historyB[historyB.length - 2].price
+            : b.currentPrice;
+        const diffA = prevA - a.currentPrice; // 値下がり額（円）
+        const diffB = prevB - b.currentPrice;
+
+        const discountPercentA = prevA > 0 ? (diffA / prevA) * 100 : 0;
+        const discountPercentB = prevB > 0 ? (diffB / prevB) * 100 : 0;
+
+        switch (sortKey) {
+          case 'dealScore': {
+            const scoreA = calculateDealScore(a);
+            const scoreB = calculateDealScore(b);
+            return scoreB - scoreA;
+          }
+          case 'discountPercent':
+            return discountPercentB - discountPercentA;
+          case 'discountAmount':
+            return diffB - diffA;
+          default:
+            return 0;
+        }
+      });
     }
 
     // 最終確認：ASINベースで重複排除（1商品 = 1カードを保証）
@@ -407,7 +476,15 @@ export default function Home() {
     }
 
     return finalResult;
-  }, [uniqueProducts, debouncedSearchQuery, activeTab, selectedCategory]);
+  }, [
+    uniqueProducts,
+    debouncedSearchQuery,
+    activeTab,
+    selectedCategory,
+    priceBand,
+    sortKey,
+    selectedCategoryIds,
+  ]);
 
   // お気に入り商品を取得
   const favoriteProducts = useMemo(() => {
@@ -609,6 +686,17 @@ export default function Home() {
               <p className="text-gray-500 text-xs md:text-sm max-w-2xl mx-auto">
                 TRENDIXは、Amazonの価格変動をAIがリアルタイムで分析し、本当に安くなった商品のみを自動で抽出・表示します。
               </p>
+              <div className="mt-4 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 text-[11px] md:text-xs text-gray-700">
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/80 border border-gray-200">
+                  AIが「本当にお得な値下がり」だけを自動抽出
+                </span>
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/80 border border-gray-200">
+                  過去価格と下落率からデータで買い時を判定
+                </span>
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/80 border border-gray-200">
+                  価格グラフを見なくても「なぜお得か」が一瞬で分かる
+                </span>
+              </div>
             </div>
 
             {/* 統計カード */}
@@ -762,6 +850,75 @@ export default function Home() {
             </div>
           )}
           
+          {/* シンプルなフィルター＆ソート（スマホ優先レイアウト） */}
+          {!isLoading && !error && (
+            <div className="mb-5 flex flex-col gap-3">
+              <div className="flex flex-wrap gap-2 text-xs">
+                <span className="text-gray-500">価格帯:</span>
+                <button
+                  type="button"
+                  onClick={() => setPriceBand('all')}
+                  className={`px-2 py-1 rounded-full border text-[11px] ${
+                    priceBand === 'all'
+                      ? 'bg-gray-900 text-white border-gray-900'
+                      : 'bg-white text-gray-700 border-gray-200'
+                  }`}
+                >
+                  すべて
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPriceBand('under3k')}
+                  className={`px-2 py-1 rounded-full border text-[11px] ${
+                    priceBand === 'under3k'
+                      ? 'bg-gray-900 text-white border-gray-900'
+                      : 'bg-white text-gray-700 border-gray-200'
+                  }`}
+                >
+                  〜3,000円
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPriceBand('3kto10k')}
+                  className={`px-2 py-1 rounded-full border text-[11px] ${
+                    priceBand === '3kto10k'
+                      ? 'bg-gray-900 text-white border-gray-900'
+                      : 'bg-white text-gray-700 border-gray-200'
+                  }`}
+                >
+                  3,000〜10,000円
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPriceBand('over10k')}
+                  className={`px-2 py-1 rounded-full border text-[11px] ${
+                    priceBand === 'over10k'
+                      ? 'bg-gray-900 text-white border-gray-900'
+                      : 'bg-white text-gray-700 border-gray-200'
+                  }`}
+                >
+                  10,000円〜
+                </button>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-3 text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-500">並び替え:</span>
+                  <select
+                    value={sortKey}
+                    onChange={(e) => setSortKey(e.target.value as SortKey)}
+                    className="h-8 px-2 rounded-lg border border-gray-200 bg-white text-xs text-gray-700"
+                  >
+                    <option value="default">おすすめ順</option>
+                    <option value="dealScore">AI Deal Scoreが高い順</option>
+                    <option value="discountPercent">割引率が高い順</option>
+                    <option value="discountAmount">値下げ額が大きい順</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* ローディング状態 */}
           {isLoading && (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 md:gap-5 lg:gap-6">
