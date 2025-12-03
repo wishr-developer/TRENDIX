@@ -7,11 +7,114 @@ import LoadingSkeleton from '@/components/LoadingSkeleton';
 import Header from '@/components/Header';
 import AlertModal from '@/components/AlertModal';
 import { Product } from '@/types/product';
-import { Crown, AlertCircle, RefreshCw, Search, X } from 'lucide-react';
+import { Crown, AlertCircle, RefreshCw, Search, X, ChevronDown } from 'lucide-react';
 import { useCategory } from '@/contexts/CategoryContext';
 import categoryLabelsJson from '@/data/category_labels.json';
 import { calculateDealScore } from '@/lib/dealScore';
 import { buildSearchTokens, matchesTokens } from '@/lib/search';
+import Image from 'next/image';
+
+/**
+ * STEP 6: おすすめレベルを判定する関数（page.tsx用）
+ * ProductCard.tsxと同じロジックを使用
+ * 
+ * STEP 8 実装③: おすすめの一貫性を守る
+ * - 小さな価格変動では評価を揺らさない
+ * - ドラスティックな変更のみ判断を更新
+ */
+function getRecommendationLevel(product: Product): 'recommended' | 'normal' {
+  // 1. スポンサー広告ではない
+  if (product.isSponsored === true) {
+    return 'normal';
+  }
+
+  // 2. 価格が妥当
+  const currentPrice = product.currentPrice;
+  if (currentPrice <= 0 || currentPrice >= 10000000) {
+    return 'normal';
+  }
+
+  // STEP 8 実装③: 前回のおすすめ状態を確認（localStorageから）
+  let wasPreviouslyRecommended = false;
+  if (typeof window !== 'undefined') {
+    try {
+      const key = 'trendix_recommended_products';
+      const stored = localStorage.getItem(key);
+      if (stored) {
+        const recommendedIds = JSON.parse(stored);
+        wasPreviouslyRecommended = recommendedIds.includes(product.id);
+      }
+    } catch (error) {
+      // localStorageエラーは無視
+    }
+  }
+
+  // 3. 割引率 or 割引額が一定以上（¥500 or 5%）
+  const history = product.priceHistory || [];
+  if (history.length < 2) {
+    return 'normal';
+  }
+  const prevPrice = history[history.length - 2].price;
+  const diff = prevPrice - currentPrice;
+  const discountAmount = diff > 0 ? diff : 0;
+  const discountPercent = prevPrice > 0 ? (discountAmount / prevPrice) * 100 : 0;
+  const hasSignificantDiscount = discountAmount >= 500 || discountPercent >= 5;
+
+  // STEP 8 実装③: 前回おすすめだった場合、小さな価格変動（±3%）では維持
+  if (wasPreviouslyRecommended && hasSignificantDiscount) {
+    const priceChangePercent = prevPrice > 0 
+      ? Math.abs((currentPrice - prevPrice) / prevPrice) * 100 
+      : 0;
+    
+    // 価格変動が±3%以内ならおすすめを維持
+    if (priceChangePercent <= 3) {
+      return 'recommended';
+    }
+  }
+
+  if (!hasSignificantDiscount) {
+    return 'normal';
+  }
+
+  // 4. 直近価格が安定 or 下落傾向
+  const recentPrices = history.slice(-3).map((h) => h.price);
+  const isStableOrDropping =
+    recentPrices.every((price, index) => {
+      if (index === 0) return true;
+      return price <= recentPrices[index - 1];
+    }) || currentPrice <= recentPrices[recentPrices.length - 1];
+
+  if (!isStableOrDropping) {
+    return 'normal';
+  }
+
+  // 5. 評価スコアが極端に低くない（★4.0以上）
+  // 現状は固定値4.5を想定（将来的にProduct型に追加されることを想定）
+  const ratingScore = 4.5; // TODO: product.rating が追加されたら使用
+  if (ratingScore < 4.0) {
+    return 'normal';
+  }
+
+  // すべての条件を満たす場合のみ「おすすめ」
+  // STEP 8 実装③: おすすめ商品IDをlocalStorageに保存
+  if (typeof window !== 'undefined') {
+    try {
+      const key = 'trendix_recommended_products';
+      const stored = localStorage.getItem(key);
+      const recommendedIds = stored ? JSON.parse(stored) : [];
+      if (!recommendedIds.includes(product.id)) {
+        recommendedIds.push(product.id);
+        // 最大100件まで保存（古い順に削除）
+        const trimmed = recommendedIds.slice(-100);
+        localStorage.setItem(key, JSON.stringify(trimmed));
+      }
+    } catch (error) {
+      // localStorageエラーは無視
+    }
+  }
+
+  return 'recommended';
+}
 
 /**
  * URLからASINを抽出（重複防止用）
@@ -332,7 +435,11 @@ export default function Home() {
         break;
       
       case 'ranking':
-        // ランキング（Deal Score順）
+        // STEP 6: おすすめ商品のみをフィルタリング
+        result = result.filter((p: Product) => {
+          return getRecommendationLevel(p) === 'recommended';
+        });
+        // おすすめ商品をDeal Score順にソート
         result.sort((a, b) => {
           const scoreA = calculateDealScore(a);
           const scoreB = calculateDealScore(b);
@@ -603,30 +710,34 @@ export default function Home() {
       )}
       <div className="pb-16 min-h-screen bg-white">
         {/* DAISO型：ヒーローセクション */}
-        <section className="bg-white border-b border-gray-200 py-6 md:py-8 px-4">
+        <section className="bg-white border-b border-gray-200 py-8 md:py-12 px-4">
           <div className="w-full">
-            {/* ファーストビュー：3つのことを確実に伝える構成 */}
-            <div className="text-center mb-6">
-              <h1 className="text-2xl md:text-3xl font-normal text-gray-900 mb-3 leading-tight">
+            {/* ファーストビュー：3つのことを確実に伝える構成（行間広め・フェードイン） */}
+            <div className="text-center mb-8">
+              <h1 className="text-2xl md:text-3xl font-normal text-gray-900 mb-4 leading-relaxed hero-fade-in">
                 今買っていいか、代わりに判断します
               </h1>
-              <p className="text-sm md:text-base text-gray-600 mb-2">
+              {/* STEP 3: 刺さる1行（少し目立つ程度） */}
+              <p className="text-base md:text-lg font-medium text-calm-navy mb-3 leading-relaxed hero-fade-in-delay-1">
+                迷う買い物だけ、TRENDIXが決めます
+              </p>
+              <p className="text-sm md:text-base text-gray-600 mb-3 leading-relaxed hero-fade-in-delay-2">
                 値下がりの理由が分かるから、安心して買える
               </p>
-              <p className="text-xs md:text-sm text-gray-500">
+              <p className="text-xs md:text-sm text-gray-500 leading-relaxed hero-fade-in-delay-2">
                 比較も分析も不要。判断はTRENDIXが代わりにします
               </p>
             </div>
 
             {/* DAISO型：太めの検索バー（ヒーロー直下） */}
-            <div className="w-full max-w-3xl mx-auto mb-6">
+            <div className="w-full max-w-3xl mx-auto mb-8">
               <div className="relative">
                 <input 
                   type="text" 
                   placeholder="商品名・ブランド名で探す" 
                   value={searchQuery}
                   onChange={(e) => handleSearch(e.target.value)}
-                  className="w-full h-12 md:h-14 pl-5 pr-12 bg-white border-2 border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400"
+                  className="w-full h-12 md:h-14 pl-5 pr-12 bg-white border-2 border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-calm-navy/20 focus:border-calm-navy transition-all shadow-sm hover:shadow-md"
                   aria-label="商品を検索"
                 />
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
@@ -642,10 +753,10 @@ export default function Home() {
                   <button
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
-                    className={`px-4 py-2 text-sm whitespace-nowrap border border-gray-300 rounded-md transition-colors ${
+                    className={`px-4 py-2 text-sm whitespace-nowrap border border-gray-300 rounded-lg transition-all shadow-sm hover:shadow-md ${
                       selectedCategory === category.id
-                        ? 'bg-gray-900 text-white border-gray-900'
-                        : 'bg-white text-gray-700 hover:bg-gray-50'
+                        ? 'bg-calm-navy text-white border-calm-navy shadow-md'
+                        : 'bg-white text-gray-700 hover:bg-gray-50 hover:border-calm-blue-gray'
                     }`}
                   >
                     {category.label}
@@ -653,12 +764,20 @@ export default function Home() {
                 ))}
               </div>
             </div>
+
+            {/* スクロールヒント（静かな誘導） */}
+            <div className="flex justify-center mt-8 mb-4">
+              <div className="flex flex-col items-center gap-2 text-gray-400">
+                <span className="text-xs">商品を見る</span>
+                <ChevronDown size={20} className="scroll-hint" />
+              </div>
+            </div>
           </div>
         </section>
 
 
         {/* DAISO型：タブ切り替えUI */}
-        <div className="bg-white border-b border-gray-200 sticky top-16 z-40">
+        <div className="bg-white border-b border-gray-200 sticky top-16 z-40 shadow-sm">
           <div className="w-full px-4">
             <div className="flex gap-1 overflow-x-auto scrollbar-hide py-3">
               {tabs.map((tab) => (
@@ -667,14 +786,24 @@ export default function Home() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`px-4 py-2 text-sm whitespace-nowrap transition-all border-b-2 ${
                     activeTab === tab.id
-                      ? 'text-gray-900 font-medium border-gray-900'
-                      : 'text-gray-500 border-transparent hover:text-gray-700'
+                      ? 'text-calm-navy font-medium border-calm-navy'
+                      : 'text-gray-500 border-transparent hover:text-calm-blue-gray'
                   }`}
                 >
                   {tab.label}
                 </button>
               ))}
             </div>
+            {/* STEP 6: 「おすすめ」タブの意味を明示する説明文 */}
+            {activeTab === 'ranking' && (
+              <div className="px-4 pb-3 pt-1">
+                <p className="text-sm text-gray-500 leading-relaxed">
+                  今の価格・値動き・評価を見て、
+                  <br className="md:hidden" />
+                  TRENDIXが「無難」と判断した商品
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
@@ -716,10 +845,10 @@ export default function Home() {
                       key={band}
                       type="button"
                       onClick={() => setPriceBand(band)}
-                      className={`px-3 py-1 text-sm border border-gray-300 rounded ${
+                      className={`px-3 py-1 text-sm border border-gray-300 rounded-lg transition-all shadow-sm hover:shadow-md ${
                         priceBand === band
-                          ? 'bg-gray-100 text-gray-900'
-                          : 'bg-white text-gray-700 hover:bg-gray-50'
+                          ? 'bg-calm-navy text-white border-calm-navy shadow-md'
+                          : 'bg-white text-gray-700 hover:bg-gray-50 hover:border-calm-blue-gray'
                       }`}
                     >
                       {PRICE_BANDS[band].label}
@@ -734,7 +863,7 @@ export default function Home() {
                 <select
                   value={sortKey}
                   onChange={(e) => setSortKey(e.target.value as SortKey)}
-                  className="h-8 px-3 border border-gray-300 bg-white text-sm text-gray-700 rounded"
+                  className="h-8 px-3 border border-gray-300 bg-white text-sm text-gray-700 rounded-lg shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-calm-navy/20 focus:border-calm-navy transition-all"
                 >
                   <option value="default">おすすめ</option>
                   <option value="dealScore">お得順</option>
@@ -869,8 +998,102 @@ export default function Home() {
               )}
             </>
           )}
+
+          {/* STEP 8 実装①: 最近見た商品セクション */}
+          {!isLoading && !error && (
+            <RecentProductsSection products={uniqueProducts} />
+          )}
+
+          {/* STEP 8 実装②: TRENDIXらしい説明文（フッターの直前） */}
+          <div className="mt-16 mb-8 px-4 text-center">
+            <p className="text-sm text-gray-500 leading-relaxed max-w-2xl mx-auto">
+              TRENDIXは、価格を分析して「今どうか」を判断するためのサービスです。
+              <br />
+              最安値を探すのではなく、後悔しにくい判断を手助けします。
+            </p>
+          </div>
         </div>
       </div>
     </>
+  );
+}
+
+/**
+ * STEP 8 実装①: 最近見た商品セクション
+ */
+function RecentProductsSection({ products }: { products: Product[] }) {
+  const [recentProducts, setRecentProducts] = useState<Array<{
+    productId: string;
+    name: string;
+    imageUrl: string;
+    currentPrice: number;
+    affiliateUrl: string;
+    viewedAt: string;
+  }>>([]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    try {
+      const key = 'trendix_recent_products';
+      const stored = localStorage.getItem(key);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        setRecentProducts(parsed);
+      }
+    } catch (error) {
+      // localStorageエラーは無視
+    }
+  }, []);
+
+  // 最近見た商品が存在し、かつ現在の商品リストに含まれているもののみ表示
+  const validRecentProducts = recentProducts
+    .filter((recent) => {
+      return products.some((p) => p.id === recent.productId);
+    })
+    .slice(0, 5);
+
+  if (validRecentProducts.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="mt-16 mb-8 px-4">
+      <h2 className="text-lg font-medium text-gray-900 mb-4">最近見た商品</h2>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        {validRecentProducts.map((recent) => {
+          const product = products.find((p) => p.id === recent.productId);
+          if (!product) return null;
+
+          return (
+            <a
+              key={recent.productId}
+              href={product.affiliateUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-all"
+            >
+              <div className="aspect-square bg-gray-50 relative">
+                <Image
+                  src={product.imageUrl}
+                  alt={product.name}
+                  fill
+                  className="object-contain mix-blend-multiply p-2"
+                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
+                />
+              </div>
+              <div className="p-2">
+                <h3 className="text-xs text-gray-900 line-clamp-2 leading-relaxed mb-1">
+                  {product.name}
+                </h3>
+                <p className="text-sm font-semibold text-gray-900 font-sans">
+                  ¥{product.currentPrice.toLocaleString()}
+                </p>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
   );
 }

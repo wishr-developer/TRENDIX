@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import ProductCard from "@/components/ProductCard";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 import Header from "@/components/Header";
+import AlertModal from "@/components/AlertModal";
 import { Product } from "@/types/product";
 import { Crown, AlertCircle, RefreshCw, Search, X } from "lucide-react";
 import { useCategory } from "@/contexts/CategoryContext";
