@@ -2,12 +2,8 @@
   {
     "id": "4",
     "name": "Anker PowerLine III Flow USB-C & USB-C ケーブル Anker絡まないケーブル 240W 結束バンド付き USB PD対応 シリコン素材採用 iPhone 17 / 16 / 15 / Galaxy iPad Pr",
-    "currentPrice": 1423,
+    "currentPrice": 1328,
     "priceHistory": [
-      {
-        "date": "2026-01-26T09:26:17.507202+00:00",
-        "price": 1742
-      },
       {
         "date": "2026-01-26T13:05:05.646952+00:00",
         "price": 1654
@@ -123,6 +119,10 @@
       {
         "date": "2026-02-05T04:45:47.376803+00:00",
         "price": 1423
+      },
+      {
+        "date": "2026-02-05T09:35:01.929285+00:00",
+        "price": 1328
       }
     ],
     "affiliateUrl": "https://www.amazon.co.jp/dp/B093L5CMMT?tag=xiora-22",
@@ -132,12 +132,8 @@
   {
     "id": "5",
     "name": "KIOXIA(キオクシア) 旧東芝メモリ microSD 128GB UHS-I Class10 (最大読出速度100MB/s) Nintendo Switch動作確認済 国内サポート正規品 メーカー保証5年 KLMEA128G",
-    "currentPrice": 1130,
+    "currentPrice": 1175,
     "priceHistory": [
-      {
-        "date": "2026-01-26T09:26:19.663850+00:00",
-        "price": 1362
-      },
       {
         "date": "2026-01-26T13:05:07.756238+00:00",
         "price": 1427
@@ -253,6 +249,10 @@
       {
         "date": "2026-02-05T04:45:49.625014+00:00",
         "price": 1130
+      },
+      {
+        "date": "2026-02-05T09:35:04.085113+00:00",
+        "price": 1175
       }
     ],
     "affiliateUrl": "https://www.amazon.co.jp/dp/B08PTPTMH5?tag=xiora-22",
@@ -262,12 +262,8 @@
   {
     "id": "6",
     "name": "Apple 11 インチ iPad (A16): 11 インチモデル、Liquid Retina ディスプレイ、128GB、Wi-Fi 6、12MP フロント/12MP バックカメラ、Touch ID、一日中使えるバ ッテリー - シルバー",
-    "currentPrice": 59039,
+    "currentPrice": 58971,
     "priceHistory": [
-      {
-        "date": "2026-01-26T09:26:21.839036+00:00",
-        "price": 58789
-      },
       {
         "date": "2026-01-26T13:05:09.878553+00:00",
         "price": 58886
@@ -383,6 +379,10 @@
       {
         "date": "2026-02-05T04:45:51.741278+00:00",
         "price": 59039
+      },
+      {
+        "date": "2026-02-05T09:35:06.205973+00:00",
+        "price": 58971
       }
     ],
     "affiliateUrl": "https://www.amazon.co.jp/dp/B0DZ7WF87P?tag=xiora-22",
@@ -392,12 +392,8 @@
   {
     "id": "7",
     "name": "Anker USB Type C ケーブル PowerLine USB-C & USB-A 3.0 ケーブル iPhone 17 / 16 / 15 /Xperia/Galaxy/LG/iPad Pro/MacBook その他 Android 等 U",
-    "currentPrice": 1050,
+    "currentPrice": 1097,
     "priceHistory": [
-      {
-        "date": "2026-01-26T09:26:23.981173+00:00",
-        "price": 1102
-      },
       {
         "date": "2026-01-26T13:05:11.978744+00:00",
         "price": 1074
@@ -513,6 +509,10 @@
       {
         "date": "2026-02-05T04:45:53.854593+00:00",
         "price": 1050
+      },
+      {
+        "date": "2026-02-05T09:35:08.323404+00:00",
+        "price": 1097
       }
     ],
     "affiliateUrl": "https://www.amazon.co.jp/dp/B071D8THD2?tag=xiora-22",
@@ -524,10 +524,6 @@
     "name": "KIOXIA(キオクシア)【日本製】USBフラッシュメモリ 32GB USB2.0 国内サポート正規品 KLU202A032GL",
     "currentPrice": 1000,
     "priceHistory": [
-      {
-        "date": "2026-01-26T09:26:26.131555+00:00",
-        "price": 1287
-      },
       {
         "date": "2026-01-26T13:05:14.082290+00:00",
         "price": 1369
@@ -642,6 +638,10 @@
       },
       {
         "date": "2026-02-05T04:45:55.997909+00:00",
+        "price": 1000
+      },
+      {
+        "date": "2026-02-05T09:35:10.452424+00:00",
         "price": 1000
       }
     ],
