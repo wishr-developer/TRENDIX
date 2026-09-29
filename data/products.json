@@ -5,10 +5,6 @@
     "currentPrice": 1000,
     "priceHistory": [
       {
-        "date": "2026-09-19T12:46:18.314901+00:00",
-        "price": 1391
-      },
-      {
         "date": "2026-09-19T15:46:04.339136+00:00",
         "price": 1399
       },
@@ -123,6 +119,10 @@
       {
         "date": "2026-09-29T09:26:05.771544+00:00",
         "price": 1000
+      },
+      {
+        "date": "2026-09-29T15:14:02.207894+00:00",
+        "price": 1000
       }
     ],
     "affiliateUrl": "https://www.amazon.co.jp/dp/B093L5CMMT?tag=xiora-22",
@@ -134,10 +134,6 @@
     "name": "KIOXIA(キオクシア) 旧東芝メモリ microSD 128GB UHS-I Class10 (最大読出速度100MB/s) Nintendo Switch動作確認済 国内サポート正規品 メーカー保証5年 KLMEA128G",
     "currentPrice": 1000,
     "priceHistory": [
-      {
-        "date": "2026-09-19T12:46:20.375563+00:00",
-        "price": 2268
-      },
       {
         "date": "2026-09-19T15:46:06.415644+00:00",
         "price": 2296
@@ -253,6 +249,10 @@
       {
         "date": "2026-09-29T09:26:07.864594+00:00",
         "price": 1000
+      },
+      {
+        "date": "2026-09-29T15:14:04.328011+00:00",
+        "price": 1000
       }
     ],
     "affiliateUrl": "https://www.amazon.co.jp/dp/B08PTPTMH5?tag=xiora-22",
@@ -262,12 +262,8 @@
   {
     "id": "6",
     "name": "Apple 11 インチ iPad (A16): 11 インチモデル、Liquid Retina ディスプレイ、128GB、Wi-Fi 6、12MP フロント/12MP バックカメラ、Touch ID、一日中使えるバ ッテリー - シルバー",
-    "currentPrice": 57117,
+    "currentPrice": 57197,
     "priceHistory": [
-      {
-        "date": "2026-09-19T12:46:22.433479+00:00",
-        "price": 57534
-      },
       {
         "date": "2026-09-19T15:46:08.500422+00:00",
         "price": 57614
@@ -383,6 +379,10 @@
       {
         "date": "2026-09-29T09:26:09.938302+00:00",
         "price": 57117
+      },
+      {
+        "date": "2026-09-29T15:14:06.437839+00:00",
+        "price": 57197
       }
     ],
     "affiliateUrl": "https://www.amazon.co.jp/dp/B0DZ7WF87P?tag=xiora-22",
@@ -394,10 +394,6 @@
     "name": "Anker USB Type C ケーブル PowerLine USB-C & USB-A 3.0 ケーブル iPhone 17 / 16 / 15 /Xperia/Galaxy/LG/iPad Pro/MacBook その他 Android 等 U",
     "currentPrice": 1000,
     "priceHistory": [
-      {
-        "date": "2026-09-19T12:46:24.494740+00:00",
-        "price": 1791
-      },
       {
         "date": "2026-09-19T15:46:10.576914+00:00",
         "price": 1858
@@ -513,6 +509,10 @@
       {
         "date": "2026-09-29T09:26:12.006739+00:00",
         "price": 1000
+      },
+      {
+        "date": "2026-09-29T15:14:08.537463+00:00",
+        "price": 1000
       }
     ],
     "affiliateUrl": "https://www.amazon.co.jp/dp/B071D8THD2?tag=xiora-22",
@@ -522,12 +522,8 @@
   {
     "id": "8",
     "name": "KIOXIA(キオクシア)【日本製】USBフラッシュメモリ 32GB USB2.0 国内サポート正規品 KLU202A032GL",
-    "currentPrice": 1000,
+    "currentPrice": 1067,
     "priceHistory": [
-      {
-        "date": "2026-09-19T12:46:26.556194+00:00",
-        "price": 1685
-      },
       {
         "date": "2026-09-19T15:46:12.653959+00:00",
         "price": 1699
@@ -643,6 +639,10 @@
       {
         "date": "2026-09-29T09:26:14.073076+00:00",
         "price": 1000
+      },
+      {
+        "date": "2026-09-29T15:14:10.650211+00:00",
+        "price": 1067
       }
     ],
     "affiliateUrl": "https://www.amazon.co.jp/dp/B0CBPF2ZJ1?tag=xiora-22",
